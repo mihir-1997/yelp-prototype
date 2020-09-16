@@ -1,0 +1,33 @@
+h3 {
+    text-align: center;
+    margin: 5%;
+}
+
+div.login, 
+div.register {
+    margin: 13% 35%;
+    width: 400px;
+}
+
+div.login > form input,
+div.register > form input {
+    width: 400px;
+    height: 40px
+}
+
+div.login button,
+div.register button {
+    width: 400px;
+    margin-top: 5px
+}
+
+p {
+    margin-left: 15px;
+    color: red;
+}
+
+/* Radio Buttons */
+
+label {
+    margin: 0px 15px 15px 7px;
+}

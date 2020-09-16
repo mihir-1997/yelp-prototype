@@ -1,0 +1,20 @@
+/* nav {
+    background-color: lightgray;
+} */
+
+nav a {
+    color: black;
+}
+
+nav .logout-button {
+    margin-left: 15px;
+    background-color: #f43939;
+    border-radius: 8%;
+    border: none;
+    color: white;
+    width: 90px
+}
+
+.navbar .navbar-nav>li>a:hover {
+    color: #007bff;
+}

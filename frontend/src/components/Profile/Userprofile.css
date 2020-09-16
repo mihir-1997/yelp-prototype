@@ -1,0 +1,37 @@
+.profile-picture-wrapper {
+    height: 35%;
+}
+
+.profile-picture {
+    height: 180px;
+    width: 170px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-image: url('../../Images/User_Logo.png');
+    margin: auto
+}
+
+.profile_pic {
+    height: 170px;
+    width: 165px;
+    border-radius: 50%;
+}
+
+.username {
+    height: 40px;
+    font-size: x-large;
+    color: #f43939;
+}
+
+.userlocation {
+    color: gray;
+    font-size: medium;
+}
+
+.profile-picture-wrapper input[type="file"] {
+    margin-top: 10px;
+}
+
+.below-profile-picture {
+    height: 66%
+}
