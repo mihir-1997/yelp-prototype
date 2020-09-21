@@ -9,6 +9,7 @@ const Restaurant = function ( Restaurant ) {
     this.phone_no = Restaurant.phone_no;
     this.description = Restaurant.description;
     this.timings = Restaurant.timings;
+    this.pictures = Restaurant.pictures;
     this.password = Restaurant.password
 };
 
@@ -50,6 +51,50 @@ Restaurant.findByEmail = ( req, result ) => {
     } );
 };
 
+Restaurant.findById = ( req, result ) => {
+    var restaurant = null
+    var error = false
+    sql.query( `SELECT * FROM restaurants WHERE id = \'${ req.params.id }\'`, ( err, res ) => {
+        if ( err ) {
+            console.log( "error: ", err );
+            result( err, null );
+            return;
+        }
+        if ( res.length ) {
+            console.log( "found Restaurant: ", res[ 0 ] );
+            let { password, ...alldata } = res[ 0 ]
+            restaurant = alldata
+            sql.query( `SELECT * FROM restaurant_images WHERE restaurant_id = \'${ req.params.id }\'`, ( err, res ) => {
+                if ( err ) {
+                    console.log( "error: ", err );
+                    result( err, null );
+                    return;
+                }
+                if ( res.length ) {
+                    console.log( "found Restaurant Pictures: ", res );
+                    let images = []
+                    res.forEach( r => {
+                        let { image, ...restdata } = r
+                        images.push( image )
+                    } )
+                    restaurant[ "pictures" ] = images
+                    result( null, restaurant )
+                    return;
+                    // result( null, alldata );
+                } else {
+                    // not found Restaurant with the id
+                    console.log( "error: ", null );
+                    return;
+                }
+            } );
+        } else {
+            // not found Restaurant with the id
+            console.log( "error: ", null );
+            return;
+        }
+    } );
+};
+
 Restaurant.getAll = result => {
     sql.query( "SELECT * FROM restaurants", ( err, res ) => {
         if ( err ) {
@@ -63,10 +108,10 @@ Restaurant.getAll = result => {
     } );
 };
 
-Restaurant.updateByEmail = ( email, Restaurant, result ) => {
+Restaurant.updateById = ( id, Restaurant, result ) => {
     sql.query(
-        "UPDATE restaurants SET name = ?, email = ?, location = ?, phone_no = ?, description = ?, timings = ? WHERE email = ?",
-        [ Restaurant.name, Restaurant.email, Restaurant.location, Restaurant.phone_no, Restaurant.description, Restaurant.timings ],
+        "UPDATE restaurants SET name = ?, email = ?, location = ?, phone_no = ?, description = ?, timings = ? WHERE id = ?",
+        [ Restaurant.name, Restaurant.email, Restaurant.location, Restaurant.phone_no, Restaurant.description, Restaurant.timings, id ],
         ( err, res ) => {
             if ( err ) {
                 console.log( "error: ", err );
@@ -80,10 +125,38 @@ Restaurant.updateByEmail = ( email, Restaurant, result ) => {
                 return;
             }
 
-            console.log( "updated Restaurant: ", { email: email, ...Restaurant } );
-            result( null, { email: email, ...Restaurant } );
+            console.log( "updated Restaurant: ", { id: id, ...Restaurant } );
+            result( null, { id: id, ...Restaurant } );
         }
     );
+};
+
+Restaurant.addPictures = ( id, files, result ) => {
+    let error = false
+    files.forEach( ( file ) => {
+        sql.query(
+            "INSERT INTO restaurant_images SET restaurant_id = ?, image = ?",
+            [ id, file.path ],
+            ( err, res ) => {
+                if ( err ) {
+                    console.log( "error: ", err );
+                    result( null, err );
+                    return;
+                }
+
+                if ( res.affectedRows == 0 ) {
+                    // not found Restaurant with the email
+                    error = true
+                }
+                console.log( res )
+                // console.log( "updated Restaurant: ", { profile_picture: profile_picture, res[0] } );
+            }
+        );
+    } )
+    if ( !error ) {
+        result( null, { message: "picture added" } );
+        return
+    }
 };
 
 Restaurant.remove = ( email, result ) => {

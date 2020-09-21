@@ -22,16 +22,10 @@ module.exports = app => {
     } );
 
     // Update a User with UserEmail
-    app.put( "/users/:email", ( req, res ) => {
+    app.put( "/updateUser/:id", ( req, res ) => {
+        console.log( `update` )
         users.update( req, res )
     } );
-
-    // Update a User Profile with UserId
-    // app.post( "/updateProfile", ( req, res ) => {
-    //     console.log( req.body )
-    //     console.log( req.file )
-    //     users.updateProfile( req, res )
-    // } );
 
     // Delete a User with UserEmail
     app.delete( "/users/:email", ( req, res ) => {

@@ -115,18 +115,18 @@ exports.update = ( req, res ) => {
         } );
     }
 
-    User.updateByEmail(
-        req.params.email,
+    User.updateById(
+        req.params.id,
         new User( req.body ),
         ( err, data ) => {
             if ( err ) {
                 if ( err.kind === "not_found" ) {
                     res.status( 404 ).send( {
-                        message: `Not found User with Id ${ req.params.email }.`
+                        message: `Not found User with Id ${ req.params.id }.`
                     } );
                 } else {
                     res.status( 500 ).send( {
-                        message: "Error updating User with Id " + req.params.email
+                        message: "Error updating User with Id " + req.params.id
                     } );
                 }
             } else res.send( data );

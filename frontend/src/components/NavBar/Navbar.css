@@ -1,6 +1,6 @@
-/* nav {
-    background-color: lightgray;
-} */
+nav {
+    border-bottom: #f43939 1px solid;
+}
 
 nav a {
     color: black;

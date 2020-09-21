@@ -1,0 +1,19 @@
+.add-dish {
+    background-color: white;
+    width: 700px;
+    border: gray 1px solid;
+    overflow-y:auto;
+    box-shadow: 1px 1px gray;
+}
+
+.add-dish-heading h3{
+    width: 100%;
+}
+
+.adddish-form{
+    margin: 0 0 0 20px
+}
+
+.required-field {
+    color: red;
+}

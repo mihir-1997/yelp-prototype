@@ -14,10 +14,12 @@ export class NavBar extends Component {
     //handle logout to destroy the cookie
     handleLogout = () => {
         localStorage.removeItem( "email" )
-        this.props.history.push( '/login' )
+        localStorage.removeItem( "id" )
+        localStorage.removeItem( "active" )
+        window.location.assign( '/login' )
     }
     render () {
-        let redirectVar = null;
+        let redirectVar = null
         if ( !localStorage.getItem( "email" ) ) {
             redirectVar = <Redirect to="/login" />
             return null
@@ -25,17 +27,32 @@ export class NavBar extends Component {
             return (
                 < div >
                     { redirectVar }
-                    <nav className="navbar navbar-expand-lg rounded">
-                        <a className="navbar-brand" href="/userprofile">
-                            <img src={ Yelp_Logo } width="60" height="30" alt="" />
-                        </a>
-                        <ul className="navbar-nav ml-auto">
-                            <li className="nav-item"><a className="nav-link" href="#home">Home</a></li>
-                            <li className="nav-item"><a className="nav-link" href="#about">About</a></li>
-                            <button type="button" className="logout-button" onClick={ this.handleLogout }>Log Out</button>
-                            {/* <li className="nav-item"><a className="nav-link logout-button" onClick={ this.handleLogout }>Log Out</a></li> */ }
-                        </ul>
-                    </nav>
+                    { localStorage.getItem( "active" ) === "user" ?
+                        <nav className="navbar navbar-expand-lg rounded">
+                            <a className="navbar-brand" href="/userprofile">
+                                <img src={ Yelp_Logo } width="60" height="30" alt="" />
+                            </a>
+                            <ul className="navbar-nav ml-auto">
+                                <li className="nav-item"><a className="nav-link" href="#home">Home</a></li>
+                                <li className="nav-item"><a className="nav-link" href="#orders">Orders</a></li>
+                                <li className="nav-item"><a className="nav-link" href="#events">Events</a></li>
+                                <li className="nav-item"><a className="nav-link" href="#profile">Profile</a></li>
+                                <button type="button" className="logout-button" onClick={ this.handleLogout }>Log Out</button>
+                            </ul>
+                        </nav>
+                        :
+                        <nav className="navbar navbar-expand-lg rounded">
+                            <a className="navbar-brand" href="/restaurantHome">
+                                <img src={ Yelp_Logo } width="60" height="30" alt="" />
+                            </a>
+                            <ul className="navbar-nav ml-auto">
+                                <li className="nav-item"><a className="nav-link" href="#home">Home</a></li>
+                                <li className="nav-item"><a className="nav-link" href="#orders">Orders</a></li>
+                                <li className="nav-item"><a className="nav-link" href="#events">Events</a></li>
+                                <button type="button" className="logout-button" onClick={ this.handleLogout }>Log Out</button>
+                            </ul>
+                        </nav>
+                    }
                 </div>
             )
         }

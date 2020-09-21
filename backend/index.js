@@ -10,6 +10,8 @@ var cors = require( "cors" );
 const multer = require( "multer" );
 const path = require( 'path' )
 const users = require( "./controllers/user.controller" );
+const restaurants = require( "./controllers/restaurant.controller" );
+const dishes = require( "./controllers/dishes.controller" );
 // use body parser to parse JSON and urlencoded request bodies
 app.use( bodyParser.json() );
 app.use( bodyParser.urlencoded( { extended: true } ) );
@@ -25,6 +27,8 @@ app.use( session( {
 } ) );
 
 app.use( '/Profiles', express.static( path.join( __dirname, '/Profiles' ) ) );
+app.use( '/RestaurantImages', express.static( path.join( __dirname, '/RestaurantImages' ) ) );
+app.use( '/DishImages', express.static( path.join( __dirname, '/DishImages' ) ) );
 
 // simple route
 app.get( "/", ( req, res ) => {
@@ -36,6 +40,9 @@ require( "./routes/user.routes" )( app );
 
 // restaurants routes
 require( "./routes/restaurant.routes" )( app );
+
+// dishes routes
+require( "./routes/dishes.routes" )( app );
 
 const storage = multer.diskStorage( {
     // destination: '/uploads/',
@@ -55,6 +62,46 @@ app.post( "/updateProfile", upload.single( "file" ), ( req, res ) => {
     console.log( req.body.id )
     console.log( req.file )
     users.updateProfile( req, res )
+} );
+
+const restaurantStorage = multer.diskStorage( {
+    // destination: '/uploads/',
+    destination: function ( req, file, cb ) {
+        cb( null, 'RestaurantImages/' )
+    },
+    filename: function ( req, file, callback ) {
+        callback( null, file.originalname.split( "." )[ 0 ] + '-' + Date.now() + path.extname( file.originalname ) )
+    }
+} );
+
+const restaurantPictures = multer( {
+    storage: restaurantStorage
+} )
+
+app.post( "/restaurantPictures", restaurantPictures.array( 'file' ), ( req, res ) => {
+    console.log( req.body.id )
+    console.log( req.files )
+    restaurants.addPictures( req, res )
+} );
+
+const dishStorage = multer.diskStorage( {
+    // destination: '/uploads/',
+    destination: function ( req, file, cb ) {
+        cb( null, 'DishImages/' )
+    },
+    filename: function ( req, file, callback ) {
+        callback( null, file.originalname.split( "." )[ 0 ] + '-' + Date.now() + path.extname( file.originalname ) )
+    }
+} );
+
+const dishPicture = multer( {
+    storage: dishStorage
+} )
+
+// Create a new Dish
+app.post( "/createDish", dishPicture.single( "file" ), ( req, res ) => {
+    console.log( req.file )
+    dishes.create( req, res )
 } );
 
 // set port, listen for requests

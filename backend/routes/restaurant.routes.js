@@ -16,8 +16,14 @@ module.exports = app => {
         Restaurants.findOne( req, res )
     } );
 
+    // Retrieve a single Restaurant with RestaurantsId
+    app.get( "/getrestaurant/:id", ( req, res ) => {
+        Restaurants.findOneById( req, res )
+    } );
+
     // Update a Restaurant with RestaurantEmail
-    app.put( "/Restaurants/:email", ( req, res ) => {
+    app.put( "/updaterestaurant/:id", ( req, res ) => {
+        console.log( `update` )
         Restaurants.update( req, res )
     } );
 

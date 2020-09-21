@@ -29,7 +29,7 @@ export class register extends Component {
     }
 
     login = () => {
-        this.props.history.push( '/login' )
+        window.location.assign( '/login' )
     }
 
     register = item => {
@@ -45,7 +45,7 @@ export class register extends Component {
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         console.log( "User added successfully" )
-                        this.props.history.push( '/login' )
+                        window.location.assign( '/login' )
                     } else {
                         console.log( "Error creating user" )
                     }
@@ -69,7 +69,7 @@ export class register extends Component {
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         console.log( "Restaurant added successfully" )
-                        this.props.history.push( '/login' )
+                        window.location.assign( '/login' )
                     } else {
                         console.log( "Error creating restaurant" )
                     }
@@ -86,7 +86,7 @@ export class register extends Component {
 
     render () {
         if ( localStorage.getItem( "email" ) ) {
-            this.props.history.push( '/profile' )
+            window.location.assign( '/profile' )
         }
         return (
             <div className="register">

@@ -1,7 +1,6 @@
-const Restaurant = require( "../models/restaurant.model" );
-var passwordHash = require( 'password-hash' );
+const Dish = require( "../models/dishes.model" );
 
-// create a new Restaurant
+// create a new Dish
 exports.create = ( req, res ) => {
     // validate request
     if ( !req.body ) {
@@ -9,39 +8,47 @@ exports.create = ( req, res ) => {
             message: "Content can not be empty!"
         } );
     }
-    const hashedPassword = passwordHash.generate( req.body.password );
-    // Create a Restaurant
-    const restaurant = new Restaurant( {
+    console.log( req.file )
+    // Create a Dish
+    const dish = new Dish( {
+        restaurant_id: req.body.restaurant_id,
         name: req.body.name,
-        email: req.body.email,
-        location: req.body.location,
-        phone_no: req.body.phone_no,
+        ingredients: req.body.ingredients,
+        price: req.body.price,
         description: req.body.description,
-        timings: req.body.timings,
-        password: hashedPassword
+        category: req.body.category,
+        image: req.file.path
     } );
 
-    // Save Restaurant in the database
-    Restaurant.create( restaurant, ( err, data ) => {
+    // Save Dish in the database
+    Dish.create( dish, ( err, data ) => {
         if ( err ) {
             console.log( err.message )
-            if ( err.code === "ER_DUP_ENTRY" ) {
-                res.status( 409 ).send( {
-                    message: "Restaurant already exist"
-                } );
-                return
-            } else {
-                res.status( 500 ).send( {
-                    message:
-                        err.message || "Some error occurred while creating the Restaurant."
-                } );
-                return
-            }
+            res.status( 500 ).send( {
+                message:
+                    err.message || "Some error occurred while creating the Dish."
+            } );
+            return
         } else res.send( data );
     } );
 };
 
-// find one Restaurant by id
+// get all dishes
+exports.findAll = ( req, res ) => {
+    Dish.findAll( req, ( err, data ) => {
+        if ( err ) {
+            res.status( 500 ).send( {
+                message: "Error retrieving Dish"
+            } );
+            return
+        } else {
+            console.log( data )
+            res.send( data );
+        }
+    } )
+}
+
+// find one Dish by id
 exports.findOne = ( req, res ) => {
     if ( !req.body.email && !req.body.password ) {
         res.status( 400 ).send( {
@@ -49,11 +56,11 @@ exports.findOne = ( req, res ) => {
         } );
         return
     }
-    Restaurant.findByEmail( req, ( err, data ) => {
+    Dish.findByEmail( req, ( err, data ) => {
         if ( err ) {
             if ( err.kind === "not_found" ) {
                 res.status( 404 ).send( {
-                    message: `No Restaurant found`
+                    message: `No Dish found`
                 } );
                 return
             } else if ( err.kind === "wrong_password" ) {
@@ -63,7 +70,7 @@ exports.findOne = ( req, res ) => {
                 return
             } else {
                 res.status( 500 ).send( {
-                    message: "Error retrieving Restaurant"
+                    message: "Error retrieving Dish"
                 } );
                 return
             }
@@ -71,7 +78,7 @@ exports.findOne = ( req, res ) => {
     } );
 };
 
-// find one restaurant by id
+// find one dish by id
 exports.findOneById = ( req, res ) => {
     if ( !req.params.id ) {
         res.status( 400 ).send( {
@@ -79,16 +86,16 @@ exports.findOneById = ( req, res ) => {
         } );
         return
     }
-    Restaurant.findById( req, ( err, data ) => {
+    Dish.findById( req, ( err, data ) => {
         if ( err ) {
             if ( err.kind === "not_found" ) {
                 res.status( 404 ).send( {
-                    message: `No restaurant found`
+                    message: `No Dish found`
                 } );
                 return
             } else {
                 res.status( 500 ).send( {
-                    message: "Error retrieving restaurant"
+                    message: "Error retrieving Dish"
                 } );
                 return
             }
@@ -96,7 +103,7 @@ exports.findOneById = ( req, res ) => {
     } );
 };
 
-// update one Restaurant by id
+// update one Dish by id
 exports.update = ( req, res ) => {
     // validate Request
     if ( !req.body ) {
@@ -105,18 +112,18 @@ exports.update = ( req, res ) => {
         } );
     }
 
-    Restaurant.updateById(
+    Dish.updateById(
         req.params.id,
-        new Restaurant( req.body ),
+        new Dish( req.body ),
         ( err, data ) => {
             if ( err ) {
                 if ( err.kind === "not_found" ) {
                     res.status( 404 ).send( {
-                        message: `Not found Restaurant with Id ${ req.params.id }.`
+                        message: `Not found Dish with Id ${ req.params.id }.`
                     } );
                 } else {
                     res.status( 500 ).send( {
-                        message: "Error updating Restaurant with Id " + req.params.id
+                        message: "Error updating Dish with Id " + req.params.id
                     } );
                 }
             } else res.send( data );
@@ -124,7 +131,7 @@ exports.update = ( req, res ) => {
     );
 };
 
-// update restaurant profile by id
+// update Dish profile by id
 exports.addPictures = ( req, res ) => {
     // validate Request
     if ( !req.body ) {
@@ -132,18 +139,18 @@ exports.addPictures = ( req, res ) => {
             message: "Content can not be empty!"
         } );
     }
-    Restaurant.addPictures(
+    Dish.addPictures(
         req.body.id,
         req.files,
         ( err, data ) => {
             if ( err ) {
                 if ( err.kind === "not_found" ) {
                     res.status( 404 ).send( {
-                        message: `Not found Restaurant with Id ${ req.params.id }.`
+                        message: `Not found Dish with Id ${ req.params.id }.`
                     } );
                 } else {
                     res.status( 500 ).send( {
-                        message: "Error updating Restaurant profile with Id " + req.params.id
+                        message: "Error updating Dish profile with Id " + req.params.id
                     } );
                 }
             } else res.send( data );
@@ -151,19 +158,19 @@ exports.addPictures = ( req, res ) => {
     );
 }
 
-// delete one Restaurant by id
+// delete one Dish by id
 exports.delete = ( req, res ) => {
-    Restaurant.remove( req.params.email, ( err, data ) => {
+    Dish.remove( req.params.email, ( err, data ) => {
         if ( err ) {
             if ( err.kind === "not_found" ) {
                 res.status( 404 ).send( {
-                    message: `Not found Restaurant with id ${ req.params.email }.`
+                    message: `Not found Dish with id ${ req.params.email }.`
                 } );
             } else {
                 res.status( 500 ).send( {
-                    message: "Could not delete Restaurant with id " + req.params.email
+                    message: "Could not delete Dish with id " + req.params.email
                 } );
             }
-        } else res.send( { message: `Restaurant was deleted successfully!` } );
+        } else res.send( { message: `Dish was deleted successfully!` } );
     } );
 };

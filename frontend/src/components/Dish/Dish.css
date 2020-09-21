@@ -1,0 +1,22 @@
+.dish {
+    margin-top: 30px;
+}
+
+.dishname {
+    color: #0073bb;
+    margin: 3px 0;
+}   
+
+.dishingredients {
+    color: gray;
+}
+
+.dishprice {
+    float: right;
+    font-weight: bold;
+}
+
+.dishimage {
+    height: 90px;
+    width: 100px;
+}

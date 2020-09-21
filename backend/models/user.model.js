@@ -91,14 +91,15 @@ User.getAll = result => {
     } );
 };
 
-User.updateByEmail = ( email, User, result ) => {
+User.updateById = ( id, User, result ) => {
+    console.log( User.birthdate )
     sql.query(
         "UPDATE users SET name = ?, email = ?, phone_no = ?, nick_name = ?, birthdate = ?, city = ?, state = ?, \
         country = ?, website = ?, headline = ?, profile_picture = ?, yelping_since = ?, things_love = ?, \
-        find_me = ? WHERE email = ?",
+        find_me = ? WHERE id = ?",
         [ User.name, User.email, User.phone_no, User.nick_name, User.birthdate, User.city, User.state,
         User.country, User.website, User.headline, User.profile_picture, User.yelping_since,
-        User.things_love, User.find_me, email ],
+        User.things_love, User.find_me, id ],
         ( err, res ) => {
             if ( err ) {
                 console.log( "error: ", err );
@@ -111,9 +112,7 @@ User.updateByEmail = ( email, User, result ) => {
                 result( { kind: "not_found" }, null );
                 return;
             }
-
-            console.log( "updated User: ", { email: email, ...User } );
-            result( null, { email: email, ...User } );
+            result( null, { id: id, ...User } );
         }
     );
 };

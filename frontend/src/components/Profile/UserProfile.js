@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import './Userprofile.css'
 import axios from 'axios'
+import Popup from 'reactjs-popup';
+import UpdateProfile from './UpdateUserProfile'
 const FormData = require( 'form-data' );
 
 export class UserProfile extends Component {
@@ -12,6 +14,7 @@ export class UserProfile extends Component {
             email: "",
             phone_no: "",
             nick_name: "",
+            birthdate: "",
             city: "",
             state: "",
             country: "",
@@ -20,7 +23,8 @@ export class UserProfile extends Component {
             profile_picture: "",
             yelping_since: "",
             things_love: "",
-            find_me: ""
+            find_me: "",
+            showPopup: false
         }
     }
 
@@ -36,6 +40,7 @@ export class UserProfile extends Component {
                             email: res.data.email,
                             phone_no: res.data.phone_no,
                             nick_name: res.data.nick_name,
+                            birthdate: res.data.birthdate,
                             city: res.data.city,
                             state: res.data.state,
                             country: res.data.country,
@@ -44,7 +49,7 @@ export class UserProfile extends Component {
                             profile_picture: res.data.profile_picture,
                             yelping_since: res.data.yelping_since,
                             things_love: res.data.things_love,
-                            find_me: res.data.find_me
+                            find_me: res.data.find_me,
                         } )
                     }
                 } )
@@ -75,7 +80,6 @@ export class UserProfile extends Component {
                     'content-type': 'multipart/form-data'
                 }
             }
-            console.log( formData )
             axios.post( "http://localhost:3001/updateProfile", formData, config )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
@@ -96,15 +100,28 @@ export class UserProfile extends Component {
         }
     }
 
-    logout = () => {
-        localStorage.removeItem( "email" )
-        this.props.history.push( '/login' )
+    updateProfile = () => {
+        this.setState( {
+            showPopup: !this.state.showPopup
+        } )
     }
 
     render () {
         if ( localStorage.getItem( "email" ) ) {
+            const contentStyle = { background: '#000' };
+            const overlayStyle = { background: 'rgba(0,0,0,0.5)' };
+            const arrowStyle = { color: '#000' }; // style for an svg element
+
+            const Modal = () => (
+                <Popup
+                    trigger={ <button type="button" className="btn btn-secondary"> Update</button> }
+                    { ...{ contentStyle, overlayStyle, arrowStyle } }
+                    position="left top">
+                    <UpdateProfile user={ this.state } />
+                </Popup>
+            );
             return (
-                < div className="container" style={ this.style }>
+                < div id="userProfile" className="container" style={ this.style }>
                     <div className="row h-100">
                         <div className="col-3">
                             <div className="profile-picture-wrapper">
@@ -121,7 +138,7 @@ export class UserProfile extends Component {
                         </div>
                         <div className="col-9">
                             <div className="row h-25">
-                                <div className="col-8">
+                                <div className="col-7">
                                     <div className="row username">
                                         { this.state.name }
                                     </div>
@@ -129,7 +146,7 @@ export class UserProfile extends Component {
                                         { this.state.city }, { this.state.state }
                                     </div>
                                     <div className="row usersince">
-                                        { this.state.yelping_since }
+                                        Since { this.state.yelping_since }
                                     </div>
                                     <div className="row userdescription">
                                         { this.state.headline }
@@ -143,6 +160,9 @@ export class UserProfile extends Component {
                                         { this.state.things_love }
                                     </div>
                                 </div>
+                                <div className="col-1">
+                                    <Modal />
+                                </div>
                             </div>
                             <div className="row h-75">
                                 <h2>Reviews</h2>
@@ -152,7 +172,7 @@ export class UserProfile extends Component {
                 </div >
             )
         } else {
-            this.props.history.push( '/login' )
+            window.location.assign( '/login' )
             return null
         }
 

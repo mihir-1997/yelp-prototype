@@ -27,7 +27,7 @@ export class Login extends Component {
     }
 
     register = () => {
-        this.props.history.push( '/register' )
+        window.location.assign( '/register' )
     }
 
     login = item => {
@@ -43,8 +43,9 @@ export class Login extends Component {
                     if ( res.status === 200 ) {
                         localStorage.setItem( "email", res.data.email )
                         localStorage.setItem( "id", res.data.id )
+                        localStorage.setItem( "active", "user" )
                         console.log( "User Loggedin successfully" )
-                        this.props.history.push( '/userprofile' )
+                        window.location.assign( '/userprofile' )
                     }
                 } )
                 .catch( ( err ) => {
@@ -70,8 +71,9 @@ export class Login extends Component {
                     if ( res.status === 200 ) {
                         localStorage.setItem( "email", res.data.email )
                         localStorage.setItem( "id", res.data.id )
+                        localStorage.setItem( "active", "restaurant" )
                         console.log( "Restaurant Loggedin successfully" )
-                        this.props.history.push( '/restaurantprofile' )
+                        window.location.assign( '/restaurantprofile' )
                     }
                 } )
                 .catch( ( err ) => {
@@ -90,8 +92,10 @@ export class Login extends Component {
     }
 
     render () {
-        if ( localStorage.getItem( "email" ) ) {
-            this.props.history.push( '/userprofile' )
+        if ( localStorage.getItem( "email" ) && localStorage.getItem( "active" ) === "user" ) {
+            window.location.assign( '/userprofile' )
+        } else if ( localStorage.getItem( "email" ) && localStorage.getItem( "active" ) === "restaurant" ) {
+            window.location.assign( '/restaurantprofile' )
         }
         return (
             <div className="login" style={ this.loginContainer }>
