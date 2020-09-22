@@ -8,7 +8,12 @@ exports.create = ( req, res ) => {
             message: "Content can not be empty!"
         } );
     }
-    console.log( req.file )
+    let image_path = null
+    if ( req.file ) {
+        if ( req.file.path ) {
+            image_path = req.file.path
+        }
+    }
     // Create a Dish
     const dish = new Dish( {
         restaurant_id: req.body.restaurant_id,
@@ -17,7 +22,7 @@ exports.create = ( req, res ) => {
         price: req.body.price,
         description: req.body.description,
         category: req.body.category,
-        image: req.file.path
+        image: image_path
     } );
 
     // Save Dish in the database
@@ -114,7 +119,7 @@ exports.update = ( req, res ) => {
 
     Dish.updateById(
         req.params.id,
-        new Dish( req.body ),
+        req,
         ( err, data ) => {
             if ( err ) {
                 if ( err.kind === "not_found" ) {

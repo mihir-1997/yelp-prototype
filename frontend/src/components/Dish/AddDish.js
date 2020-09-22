@@ -65,7 +65,6 @@ export default class AddDish extends Component {
             this.setState( {
                 error: "*Some required fields are empty"
             } )
-            console.log( "Please enter all details" )
         }
     }
 

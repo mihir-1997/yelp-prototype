@@ -18,6 +18,8 @@ export default class RestaurantProfile extends Component {
             description: "",
             timings: "",
             pictures: [],
+            selected: "",
+            radioShow: false,
             showPopup: false
         }
     }
@@ -100,6 +102,12 @@ export default class RestaurantProfile extends Component {
         } )
     }
 
+    updateDish = () => {
+        this.setState( {
+            radioShow: !this.state.radioShow
+        } )
+    }
+
     render () {
         if ( localStorage.getItem( "email" ) ) {
             // const contentStyle = { background: '#000' };
@@ -161,7 +169,7 @@ export default class RestaurantProfile extends Component {
                             <div className="row picture-scrolling-wrapper">
                                 <div className="picture-scrolling">
                                     { this.state.pictures.map( picture => {
-                                        return <img src={ "http://localhost:3001/" + picture } alt="restaurant_picture" className="restaurant-picture shadow" crossOrigin="anonymous"></img>
+                                        return <img src={ "http://localhost:3001/" + picture } key={ picture } alt="restaurant_picture" className="restaurant-picture shadow" crossOrigin="anonymous"></img>
                                     } ) }
                                 </div>
                             </div>
@@ -173,12 +181,17 @@ export default class RestaurantProfile extends Component {
                                 <h2>Dishes</h2>
                             </div>
                             <div className="row">
-                                <div className="text-center">
+                                <div className="col-4"></div>
+                                <div className="col-2 text-center">
                                     <AddNewDish />
                                 </div>
+                                <div className="col-2">
+                                    <button type="button" className="btn btn-primary" onClick={ this.updateDish }>Update Dish</button>
+                                </div>
+                                <div className="col-4"></div>
                             </div>
                             <div className="row dishes">
-                                <Dishes></Dishes>
+                                <Dishes radioShow={ this.state.radioShow }></Dishes>
                             </div>
                         </div>
                     </div>

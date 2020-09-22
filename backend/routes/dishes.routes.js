@@ -11,12 +11,6 @@ module.exports = app => {
         Dishes.findOneById( req, res )
     } );
 
-    // Update a Dish with DishEmail
-    app.put( "/updateDish/:id", ( req, res ) => {
-        console.log( `update` )
-        Dishes.update( req, res )
-    } );
-
     // Delete a Dish with DishEmail
     app.delete( "/Dishes/:email", ( req, res ) => {
         Dishes.delete( req, res )

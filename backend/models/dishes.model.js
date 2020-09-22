@@ -103,10 +103,21 @@ Dish.getAll = result => {
     } );
 };
 
-Dish.updateById = ( id, Dish, result ) => {
+Dish.updateById = ( id, req, result ) => {
+    console.log( req.body )
+    let image_path = null
+    if ( req.file ) {
+        if ( req.file.path ) {
+            image_path = req.file.path
+        } else {
+            image_path = req.body.file
+        }
+    } else {
+        image_path = req.body.file
+    }
     sql.query(
-        "UPDATE dishes SET name = ?, email = ?, location = ?, phone_no = ?, description = ?, timings = ? WHERE id = ?",
-        [ Dish.name, Dish.email, Dish.location, Dish.phone_no, Dish.description, Dish.timings, id ],
+        "UPDATE dishes SET name = ?, ingredients = ?, price = ?, description = ?, category = ?, image = ? WHERE id = ?",
+        [ req.body.name, req.body.ingredients, req.body.price, req.body.description, req.body.category, image_path, id ],
         ( err, res ) => {
             if ( err ) {
                 console.log( "error: ", err );

@@ -104,6 +104,12 @@ app.post( "/createDish", dishPicture.single( "file" ), ( req, res ) => {
     dishes.create( req, res )
 } );
 
+// Update a Dish with DishId
+app.put( "/updateDish/:id", dishPicture.single( "file" ), ( req, res ) => {
+    console.log( `update` )
+    dishes.update( req, res )
+} );
+
 // set port, listen for requests
 app.listen( 3001, () => {
     console.log( "Server is running on port 3001." );
