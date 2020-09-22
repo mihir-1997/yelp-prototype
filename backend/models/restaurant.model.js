@@ -37,7 +37,8 @@ Restaurant.findByEmail = ( req, result ) => {
         if ( res.length ) {
             console.log( "found Restaurant: ", res[ 0 ] );
             if ( passwordHash.verify( req.body.password, res[ 0 ].password ) ) {
-                result( null, res[ 0 ] );
+                let { password, ...alldata } = res[ 0 ]
+                result( null, alldata );
                 return;
             } else {
                 result( { kind: "wrong_password" }, null );

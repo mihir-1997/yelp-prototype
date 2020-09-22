@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+// import axios from 'axios'
+import { connect } from 'react-redux';
 import './UpdateUserProfile.css'
 
-export default class UpdateProfile extends Component {
+import { updateUser } from '../../actions/updateUser'
+
+class UpdateProfile extends Component {
 
     constructor( props ) {
         super( props )
@@ -16,7 +19,7 @@ export default class UpdateProfile extends Component {
         this.setState( { [ item.target.name ]: item.target.value } );
     }
 
-    update = item => {
+    update = async ( item ) => {
         item.preventDefault()
         console.log( "update" )
         if ( this.state.error === "" ) {
@@ -36,25 +39,31 @@ export default class UpdateProfile extends Component {
                 things_love: this.state.things_love,
                 find_me: this.state.find_me,
             }
-            let id = localStorage.getItem( "id" )
-            axios.defaults.withCredentials = true;
-            console.log( "updfate 2" )
-            axios.put( "http://localhost:3001/updateUser/" + id, user )
-                .then( ( res ) => {
-                    if ( res.status === 200 ) {
-                        localStorage.setItem( "email", res.data.email )
-                        console.log( "Profile updated successfully" )
-                        window.location.reload();
-                    }
-                } )
-                .catch( ( err ) => {
-                    if ( err.response ) {
-                        if ( err.response.status === 404 ) {
-                            console.log( "Error! No user" )
-                            this.setState( { "error": "No user found" } )
-                        }
-                    }
-                } )
+            await this.props.updateUser( user )
+            setTimeout( () => {
+                localStorage.setItem( "email", this.props.user.email )
+                window.location.reload();
+            }, 2000 )
+
+            // let id = localStorage.getItem( "id" )
+            // axios.defaults.withCredentials = true;
+            // console.log( "updfate 2" )
+            // axios.put( "http://localhost:3001/updateUser/" + id, user )
+            //     .then( ( res ) => {
+            //         if ( res.status === 200 ) {
+            //             localStorage.setItem( "email", res.data.email )
+            //             console.log( "Profile updated successfully" )
+            //             window.location.reload();
+            //         }
+            //     } )
+            //     .catch( ( err ) => {
+            //         if ( err.response ) {
+            //             if ( err.response.status === 404 ) {
+            //                 console.log( "Error! No user" )
+            //                 this.setState( { "error": "No user found" } )
+            //             }
+            //         }
+            //     } )
         }
     }
 
@@ -112,7 +121,7 @@ export default class UpdateProfile extends Component {
                         <div className="form-group row">
                             <div className="col-2">State</div>
                             <div className="col-10">
-                                <input type="text" className="form-control" name="email" placeholder="State" onChange={ this.onChange } value={ this.state.state } />
+                                <input type="text" className="form-control" name="state" placeholder="State" onChange={ this.onChange } value={ this.state.state } />
                             </div>
                         </div>
                         <div className="form-group row">
@@ -171,3 +180,10 @@ export default class UpdateProfile extends Component {
         )
     }
 }
+
+const mapStateToProps = state => ( {
+    id: state.user.id,
+    user: state.user.user
+} );
+
+export default connect( mapStateToProps, { updateUser } )( UpdateProfile );

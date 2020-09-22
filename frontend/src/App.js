@@ -1,14 +1,20 @@
 import React from 'react';
 import './App.css';
-import Routes from "./components/Routes"
 import { BrowserRouter } from 'react-router-dom';
+
+import Routes from "./components/Routes"
+import { Provider } from 'react-redux';
+
+import store from './store';
 
 function App () {
   return (
     <div>
-      <BrowserRouter>
-        <Routes></Routes>
-      </BrowserRouter>
+      <Provider store={ store }>
+        <BrowserRouter>
+          <Routes></Routes>
+        </BrowserRouter>
+      </Provider>
     </div>
   );
 }

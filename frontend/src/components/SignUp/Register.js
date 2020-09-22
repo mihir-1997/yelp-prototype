@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom'
+
 import './Signup.css'
+import { registerUser } from '../../actions/userLogin'
 
 export class register extends Component {
 
@@ -32,7 +35,7 @@ export class register extends Component {
         window.location.assign( '/login' )
     }
 
-    register = item => {
+    register = async ( item ) => {
         item.preventDefault()
         if ( this.state.selected === "user" ) {
             const user = {
@@ -40,23 +43,30 @@ export class register extends Component {
                 email: this.state.email,
                 password: this.state.password,
             }
-            axios.defaults.withCredentials = true;
-            axios.post( "http://localhost:3001/registerUser", user )
-                .then( ( res ) => {
-                    if ( res.status === 200 ) {
-                        console.log( "User added successfully" )
-                        window.location.assign( '/login' )
-                    } else {
-                        console.log( "Error creating user" )
-                    }
-                } )
-                .catch( ( err ) => {
-                    if ( err.response ) {
-                        if ( err.response.status === 409 ) {
-                            this.setState( { "error": "User already exist" } )
-                        }
-                    }
-                } )
+            await this.props.registerUser( user )
+            console.log( this.props.user.error )
+            if ( !this.props.user.error ) {
+                window.location.assign( '/login' )
+            }
+
+            // 
+            // axios.defaults.withCredentials = true;
+            // axios.post( "http://localhost:3001/registerUser", user )
+            //     .then( ( res ) => {
+            //         if ( res.status === 200 ) {
+            //             console.log( "User added successfully" )
+            //             window.location.assign( '/login' )
+            //         } else {
+            //             console.log( "Error creating user" )
+            //         }
+            //     } )
+            //     .catch( ( err ) => {
+            //         if ( err.response ) {
+            //             if ( err.response.status === 409 ) {
+            //                 this.setState( { "error": "User already exist" } )
+            //             }
+            //         }
+            //     } )
         } else {
             const restaurant = {
                 name: this.state.name,
@@ -163,7 +173,7 @@ export class register extends Component {
                     onClick={ this.login }
                     className="btn btn-primary">Login</button>
                 <div className="row">
-                    <p id="error">{ this.state.error }</p>
+                    <p id="error">{ this.props.error }</p>
                 </div>
             </div >
         )
@@ -174,4 +184,10 @@ export class register extends Component {
     }
 }
 
-export default register
+const mapStateToProps = state => ( {
+    id: state.user.id,
+    user: state.user.user,
+    error: state.user.userError
+} );
+
+export default connect( mapStateToProps, { registerUser } )( register );

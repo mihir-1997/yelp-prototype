@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-// import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
+
+import { userLogin } from '../../actions/userLogin'
 import './Signup.css'
 
-export class Login extends Component {
+class Login extends Component {
 
     constructor( props ) {
         super( props )
@@ -37,29 +39,30 @@ export class Login extends Component {
                 email: this.state.email,
                 password: this.state.password,
             }
-            axios.defaults.withCredentials = true;
-            axios.post( "http://localhost:3001/loginUser", user )
-                .then( ( res ) => {
-                    if ( res.status === 200 ) {
-                        localStorage.setItem( "email", res.data.email )
-                        localStorage.setItem( "id", res.data.id )
-                        localStorage.setItem( "active", "user" )
-                        console.log( "User Loggedin successfully" )
-                        window.location.assign( '/userprofile' )
-                    }
-                } )
-                .catch( ( err ) => {
-                    if ( err.response ) {
-                        if ( err.response.status === 404 ) {
-                            console.log( "Error! No user" )
-                            this.setState( { "error": "No user found" } )
-                        } else if ( err.response.status === 401 ) {
-                            this.setState( { "error": "Wrong Password" } )
-                        } else if ( err.response.status === 400 ) {
-                            this.setState( { "error": "Each field is required" } )
-                        }
-                    }
-                } )
+            // axios.defaults.withCredentials = true;
+            // axios.post( "http://localhost:3001/loginUser", user )
+            //     .then( ( res ) => {
+            //         if ( res.status === 200 ) {
+            //             localStorage.setItem( "email", res.data.email )
+            //             localStorage.setItem( "id", res.data.id )
+            //             localStorage.setItem( "active", "user" )
+            //             console.log( "User Loggedin successfully" )
+            //             window.location.assign( '/userprofile' )
+            //         }
+            //     } )
+            //     .catch( ( err ) => {
+            //         if ( err.response ) {
+            //             if ( err.response.status === 404 ) {
+            //                 console.log( "Error! No user" )
+            //                 this.setState( { "error": "No user found" } )
+            //             } else if ( err.response.status === 401 ) {
+            //                 this.setState( { "error": "Wrong Password" } )
+            //             } else if ( err.response.status === 400 ) {
+            //                 this.setState( { "error": "Each field is required" } )
+            //             }
+            //         }
+            //     } )
+            this.props.userLogin( user )
         } else {
             const restaurant = {
                 email: this.state.email,
@@ -88,6 +91,17 @@ export class Login extends Component {
                         }
                     }
                 } )
+        }
+    }
+
+    componentDidUpdate () {
+        if ( this.props.id ) {
+            setTimeout( () => {
+                localStorage.setItem( "email", this.props.user.email )
+                localStorage.setItem( "id", this.props.user.id )
+                localStorage.setItem( "active", "user" )
+                window.location.assign( '/userprofile' )
+            }, 2000 )
         }
     }
 
@@ -150,7 +164,7 @@ export class Login extends Component {
                     onClick={ this.register }
                     className="btn btn-primary">Register</button>
                 <div className="row">
-                    <p id="error">{ this.state.error }</p>
+                    <p id="error">{ this.props.error }</p>
                 </div>
             </div >
         )
@@ -161,4 +175,10 @@ export class Login extends Component {
     }
 }
 
-export default Login
+const mapStateToProps = state => ( {
+    id: state.user.id,
+    user: state.user.user,
+    error: state.user.userError
+} );
+
+export default connect( mapStateToProps, { userLogin } )( Login );
