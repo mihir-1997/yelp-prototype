@@ -16,7 +16,7 @@ export class register extends Component {
             password: "",
             location: "",
             selected: "user",
-            error: "",
+            error: this.props.error,
         }
     }
 
@@ -35,7 +35,7 @@ export class register extends Component {
         window.location.assign( '/login' )
     }
 
-    register = async ( item ) => {
+    register = ( item ) => {
         item.preventDefault()
         if ( this.state.selected === "user" ) {
             const user = {
@@ -43,11 +43,7 @@ export class register extends Component {
                 email: this.state.email,
                 password: this.state.password,
             }
-            await this.props.registerUser( user )
-            console.log( this.props.user.error )
-            if ( !this.props.user.error ) {
-                window.location.assign( '/login' )
-            }
+            this.props.registerUser( user )
 
             // 
             // axios.defaults.withCredentials = true;
@@ -91,6 +87,12 @@ export class register extends Component {
                         }
                     }
                 } )
+        }
+    }
+
+    componentDidUpdate () {
+        if ( this.props.id && this.props.error == "" ) {
+            window.location.assign( '/login' )
         }
     }
 

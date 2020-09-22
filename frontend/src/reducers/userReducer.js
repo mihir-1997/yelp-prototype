@@ -67,7 +67,6 @@ export default function ( state = initialState, action ) {
         case UPDATE_USER:
             if ( action.error ) {
                 if ( action.error.status === 404 ) {
-                    console.log( "Error! No user" )
                     return {
                         ...state
                     }
