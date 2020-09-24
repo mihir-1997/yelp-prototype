@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Popup from 'reactjs-popup';
+
 import UpdateRestaurant from './UpdateRestaurant'
 import Dishes from '../Dish/Dishes'
 import AddDish from '../Dish/AddDish'
 import './RestaurantProfile.css'
+import Reviews from '../Reviews/Reviews'
 
 export default class RestaurantProfile extends Component {
 
@@ -31,6 +33,7 @@ export default class RestaurantProfile extends Component {
             axios.get( "http://localhost:3001/getrestaurant/" + id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
+                        console.log( res.data )
                         this.setState( {
                             name: res.data.name,
                             email: res.data.email,
@@ -152,6 +155,9 @@ export default class RestaurantProfile extends Component {
                             <div className="row restaurantphone">
                                 { this.state.phone_no }
                             </div>
+                            <div className="row restauranttimings">
+                                { this.state.timings }
+                            </div>
                         </div>
                         <div className="col-1">
                             <Modal />
@@ -168,7 +174,7 @@ export default class RestaurantProfile extends Component {
                             </div>
                             <div className="row picture-scrolling-wrapper">
                                 <div className="picture-scrolling">
-                                    { this.state.pictures.map( picture => {
+                                    { this.state.pictures && this.state.pictures.map( picture => {
                                         return <img src={ "http://localhost:3001/" + picture } key={ picture } alt="restaurant_picture" className="restaurant-picture shadow" crossOrigin="anonymous"></img>
                                     } ) }
                                 </div>
@@ -176,7 +182,7 @@ export default class RestaurantProfile extends Component {
                         </div>
                     </div>
                     <div className="row h-70">
-                        <div className="col">
+                        <div className="col-8">
                             <div className="row dish-heading">
                                 <h2>Dishes</h2>
                             </div>
@@ -192,6 +198,11 @@ export default class RestaurantProfile extends Component {
                             </div>
                             <div className="row dishes">
                                 <Dishes radioShow={ this.state.radioShow }></Dishes>
+                            </div>
+                        </div>
+                        <div className="col-4">
+                            <div className="row">
+                                <Reviews />
                             </div>
                         </div>
                     </div>

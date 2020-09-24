@@ -112,7 +112,7 @@ export default class UpdateProfile extends Component {
                         <div className="form-group row">
                             <div className="col-2">State</div>
                             <div className="col-10">
-                                <input type="text" className="form-control" name="email" placeholder="State" onChange={ this.onChange } value={ this.state.state } />
+                                <input type="text" className="form-control" name="state" placeholder="State" onChange={ this.onChange } value={ this.state.state } />
                             </div>
                         </div>
                         <div className="form-group row">

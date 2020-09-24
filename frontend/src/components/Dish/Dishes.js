@@ -30,7 +30,9 @@ export default class Dishes extends Component {
                 .catch( ( err ) => {
                     if ( err.response ) {
                         console.log( err.response.message )
+                        return
                     }
+                    return
                 } )
         } else {
             console.log( "No Id found in local storage" )

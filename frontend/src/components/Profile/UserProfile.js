@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import './Userprofile.css'
 import axios from 'axios'
 import Popup from 'reactjs-popup';
+
 import UpdateProfile from './UpdateUserProfile'
+import Reviews from '../Reviews/Reviews'
 const FormData = require( 'form-data' );
 
 export class UserProfile extends Component {
@@ -121,7 +123,7 @@ export class UserProfile extends Component {
                 </Popup>
             );
             return (
-                < div id="userProfile" className="container" style={ this.style }>
+                < div id="userProfile" style={ this.style }>
                     <div className="row h-100">
                         <div className="col-3">
                             <div className="profile-picture-wrapper">
@@ -164,9 +166,7 @@ export class UserProfile extends Component {
                                     <Modal />
                                 </div>
                             </div>
-                            <div className="row h-75">
-                                <h2>Reviews</h2>
-                            </div>
+                            <Reviews />
                         </div>
                     </div>
                 </div >

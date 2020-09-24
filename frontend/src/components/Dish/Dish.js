@@ -18,7 +18,7 @@ export default class Dish extends Component {
 
     render () {
         return (
-            <div className="container dish">
+            <div className="dish">
                 <div className="row">
                     <div className="col-2">
                         { this.state.image ? <img src={ "http://localhost:3001/" + this.state.image } alt="dish_image" className="dishimage" /> : null }

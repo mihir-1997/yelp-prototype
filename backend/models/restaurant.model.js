@@ -14,6 +14,7 @@ const Restaurant = function ( Restaurant ) {
 };
 
 Restaurant.create = ( newRestaurant, result ) => {
+    delete newRestaurant[ "pictures" ]
     sql.query( "INSERT INTO restaurants SET ?", newRestaurant, ( err, res ) => {
         if ( err ) {
             console.log( "error: ", err );
@@ -83,7 +84,7 @@ Restaurant.findById = ( req, result ) => {
                     // result( null, alldata );
                 } else {
                     // not found Restaurant with the id
-                    console.log( "error: ", null );
+                    result( null, restaurant )
                     return;
                 }
             } );
