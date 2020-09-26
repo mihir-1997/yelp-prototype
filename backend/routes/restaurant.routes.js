@@ -32,6 +32,11 @@ module.exports = app => {
         Restaurants.findOneImageById( req, res )
     } );
 
+    // Retrieve a single Restaurant with RestaurantsId
+    app.get( "/getrestaurantbysearch/:category/:searchterm", ( req, res ) => {
+        Restaurants.findRestaurantsBySearchCategory( req, res )
+    } );
+
     // Delete a Restaurant with RestaurantEmail
     app.delete( "/Restaurants/:email", ( req, res ) => {
         Restaurants.delete( req, res )

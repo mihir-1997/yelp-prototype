@@ -1,11 +1,22 @@
 const sql = require( "./db.js" );
 var passwordHash = require( 'password-hash' );
+const NodeGeocoder = require( 'node-geocoder' );
+
+const options = {
+    provider: 'google',
+    apiKey: 'AIzaSyAXWCI5f1-e6DpiCVMaw-GwUEipY1T8FIY',
+    formatter: null
+};
+const geocoder = NodeGeocoder( options );
 
 // constructor
 const Restaurant = function ( Restaurant ) {
     this.name = Restaurant.name;
     this.email = Restaurant.email;
-    this.location = Restaurant.location;
+    this.address = Restaurant.address;
+    this.city = Restaurant.city;
+    this.state = Restaurant.state;
+    this.zipcode = Restaurant.zipcode;
     this.phone_no = Restaurant.phone_no;
     this.description = Restaurant.description;
     this.timings = Restaurant.timings;
@@ -13,8 +24,25 @@ const Restaurant = function ( Restaurant ) {
     this.curbside_pickup = Restaurant.curbside_pickup;
     this.dine_in = Restaurant.dine_in;
     this.delivery = Restaurant.delivery;
-    this.password = Restaurant.password
+    this.password = Restaurant.password;
+    this.latitude = Restaurant.latitude;
+    this.longitude = Restaurant.longitude;
 };
+
+Restaurant.getLatitudeLongitude = async ( address, zipcode ) => {
+    const latitudeLongitude = await geocoder.geocode( {
+        address: address,
+        countryCode: 'us',
+        zipcode: zipcode
+    } );
+    let latitude = null
+    let longitude = null
+    if ( latitudeLongitude ) {
+        latitude = latitudeLongitude[ 0 ].latitude
+        longitude = latitudeLongitude[ 0 ].longitude
+    }
+    return { latitude: latitude, longitude: longitude }
+}
 
 Restaurant.create = ( newRestaurant, result ) => {
     delete newRestaurant[ "pictures" ]
@@ -100,7 +128,7 @@ Restaurant.findById = ( req, result ) => {
 };
 
 Restaurant.getAll = ( req, result ) => {
-    sql.query( "SELECT r.id, r.name, r.location, r.email, r.phone_no, r.description, r.timings, r.curbside_pickup, r.dine_in, r.delivery, ri.image FROM restaurants r LEFT JOIN restaurant_images ri on r.id = ri.restaurant_id", ( err, res ) => {
+    sql.query( "SELECT r.id, r.name, r.address, r.city, r.state, r.zipcode, r.email, r.phone_no, r.description, r.timings, r.curbside_pickup, r.dine_in, r.delivery, r.latitude, r.longitude, ri.image FROM restaurants r LEFT JOIN restaurant_images ri on r.id = ri.restaurant_id", ( err, res ) => {
         if ( err ) {
             console.log( "error: ", err );
             result( null, err );
@@ -108,15 +136,23 @@ Restaurant.getAll = ( req, result ) => {
         }
         if ( res.length ) {
             const filtered_data = [];
+            const latLongs = []
             const map = new Map();
             for ( const item of res ) {
                 if ( !map.has( item.id ) ) {
                     map.set( item.id, true );
-                    filtered_data.push( item );
+                    const { latitude, longitude, ...alldata } = item
+                    latLongs.push( {
+                        id: item.id,
+                        name: item.name,
+                        lat: latitude,
+                        lng: longitude
+                    } )
+                    filtered_data.push( alldata );
                 }
             }
 
-            result( null, filtered_data );
+            result( null, { restaurants: filtered_data, latlongs: latLongs } );
             return
         }
         console.log( "Restaurants: ", res );
@@ -129,8 +165,8 @@ Restaurant.updateById = ( id, Restaurant, result ) => {
     Restaurant.dine_in = Restaurant.dine_in ? 1 : 0
     Restaurant.delivery = Restaurant.delivery ? 1 : 0
     sql.query(
-        "UPDATE restaurants SET name = ?, email = ?, location = ?, phone_no = ?, description = ?, timings = ?, curbside_pickup = ?, dine_in = ?, delivery = ? WHERE id = ?",
-        [ Restaurant.name, Restaurant.email, Restaurant.location, Restaurant.phone_no, Restaurant.description, Restaurant.timings, parseInt( Restaurant.curbside_pickup, 10 ), parseInt( Restaurant.dine_in, 10 ), parseInt( Restaurant.delivery, 10 ), id ],
+        "UPDATE restaurants SET name = ?, email = ?, address = ?, city = ?, state = ?, zipcode = ?, phone_no = ?, description = ?, timings = ?, curbside_pickup = ?, dine_in = ?, delivery = ?, latitude = ?, longitude = ? WHERE id = ?",
+        [ Restaurant.name, Restaurant.email, Restaurant.address, Restaurant.city, Restaurant.state, Restaurant.zipcode, Restaurant.phone_no, Restaurant.description, Restaurant.timings, parseInt( Restaurant.curbside_pickup, 10 ), parseInt( Restaurant.dine_in, 10 ), parseInt( Restaurant.delivery, 10 ), Restaurant.latitude, Restaurant.longitude, id ],
         ( err, res ) => {
             if ( err ) {
                 console.log( "error: ", err );
@@ -191,6 +227,54 @@ Restaurant.findOneImageById = ( req, result ) => {
         }
         result( null, res );
     } );
+}
+
+
+Restaurant.findBySearchCategory = ( req, result ) => {
+    if ( req.params.category === "cuisine" || req.params.category === "dish" ) {
+        if ( req.params.category === "dish" ) {
+            req.params.category = "name"
+        }
+        sql.query( `SELECT r.id from restaurants r INNER JOIN dishes d ON d.restaurant_id=r.id where d.${ req.params.category } like \'%${ req.params.searchterm }%\'`, ( err, res ) => {
+            if ( err ) {
+                console.log( "error: ", err );
+                result( null, err );
+                return;
+            }
+            if ( res.length ) {
+                const filtered_data = [];
+                const map = new Map();
+                for ( const item of res ) {
+                    if ( !map.has( item.id ) ) {
+                        map.set( item.id, true );
+                        filtered_data.push( item.id );
+                    }
+                }
+                result( null, filtered_data );
+                return
+            } else {
+                result( { kind: "not_found" }, null );
+                return
+            }
+        } );
+    } else if ( req.params.category === "location" ) {
+        sql.query( `SELECT distinct(id) from restaurants where location like \'%${ req.params.searchterm }%\'`, ( err, res ) => {
+            if ( err ) {
+                console.log( "error: ", err );
+                result( null, err );
+                return;
+            }
+            if ( res.length ) {
+                let filtered_data = Array.from( res, x => x.id )
+                result( null, filtered_data );
+                return
+            } else {
+                result( { kind: "not_found" }, null );
+                return
+            }
+        } );
+    }
+    return
 }
 
 Restaurant.remove = ( email, result ) => {

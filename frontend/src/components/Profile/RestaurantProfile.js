@@ -41,7 +41,12 @@ export default class RestaurantProfile extends Component {
                             name: res.data.name,
                             email: res.data.email,
                             phone_no: res.data.phone_no,
-                            location: res.data.location,
+                            address: res.data.address,
+                            city: res.data.city,
+                            state: res.data.state,
+                            zipcode: res.data.zipcode,
+                            latitude: res.data.latitude,
+                            longitude: res.data.longitude,
                             description: res.data.description,
                             timings: res.data.timings,
                             curbside_pickup: res.data.curbside_pickup,
@@ -148,7 +153,7 @@ export default class RestaurantProfile extends Component {
                                 { this.state.name }
                             </div>
                             <div className="row restaurantlocation">
-                                { this.state.location }
+                                { this.state.address }, { this.state.city }, { this.state.state }, { this.state.zipcode }
                             </div>
                             <div className="row restaurantdescription">
                                 { this.state.description }

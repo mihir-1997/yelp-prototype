@@ -11,7 +11,10 @@ export class register extends Component {
             name: "",
             email: "",
             password: "",
-            location: "",
+            address: "",
+            city: "",
+            state: "",
+            zipcode: "",
             selected: "user",
             error: "",
         }
@@ -35,52 +38,70 @@ export class register extends Component {
     register = item => {
         item.preventDefault()
         if ( this.state.selected === "user" ) {
-            const user = {
-                name: this.state.name,
-                email: this.state.email,
-                password: this.state.password,
-            }
-            axios.defaults.withCredentials = true;
-            axios.post( "http://localhost:3001/registerUser", user )
-                .then( ( res ) => {
-                    if ( res.status === 200 ) {
-                        console.log( "User added successfully" )
-                        window.location.assign( '/login' )
-                    } else {
-                        console.log( "Error creating user" )
-                    }
-                } )
-                .catch( ( err ) => {
-                    if ( err.response ) {
-                        if ( err.response.status === 409 ) {
-                            this.setState( { "error": "User already exist" } )
+            if ( this.state.name && this.state.email && this.state.password ) {
+                const user = {
+                    name: this.state.name,
+                    email: this.state.email,
+                    password: this.state.password,
+                }
+                axios.defaults.withCredentials = true;
+                axios.post( "http://localhost:3001/registerUser", user )
+                    .then( ( res ) => {
+                        if ( res.status === 200 ) {
+                            console.log( "User added successfully" )
+                            this.setState( {
+                                error: ""
+                            } )
+                            window.location.assign( '/login' )
+                        } else {
+                            console.log( "Error creating user" )
                         }
-                    }
+                    } )
+                    .catch( ( err ) => {
+                        if ( err.response ) {
+                            if ( err.response.status === 409 ) {
+                                this.setState( { "error": "User already exist" } )
+                            }
+                        }
+                    } )
+            } else {
+                this.setState( {
+                    error: "*Some required fields are empty"
                 } )
+            }
         } else {
-            const restaurant = {
-                name: this.state.name,
-                email: this.state.email,
-                location: this.state.location,
-                password: this.state.password,
-            }
-            axios.defaults.withCredentials = true;
-            axios.post( "http://localhost:3001/registerRestaurant", restaurant )
-                .then( ( res ) => {
-                    if ( res.status === 200 ) {
-                        console.log( "Restaurant added successfully" )
-                        window.location.assign( '/login' )
-                    } else {
-                        console.log( "Error creating restaurant" )
-                    }
-                } )
-                .catch( ( err ) => {
-                    if ( err.response ) {
-                        if ( err.response.status === 409 ) {
-                            this.setState( { "error": "Restaurant already exist" } )
+            if ( this.state.name && this.state.email && this.state.address && this.state.city && this.state.state && this.state.zipcode && this.state.password ) {
+                const restaurant = {
+                    name: this.state.name,
+                    email: this.state.email,
+                    address: this.state.address,
+                    city: this.state.city,
+                    state: this.state.state,
+                    zipcode: this.state.zipcode,
+                    password: this.state.password,
+                }
+                axios.defaults.withCredentials = true;
+                axios.post( "http://localhost:3001/registerRestaurant", restaurant )
+                    .then( ( res ) => {
+                        if ( res.status === 200 ) {
+                            console.log( "Restaurant added successfully" )
+                            window.location.assign( '/login' )
+                        } else {
+                            console.log( "Error creating restaurant" )
                         }
-                    }
+                    } )
+                    .catch( ( err ) => {
+                        if ( err.response ) {
+                            if ( err.response.status === 409 ) {
+                                this.setState( { "error": "Restaurant already exist" } )
+                            }
+                        }
+                    } )
+            } else {
+                this.setState( {
+                    error: "*Some required fields are empty"
                 } )
+            }
         }
     }
 
@@ -128,14 +149,43 @@ export class register extends Component {
                             required />
                     </div>
                     { this.state.selected === "restaurant" &&
-                        <div className="form-group">
-                            <input
-                                type="text"
-                                name="location"
-                                placeholder="Location"
-                                onChange={ this.onChange }
-                                value={ this.state.location }
-                                required />
+                        <div >
+                            <div className="form-group">
+                                <input
+                                    type="text"
+                                    name="address"
+                                    placeholder="Address"
+                                    onChange={ this.onChange }
+                                    value={ this.state.address }
+                                    required />
+                            </div>
+                            <div className="form-group">
+                                <input
+                                    type="text"
+                                    name="city"
+                                    placeholder="City"
+                                    onChange={ this.onChange }
+                                    value={ this.state.city }
+                                    required />
+                            </div>
+                            <div className="form-group">
+                                <input
+                                    type="text"
+                                    name="state"
+                                    placeholder="State"
+                                    onChange={ this.onChange }
+                                    value={ this.state.state }
+                                    required />
+                            </div>
+                            <div className="form-group">
+                                <input
+                                    type="text"
+                                    name="zipcode"
+                                    placeholder="Zipcode"
+                                    onChange={ this.onChange }
+                                    value={ this.state.zipcode }
+                                    required />
+                            </div>
                         </div>
                     }
                     <div className="form-group">

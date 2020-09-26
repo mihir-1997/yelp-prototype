@@ -33,12 +33,15 @@ export default class UpdateRestaurant extends Component {
 
     update = item => {
         item.preventDefault()
-        if ( this.state.error === "" ) {
+        if ( this.state.email && this.state.address && this.state.city && this.state.state && this.state.zipcode ) {
             const restaurant = {
                 name: this.state.name,
                 email: this.state.email,
                 phone_no: this.state.phone_no,
-                location: this.state.location,
+                address: this.state.address,
+                city: this.state.city,
+                state: this.state.state,
+                zipcode: this.state.zipcode,
                 description: this.state.description,
                 timings: this.state.timings,
                 curbside_pickup: this.state.curbside_pickup,
@@ -52,6 +55,9 @@ export default class UpdateRestaurant extends Component {
                     if ( res.status === 200 ) {
                         localStorage.setItem( "email", res.data.email )
                         console.log( "Profile updated successfully" )
+                        this.setState( {
+                            error: ""
+                        } )
                         window.location.reload();
                     }
                 } )
@@ -63,6 +69,10 @@ export default class UpdateRestaurant extends Component {
                         }
                     }
                 } )
+        } else {
+            this.setState( {
+                error: "*Some required fields are empty"
+            } )
         }
     }
 
@@ -75,7 +85,7 @@ export default class UpdateRestaurant extends Component {
                     </div>
                     <form>
                         <div className="form-group row">
-                            <div className="col-2">Email</div>
+                            <div className="col-2">Email<span className="required-field">*</span></div>
                             <div className="col-10">
                                 <input type="email" className="form-control" name="email" placeholder="xyz@gmail.com" onChange={ this.onChange } value={ this.state.email } />
                             </div>
@@ -87,9 +97,27 @@ export default class UpdateRestaurant extends Component {
                             </div>
                         </div>
                         <div className="form-group row">
-                            <div className="col-2">Location</div>
+                            <div className="col-2">Address<span className="required-field">*</span></div>
                             <div className="col-10">
-                                <input type="text" className="form-control" name="location" placeholder="US" onChange={ this.onChange } value={ this.state.location } />
+                                <input type="text" className="form-control" name="address" placeholder="" onChange={ this.onChange } value={ this.state.address } />
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <div className="col-2">City<span className="required-field">*</span></div>
+                            <div className="col-10">
+                                <input type="text" className="form-control" name="city" placeholder="San Jose" onChange={ this.onChange } value={ this.state.city } />
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <div className="col-2">State<span className="required-field">*</span></div>
+                            <div className="col-10">
+                                <input type="text" className="form-control" name="state" placeholder="CA" onChange={ this.onChange } value={ this.state.state } />
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <div className="col-2">Zipcode<span className="required-field">*</span></div>
+                            <div className="col-10">
+                                <input type="text" className="form-control" name="zipcode" placeholder="12345" onChange={ this.onChange } value={ this.state.zipcode } />
                             </div>
                         </div>
                         <div className="form-group row">
@@ -124,6 +152,11 @@ export default class UpdateRestaurant extends Component {
                             </div>
                         </div>
                     </form>
+                    <div className="row">
+                        <div className="text-center">
+                            <span className="required-field">{ this.state.error }</span>
+                        </div>
+                    </div>
                 </div>
             </div >
         )

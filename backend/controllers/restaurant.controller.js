@@ -10,18 +10,28 @@ exports.create = ( req, res ) => {
         } );
     }
     const hashedPassword = passwordHash.generate( req.body.password );
+    const latLong = Restaurant.getLatitudeLongitude( req.body.address, req.body.zipcode )
+    console.log( "----" )
+    console.log( "latitude and longitude" )
+    console.log( latLong )
+    console.log( "----" )
     // Create a Restaurant
     const restaurant = new Restaurant( {
         name: req.body.name,
         email: req.body.email,
-        location: req.body.location,
+        address: req.body.address,
+        city: req.body.city,
+        state: req.body.state,
+        zipcode: req.body.zipcode,
         phone_no: req.body.phone_no,
         description: req.body.description,
         timings: req.body.timings,
         curbside_pickup: req.body.curbside_pickup,
         dine_in: req.body.dine_in,
         delivery: req.body.delivery,
-        password: hashedPassword
+        password: hashedPassword,
+        latitude: latLong.latitude,
+        longitude: latLong.longitude,
     } );
 
     // Save Restaurant in the database
@@ -126,24 +136,28 @@ exports.update = ( req, res ) => {
             message: "Content can not be empty!"
         } );
     }
-
-    Restaurant.updateById(
-        req.params.id,
-        new Restaurant( req.body ),
-        ( err, data ) => {
-            if ( err ) {
-                if ( err.kind === "not_found" ) {
-                    res.status( 404 ).send( {
-                        message: `Not found Restaurant with Id ${ req.params.id }.`
-                    } );
-                } else {
-                    res.status( 500 ).send( {
-                        message: "Error updating Restaurant with Id " + req.params.id
-                    } );
-                }
-            } else res.send( data );
-        }
-    );
+    Restaurant.getLatitudeLongitude( req.body.address, req.body.zipcode ).then( ( data ) => {
+        req.body.latitude = data.latitude
+        req.body.longitude = data.longitude
+        console.log( req.body )
+        Restaurant.updateById(
+            req.params.id,
+            new Restaurant( req.body ),
+            ( err, data ) => {
+                if ( err ) {
+                    if ( err.kind === "not_found" ) {
+                        res.status( 404 ).send( {
+                            message: `Not found Restaurant with Id ${ req.params.id }.`
+                        } );
+                    } else {
+                        res.status( 500 ).send( {
+                            message: "Error updating Restaurant with Id " + req.params.id
+                        } );
+                    }
+                } else res.send( data );
+            }
+        );
+    } )
 };
 
 // update restaurant profile by id
@@ -181,6 +195,30 @@ exports.findOneImageById = ( req, res ) => {
         return
     }
     Restaurant.findOneImageById( req, ( err, data ) => {
+        if ( err ) {
+            if ( err.kind === "not_found" ) {
+                res.status( 404 ).send( {
+                    message: `No restaurant found`
+                } );
+                return
+            } else {
+                res.status( 500 ).send( {
+                    message: "Error retrieving restaurant"
+                } );
+                return
+            }
+        } else res.send( data );
+    } );
+}
+
+exports.findRestaurantsBySearchCategory = ( req, res ) => {
+    if ( !req.params.category && !req.params.searchterm ) {
+        res.status( 400 ).send( {
+            message: "Please provide Id"
+        } );
+        return
+    }
+    Restaurant.findBySearchCategory( req, ( err, data ) => {
         if ( err ) {
             if ( err.kind === "not_found" ) {
                 res.status( 404 ).send( {

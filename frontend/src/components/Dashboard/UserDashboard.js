@@ -13,6 +13,8 @@ class UserDashboard extends Component {
             search: "",
             restautants: [],
             filtered_restaurants: [],
+            latLongs: [],
+            filtered_latLongs: [],
             filtered: "",
             selectedOption: "",
             curbside_pickup: false,
@@ -38,20 +40,63 @@ class UserDashboard extends Component {
 
     searchRestaurants = ( item ) => {
         item.preventDefault()
-        if ( this.state.selectedOption && this.state.search ) {
-            console.log( "button clicked" )
+        axios.defaults.withCredentials = true;
+
+        if ( this.state.search && this.state.selectedOption ) {
+            axios.get( "http://localhost:3001/getrestaurantbysearch/" + this.state.selectedOption + "/" + this.state.search )
+                .then( ( res ) => {
+                    if ( res.status === 200 ) {
+                        let ids = []
+                        this.setState( {
+                            filtered_restaurants: this.state.filtered_restaurants.filter( ( restaurant ) => {
+                                if ( res.data.includes( restaurant.id ) ) {
+                                    ids.push( restaurant.id )
+                                    return true
+                                }
+                                return false
+                            } ),
+                            filtered_latLongs: this.state.latLongs.filter( latlong => ids.includes( latlong.id ) )
+                        } )
+                    }
+                } )
+                .catch( ( err ) => {
+                    if ( err.response ) {
+                        if ( err.response.status === 404 ) {
+                            this.setState( {
+                                filtered_restaurants: [],
+                                filtered_latLongs: []
+                            } )
+                        } else if ( err.response.status === 500 ) {
+                            console.log( err.response.message )
+                        }
+                    }
+                } )
+        } else {
+            this.setState( {
+                filtered_restaurants: this.state.restautants,
+                filtered_latLongs: this.state.latLongs
+            } )
         }
     }
 
     filterRestaurant = ( item ) => {
         if ( this.state[ this.state.filtered ] ) {
+            let ids = []
             this.setState( {
-                filtered_restaurants: this.state.filtered_restaurants.filter( restaurant => restaurant[ this.state.filtered ] === 1 )
+                filtered_restaurants: this.state.filtered_restaurants.filter( ( restaurant ) => {
+                    if ( restaurant[ this.state.filtered ] === 1 ) {
+                        ids.push( restaurant.id )
+                        return true
+                    }
+                    return false
+                } ),
+                filtered_latLongs: this.state.latLongs.filter( latlong => ids.includes( latlong.id ) )
             } )
         } else {
             this.setState( {
                 filtered_restaurants: this.state.restautants,
-                filtered: ""
+                filtered: "",
+                filtered_latLongs: this.state.latLongs
             } )
         }
     }
@@ -71,8 +116,10 @@ class UserDashboard extends Component {
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
-                            restautants: res.data,
-                            filtered_restaurants: res.data
+                            restautants: res.data.restaurants,
+                            filtered_restaurants: res.data.restaurants,
+                            latLongs: res.data.latlongs,
+                            filtered_latLongs: res.data.latlongs
                         } )
                     }
                 } )
@@ -103,7 +150,7 @@ class UserDashboard extends Component {
                                 <option name="searchByName" value="dish">Dish</option>
                                 <option name="searchByName" value="cuisine">Cuisine</option>
                                 <option name="searchByName" value="location">Location</option>
-                                <option name="searchByName" value="deliverymode">Mode of Delivery</option>
+                                {/* <option name="searchByName" value="deliverymode">Mode of Delivery</option> */ }
                             </select>
                             <input type="text" className="searchrestaurant" name="search" value={ this.state.search } onChange={ this.onChange } />
                             <button type="button" className="searchsubmit" onClick={ this.searchRestaurants }>Search</button>
@@ -134,7 +181,7 @@ class UserDashboard extends Component {
                             </div>
                         </div>
                         <div className="col-2">
-                            <Maps />
+                            <Maps latlongs={ this.state.filtered_latLongs } />
                         </div>
                     </div>
                 </div>

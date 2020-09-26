@@ -6,9 +6,10 @@ class Maps extends Component {
     constructor( props ) {
         super( props )
         this.state = {
+            latLongs: this.props.latlongs,
             showingInfoWindow: false,  // Hides or shows the InfoWindow
             activeMarker: {},          // Shows the active marker upon click
-            selectedPlace: {}
+            selectedPlace: {},
         }
     }
 
@@ -29,22 +30,33 @@ class Maps extends Component {
     };
 
     render () {
+
+        var bounds = new this.props.google.maps.LatLngBounds();
+        for ( var i = 0; i < this.props.latlongs.length; i++ ) {
+            if ( this.props.latlongs[ i ].lat && this.props.latlongs[ i ].lng ) {
+                bounds.extend( { lat: this.props.latlongs[ i ].lat, lng: this.props.latlongs[ i ].lng } );
+            }
+        }
         return (
             <div>
                 <Map
                     google={ this.props.google }
-                    zoom={ 14 }
+                    // zoom={ 14 }
                     initialCenter={
                         {
                             lat: 37.335480,
                             lng: -121.893028
                         }
                     }
+                    bounds={ bounds }
                 >
-                    <Marker
-                        onClick={ this.onMarkerClick }
-                        name={ 'San Jose' }
-                    />
+                    { this.props.latlongs.map( latlong => {
+                        return <Marker
+                            onClick={ this.onMarkerClick }
+                            name={ latlong.name }
+                            position={ { lat: latlong.lat, lng: latlong.lng } }
+                        />
+                    } ) }
                     <InfoWindow
                         marker={ this.state.activeMarker }
                         visible={ this.state.showingInfoWindow }
