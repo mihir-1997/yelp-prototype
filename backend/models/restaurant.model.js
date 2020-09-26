@@ -10,6 +10,9 @@ const Restaurant = function ( Restaurant ) {
     this.description = Restaurant.description;
     this.timings = Restaurant.timings;
     this.pictures = Restaurant.pictures;
+    this.curbside_pickup = Restaurant.curbside_pickup;
+    this.dine_in = Restaurant.dine_in;
+    this.delivery = Restaurant.delivery;
     this.password = Restaurant.password
 };
 
@@ -96,23 +99,38 @@ Restaurant.findById = ( req, result ) => {
     } );
 };
 
-Restaurant.getAll = result => {
-    sql.query( "SELECT * FROM restaurants", ( err, res ) => {
+Restaurant.getAll = ( req, result ) => {
+    sql.query( "SELECT r.id, r.name, r.location, r.email, r.phone_no, r.description, r.timings, r.curbside_pickup, r.dine_in, r.delivery, ri.image FROM restaurants r LEFT JOIN restaurant_images ri on r.id = ri.restaurant_id", ( err, res ) => {
         if ( err ) {
             console.log( "error: ", err );
             result( null, err );
             return;
         }
+        if ( res.length ) {
+            const filtered_data = [];
+            const map = new Map();
+            for ( const item of res ) {
+                if ( !map.has( item.id ) ) {
+                    map.set( item.id, true );
+                    filtered_data.push( item );
+                }
+            }
 
+            result( null, filtered_data );
+            return
+        }
         console.log( "Restaurants: ", res );
         result( null, res );
     } );
 };
 
 Restaurant.updateById = ( id, Restaurant, result ) => {
+    Restaurant.curbside_pickup = Restaurant.curbside_pickup ? 1 : 0
+    Restaurant.dine_in = Restaurant.dine_in ? 1 : 0
+    Restaurant.delivery = Restaurant.delivery ? 1 : 0
     sql.query(
-        "UPDATE restaurants SET name = ?, email = ?, location = ?, phone_no = ?, description = ?, timings = ? WHERE id = ?",
-        [ Restaurant.name, Restaurant.email, Restaurant.location, Restaurant.phone_no, Restaurant.description, Restaurant.timings, id ],
+        "UPDATE restaurants SET name = ?, email = ?, location = ?, phone_no = ?, description = ?, timings = ?, curbside_pickup = ?, dine_in = ?, delivery = ? WHERE id = ?",
+        [ Restaurant.name, Restaurant.email, Restaurant.location, Restaurant.phone_no, Restaurant.description, Restaurant.timings, parseInt( Restaurant.curbside_pickup, 10 ), parseInt( Restaurant.dine_in, 10 ), parseInt( Restaurant.delivery, 10 ), id ],
         ( err, res ) => {
             if ( err ) {
                 console.log( "error: ", err );
@@ -159,6 +177,21 @@ Restaurant.addPictures = ( id, files, result ) => {
         return
     }
 };
+
+Restaurant.findOneImageById = ( req, result ) => {
+    sql.query( `SELECT * FROM restaurant_images WHERE restaurant_id = \'${ req.params.id }\'`, ( err, res ) => {
+        if ( err ) {
+            console.log( "error: ", err );
+            result( null, err );
+            return;
+        }
+        if ( res.length ) {
+            result( null, res[ 0 ] );
+            return
+        }
+        result( null, res );
+    } );
+}
 
 Restaurant.remove = ( email, result ) => {
     sql.query( "DELETE FROM restaurants WHERE email = ?", email, ( err, res ) => {

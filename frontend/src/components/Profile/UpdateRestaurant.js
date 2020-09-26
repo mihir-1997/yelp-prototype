@@ -16,6 +16,21 @@ export default class UpdateRestaurant extends Component {
         this.setState( { [ item.target.name ]: item.target.value } );
     }
 
+    onChangeCurbside = item => {
+        console.log( item.target.name )
+        console.log( this.state.curbside_pickup )
+        this.setState( { curbside_pickup: !this.state.curbside_pickup } );
+        console.log( this.state.curbside_pickup )
+    }
+
+    onChangeDineIn = item => {
+        this.setState( { dine_in: !this.state.dine_in } );
+    }
+
+    onChangeDelivery = item => {
+        this.setState( { delivery: !this.state.delivery } );
+    }
+
     update = item => {
         item.preventDefault()
         if ( this.state.error === "" ) {
@@ -25,7 +40,10 @@ export default class UpdateRestaurant extends Component {
                 phone_no: this.state.phone_no,
                 location: this.state.location,
                 description: this.state.description,
-                timings: this.state.timings
+                timings: this.state.timings,
+                curbside_pickup: this.state.curbside_pickup,
+                dine_in: this.state.dine_in,
+                delivery: this.state.delivery
             }
             let id = localStorage.getItem( "id" )
             axios.defaults.withCredentials = true;
@@ -90,6 +108,14 @@ export default class UpdateRestaurant extends Component {
                             <div className="col-2">Timings</div>
                             <div className="col-10">
                                 <input type="text" className="form-control" name="timings" placeholder="Timings" onChange={ this.onChange } value={ this.state.timings } />
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <div className="col-2">Select all that apply</div>
+                            <div className="col-10">
+                                <input type="checkbox" name="curbside_pickup" value="curbside" onChange={ this.onChangeCurbside } checked={ !!this.state.curbside_pickup } /><span> Curbside Pickup    </span>
+                                <input type="checkbox" name="dine_in" value="open" onChange={ this.onChangeDineIn } checked={ !!this.state.dine_in } /><span> Dine In    </span>
+                                <input type="checkbox" name="delivery" value="delivey" onChange={ this.onChangeDelivery } checked={ !!this.state.delivery } /><span> Yelp Delivery  </span>
                             </div>
                         </div>
                         <div className="form-group row">

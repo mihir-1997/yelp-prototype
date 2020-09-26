@@ -12,7 +12,8 @@ export default class Dish extends Component {
             description: this.props.dish.description,
             price: this.props.dish.price,
             category: this.props.dish.category,
-            image: this.props.dish.image
+            image: this.props.dish.image,
+            orderButton: this.props.orderButton
         }
     }
 
@@ -32,10 +33,13 @@ export default class Dish extends Component {
                                 </div>
                             </div>
                             <div className="row dishingredients">
-                                { this.state.ingredients }
+                                <strong>Ingredients:</strong>&nbsp;{ this.state.ingredients }
                             </div>
                             <div className="row dishdescription">
-                                { this.state.description }
+                                <strong>Description:</strong>&nbsp;{ this.state.description }
+                            </div>
+                            <div className="row dishcategory">
+                                <strong>Category:</strong>&nbsp;{ this.state.category }
                             </div>
                         </div>
                     </div>
@@ -43,6 +47,11 @@ export default class Dish extends Component {
                         <div className="row dishprice">
                             ${ this.state.price }
                         </div>
+                        { this.state.orderButton ?
+                            <div className="row">
+                                <button type="button" className="btn btn-primary orderbutton">Order</button>
+                            </div>
+                            : null }
                     </div>
                 </div>
             </div>

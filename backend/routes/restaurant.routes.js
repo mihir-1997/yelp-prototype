@@ -7,7 +7,7 @@ module.exports = app => {
     } );
 
     // Retrieve all Restaurants
-    app.get( "/Restaurants", ( req, res ) => {
+    app.get( "/getAllRestaurants", ( req, res ) => {
         Restaurants.findAll( req, res )
     } );
 
@@ -25,6 +25,11 @@ module.exports = app => {
     app.put( "/updaterestaurant/:id", ( req, res ) => {
         console.log( `update` )
         Restaurants.update( req, res )
+    } );
+
+    // Retrieve a single Restaurant with RestaurantsId
+    app.get( "/getrestaurantimage/:id", ( req, res ) => {
+        Restaurants.findOneImageById( req, res )
     } );
 
     // Delete a Restaurant with RestaurantEmail

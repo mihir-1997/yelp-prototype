@@ -20,27 +20,28 @@ export class NavBar extends Component {
     }
     render () {
         let redirectVar = null
-        if ( !localStorage.getItem( "email" ) ) {
+        if ( !localStorage.getItem( "active" ) && this.props.location.pathname !== "/register" ) {
             redirectVar = <Redirect to="/login" />
-            return null
+            return redirectVar
         } else {
             return (
                 < div >
                     { redirectVar }
-                    { localStorage.getItem( "active" ) === "user" ?
-                        <nav className="navbar navbar-expand-lg rounded">
+                    { localStorage.getItem( "active" ) === "user" &&
+                        <nav className="navbar navbar-default navbar-fixed-top navbar-expand-lg rounded">
                             <a className="navbar-brand" href="/userprofile">
                                 <img src={ Yelp_Logo } width="60" height="30" alt="" />
                             </a>
                             <ul className="navbar-nav ml-auto">
-                                <li className="nav-item"><a className="nav-link" href="#home">Home</a></li>
+                                <li className="nav-item"><a className="nav-link" href="/userdashboard">Home</a></li>
                                 <li className="nav-item"><a className="nav-link" href="#orders">Orders</a></li>
                                 <li className="nav-item"><a className="nav-link" href="#events">Events</a></li>
-                                <li className="nav-item"><a className="nav-link" href="#profile">Profile</a></li>
+                                <li className="nav-item"><a className="nav-link" href="/userprofile">Profile</a></li>
                                 <button type="button" className="logout-button" onClick={ this.handleLogout }>Log Out</button>
                             </ul>
                         </nav>
-                        :
+                    }
+                    {localStorage.getItem( "active" ) === "restaurant" &&
                         <nav className="navbar navbar-expand-lg rounded">
                             <a className="navbar-brand" href="/restaurantHome">
                                 <img src={ Yelp_Logo } width="60" height="30" alt="" />

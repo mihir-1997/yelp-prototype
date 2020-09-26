@@ -9,18 +9,18 @@ export default class Review extends Component {
             restaurant_id: this.props.review.restaurant_id,
             review_text: this.props.review.review_text,
             ratings: this.props.review.ratings,
-            date: this.props.review.date,
+            date: this.props.review.date.split( "T" )[ 0 ],
             restaurant_name: this.props.review.name,
             restaurant_location: this.props.review.location,
             user_name: this.props.review.name,
             user_city: this.props.review.city,
             user_state: this.props.review.state,
+            active: this.props.active
         }
     }
     render () {
-        let selected = localStorage.getItem( "active" )
         var EachReview = null
-        if ( selected === "user" ) {
+        if ( this.state.active === "user" ) {
             EachReview = () => {
                 return (
                     <div className="row">

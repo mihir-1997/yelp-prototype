@@ -8,19 +8,20 @@ export default class Reviews extends Component {
     constructor( props ) {
         super( props )
         this.state = {
+            id: this.props.id,
+            active: this.props.active,
             reviews: []
         }
     }
 
     componentDidMount () {
 
-        const selected = localStorage.getItem( "active" )
-        if ( selected ) {
-            if ( selected === "user" ) {
-                axios.defaults.withCredentials = true;
-                let id = localStorage.getItem( "id" )
-                if ( id ) {
-                    axios.get( "http://localhost:3001/reviewsForUsers/" + id )
+        // const selected = localStorage.getItem( "active" )
+        if ( this.state.active ) {
+            if ( this.state.active === "user" ) {
+                axios.defaults.withCredentials = true
+                if ( this.state.id ) {
+                    axios.get( "http://localhost:3001/reviewsForUsers/" + this.state.id )
                         .then( ( res ) => {
                             if ( res.status === 200 ) {
                                 this.setState( {
@@ -45,10 +46,8 @@ export default class Reviews extends Component {
                 }
             } else {
                 axios.defaults.withCredentials = true;
-                let id = localStorage.getItem( "id" )
-                if ( id ) {
-                    console.log( id )
-                    axios.get( "http://localhost:3001/reviewsForRestaurants/" + id )
+                if ( this.state.id ) {
+                    axios.get( "http://localhost:3001/reviewsForRestaurants/" + this.state.id )
                         .then( ( res ) => {
                             if ( res.status === 200 ) {
                                 this.setState( {
@@ -82,7 +81,7 @@ export default class Reviews extends Component {
                     <h2>Reviews</h2>
                 </div>
                 {this.state.reviews.map( ( review, index ) => {
-                    return <Review review={ review } key={ index } />
+                    return <Review review={ review } active={ this.state.active } key={ index } />
                 } ) }
             </div>
         )

@@ -5,6 +5,7 @@
 .dishname {
     color: #0073bb;
     margin: 3px 0;
+    font-size: large
 }   
 
 .dishingredients {
@@ -17,6 +18,14 @@
 }
 
 .dishimage {
-    height: 80px;
-    width: 90px;
+    height: 110px;
+    width: 130px;
+}
+
+.bold-writing {
+    font-weight: bold;
+}
+
+.orderbutton {
+    margin-top: 5px;
 }

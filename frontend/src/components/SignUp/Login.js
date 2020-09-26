@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Redirect } from 'react-router';
 // import { Link } from 'react-router-dom'
 import './Signup.css'
 
@@ -45,7 +46,7 @@ export class Login extends Component {
                         localStorage.setItem( "id", res.data.id )
                         localStorage.setItem( "active", "user" )
                         console.log( "User Loggedin successfully" )
-                        window.location.assign( '/userprofile' )
+                        window.location.assign( '/userdashboard' )
                     }
                 } )
                 .catch( ( err ) => {
@@ -92,67 +93,70 @@ export class Login extends Component {
     }
 
     render () {
+        let redirectVar = null
         if ( localStorage.getItem( "email" ) && localStorage.getItem( "active" ) === "user" ) {
-            window.location.assign( '/userprofile' )
+            redirectVar = <Redirect to="/userDashboard" />
+            return redirectVar
         } else if ( localStorage.getItem( "email" ) && localStorage.getItem( "active" ) === "restaurant" ) {
-            window.location.assign( '/restaurantprofile' )
+            redirectVar = <Redirect to="/restaurantprofile" />
+            return redirectVar
         }
         return (
-            <div className="login" style={ this.loginContainer }>
-                <h3>Login</h3>
-                <input
-                    type="radio"
-                    name="selected"
-                    onChange={ this.radioChange }
-                    value="user"
-                    required />
-                <label
-                    htmlFor="user">Customer</label>
-                <input
-                    type="radio"
-                    name="selected"
-                    onChange={ this.radioChange }
-                    value="restaurant"
-                    required />
-                <label
-                    htmlFor="restaurant">Restaurant</label>
-                <form>
-                    <div className="form-group">
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            value={ this.state.email }
-                            onChange={ this.onChange }
-                            required />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            onChange={ this.onChange }
-                            value={ this.state.password }
-                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{ 8,}"
-                            title="Password must contain lowercase, uppercase, digits and of minumim length of 8"
-                            required />
-                    </div>
+            <div>
+                { redirectVar }
+                <div className="login" style={ this.loginContainer }>
+                    <h3>Login</h3>
+                    <input
+                        type="radio"
+                        name="selected"
+                        onChange={ this.radioChange }
+                        value="user"
+                        required />
+                    <label
+                        htmlFor="user">Customer</label>
+                    <input
+                        type="radio"
+                        name="selected"
+                        onChange={ this.radioChange }
+                        value="restaurant"
+                        required />
+                    <label
+                        htmlFor="restaurant">Restaurant</label>
+                    <form>
+                        <div className="form-group">
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                value={ this.state.email }
+                                onChange={ this.onChange }
+                                required />
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                onChange={ this.onChange }
+                                value={ this.state.password }
+                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{ 8,}"
+                                title="Password must contain lowercase, uppercase, digits and of minumim length of 8"
+                                required />
+                        </div>
 
-                    <button
-                        type="submit"
-                        id="submit"
-                        className="btn btn-success"
-                        onClick={ this.login }>Login</button>
-                </form>
-                <button
-                    type="button"
-                    id="register"
-                    onClick={ this.register }
-                    className="btn btn-primary">Register</button>
-                <div className="row">
-                    <p id="error">{ this.state.error }</p>
-                </div>
-            </div >
+                        <button
+                            type="submit"
+                            id="submit"
+                            className="btn login-button"
+                            onClick={ this.login }>Login</button>
+                    </form>
+                    <br />
+                    <a href="/register"> Don't have account? Sign up</a>
+                    <div className="row">
+                        <p id="error">{ this.state.error }</p>
+                    </div>
+                </div >
+            </div>
         )
     }
 

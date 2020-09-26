@@ -153,15 +153,12 @@ export class register extends Component {
                     <button
                         type="submit"
                         id="submit"
-                        className="btn btn-success"
+                        className="btn login-button"
                     >Register</button>
                 </form>
 
-                <button
-                    type="button"
-                    id="login"
-                    onClick={ this.login }
-                    className="btn btn-primary">Login</button>
+                <br />
+                <a href="/login"> Already have an account? Login</a>
                 <div className="row">
                     <p id="error">{ this.state.error }</p>
                 </div>

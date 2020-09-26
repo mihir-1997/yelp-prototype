@@ -1,0 +1,25 @@
+.each-restaurant {
+    margin: 10px 2px;
+    padding: 10px 10px 10px 0px;
+    border: 1px #E8E8E8 solid;
+    height: 150px;
+    box-shadow: 1px 1px  gray;
+}
+
+.each-restaurant:hover {
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+.each-restaurant-image {
+    height: 100px;
+    width: 120px;
+}
+
+.contactinfo {
+    font-size: small;
+}
+
+.restaurant-description {
+    font-weight: bold;
+}

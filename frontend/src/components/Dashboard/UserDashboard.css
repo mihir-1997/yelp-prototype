@@ -1,0 +1,52 @@
+.dashboard-wrapper {
+    margin: 2% 0;
+}
+
+.restaurant-search-bar {
+    padding-bottom: 3%;
+    border-bottom: 1px lightgray solid;
+}
+
+.below-restaurant-search-bar {
+    margin: 2% 2% 0;
+}
+
+/* .restaurant-search {
+    position: fixed;
+} */
+
+.searchOptions {
+    height: 35px
+}
+
+.searchrestaurant {
+    width: 75%;
+    height: 35px
+}
+
+.searchsubmit {
+    height: 35px;
+    /*width: 48px;
+    padding: 0px; */
+    /* background-image: url("../../Images/Search.png") no-repeat; */
+    /* background-color: #f43939; */
+}
+
+.filters-wrapper {
+    padding-right: 20px;
+    
+}
+
+.all-filters {
+    height: 100%;
+    border-right: 1px gray solid;
+}
+
+.delivery_filters {
+    margin-top: 20px;
+    font-size: small;
+}
+
+.restaurants {
+    margin-top: 20px;
+}

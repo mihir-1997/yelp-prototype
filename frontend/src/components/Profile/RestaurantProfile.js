@@ -20,6 +20,9 @@ export default class RestaurantProfile extends Component {
             description: "",
             timings: "",
             pictures: [],
+            curbside_pickup: false,
+            dine_in: false,
+            delivery: false,
             selected: "",
             radioShow: false,
             showPopup: false
@@ -41,6 +44,9 @@ export default class RestaurantProfile extends Component {
                             location: res.data.location,
                             description: res.data.description,
                             timings: res.data.timings,
+                            curbside_pickup: res.data.curbside_pickup,
+                            dine_in: res.data.dine_in,
+                            delivery: res.data.delivery,
                             pictures: res.data.pictures
                         } )
                     }
@@ -182,7 +188,7 @@ export default class RestaurantProfile extends Component {
                         </div>
                     </div>
                     <div className="row h-70">
-                        <div className="col-8">
+                        <div className="col-10">
                             <div className="row dish-heading">
                                 <h2>Dishes</h2>
                             </div>
@@ -196,13 +202,13 @@ export default class RestaurantProfile extends Component {
                                 </div>
                                 <div className="col-4"></div>
                             </div>
-                            <div className="row dishes">
-                                <Dishes radioShow={ this.state.radioShow }></Dishes>
-                            </div>
+                            {/* <div className="row dishes"> */ }
+                            <Dishes id={ localStorage.getItem( "id" ) } radioShow={ this.state.radioShow } orderButton={ false }></Dishes>
+                            {/* </div> */ }
                         </div>
-                        <div className="col-4">
+                        <div className="col-2">
                             <div className="row">
-                                <Reviews />
+                                <Reviews id={ localStorage.getItem( "id" ) } active={ localStorage.getItem( "active" ) } />
                             </div>
                         </div>
                     </div>

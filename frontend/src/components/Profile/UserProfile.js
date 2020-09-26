@@ -166,7 +166,7 @@ export class UserProfile extends Component {
                                     <Modal />
                                 </div>
                             </div>
-                            <Reviews />
+                            <Reviews id={ localStorage.getItem( "id" ) } active={ localStorage.getItem( "active" ) } />
                         </div>
                     </div>
                 </div >

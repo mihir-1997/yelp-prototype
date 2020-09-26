@@ -11,15 +11,16 @@ export default class Dishes extends Component {
     constructor( props ) {
         super( props )
         this.state = {
+            id: this.props.id,
             dishes: [],
+            orderButton: this.props.orderButton
         }
     }
 
     componentDidMount () {
         axios.defaults.withCredentials = true;
-        let id = localStorage.getItem( "id" )
-        if ( id ) {
-            axios.get( "http://localhost:3001/dishes/" + id )
+        if ( this.state.id ) {
+            axios.get( "http://localhost:3001/dishes/" + this.state.id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -57,13 +58,15 @@ export default class Dishes extends Component {
                     { this.state.dishes.map( dish => {
                         return (
                             <div className="row" key={ dish.id + "div-row" }>
-                                <div className="col-1" key={ dish.id + "col-1" }>
-                                    <div style={ { marginTop: "70%" } }>
-                                        { this.props.radioShow ? <UpdateDish dish={ dish } /> : null }
+                                {this.state.orderButton ? null :
+                                    <div className="col-1" key={ dish.id + "col-1" }>
+                                        <div style={ { marginTop: "70%" } }>
+                                            { this.props.radioShow ? <UpdateDish dish={ dish } /> : null }
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-11">
-                                    <Dish dish={ dish }></Dish>
+                                }
+                                <div className="col">
+                                    <Dish dish={ dish } orderButton={ this.state.orderButton }></Dish>
                                 </div>
                             </div>
                         )

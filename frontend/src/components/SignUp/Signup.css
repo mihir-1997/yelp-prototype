@@ -1,6 +1,8 @@
-h3 {
+.login h3,
+.register h3 {
     text-align: center;
     margin: 5%;
+    color: #f43939
 }
 
 div.login, 
@@ -30,4 +32,13 @@ p {
 
 label {
     margin: 0px 15px 15px 7px;
+}
+
+.login-button {
+    background-color: #f43939;
+    color:white
+}
+
+.login-button:hover {
+    color: white;
 }

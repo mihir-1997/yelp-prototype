@@ -16,6 +16,9 @@ module.exports = app => {
         reviews.findAllForRestaurants( req, res )
     } );
 
+    app.get( "/averageRatingsForRestaurant/:id", ( req, res ) => {
+        reviews.averageRatingsForRestaurant( req, res )
+    } );
     // Retrieve a single reviews with reviewsEmail
     // app.post( "/loginreviews", ( req, res ) => {
     //     reviews.findOne( req, res )

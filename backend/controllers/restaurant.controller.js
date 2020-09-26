@@ -18,6 +18,9 @@ exports.create = ( req, res ) => {
         phone_no: req.body.phone_no,
         description: req.body.description,
         timings: req.body.timings,
+        curbside_pickup: req.body.curbside_pickup,
+        dine_in: req.body.dine_in,
+        delivery: req.body.delivery,
         password: hashedPassword
     } );
 
@@ -96,6 +99,25 @@ exports.findOneById = ( req, res ) => {
     } );
 };
 
+// find all restaurants
+exports.findAll = ( req, res ) => {
+    Restaurant.getAll( req, ( err, data ) => {
+        if ( err ) {
+            if ( err.kind === "not_found" ) {
+                res.status( 404 ).send( {
+                    message: `No restaurant found`
+                } );
+                return
+            } else {
+                res.status( 500 ).send( {
+                    message: "Error retrieving restaurant"
+                } );
+                return
+            }
+        } else res.send( data );
+    } );
+};
+
 // update one Restaurant by id
 exports.update = ( req, res ) => {
     // validate Request
@@ -149,6 +171,30 @@ exports.addPictures = ( req, res ) => {
             } else res.send( data );
         }
     );
+}
+
+exports.findOneImageById = ( req, res ) => {
+    if ( !req.params.id ) {
+        res.status( 400 ).send( {
+            message: "Please provide Id"
+        } );
+        return
+    }
+    Restaurant.findOneImageById( req, ( err, data ) => {
+        if ( err ) {
+            if ( err.kind === "not_found" ) {
+                res.status( 404 ).send( {
+                    message: `No restaurant found`
+                } );
+                return
+            } else {
+                res.status( 500 ).send( {
+                    message: "Error retrieving restaurant"
+                } );
+                return
+            }
+        } else res.send( data );
+    } );
 }
 
 // delete one Restaurant by id

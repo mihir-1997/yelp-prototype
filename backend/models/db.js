@@ -15,4 +15,16 @@ connection.connect( error => {
     console.log( "Successfully connected to the database." );
 } );
 
+// To handle "ECONNRESET" (Keep mysql connection alive)
+function keepAlive () {
+    connection.query( "select 1", ( err, res ) => {
+        if ( err ) {
+            console.log( "Keepalive error: ", err );
+            return;
+        }
+        console.log( res )
+    } );
+}
+setInterval( keepAlive, 300000 )
+
 module.exports = connection;
