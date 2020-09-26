@@ -22,6 +22,7 @@ exports.create = ( req, res ) => {
         price: req.body.price,
         description: req.body.description,
         category: req.body.category,
+        cuisine: req.body.cuisine,
         image: image_path
     } );
 

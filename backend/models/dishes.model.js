@@ -8,6 +8,7 @@ const Dish = function ( Dish ) {
     this.price = Dish.price;
     this.description = Dish.description;
     this.category = Dish.category;
+    this.cuisine = Dish.cuisine;
     this.image = Dish.image;
 };
 
@@ -116,8 +117,8 @@ Dish.updateById = ( id, req, result ) => {
         image_path = req.body.file
     }
     sql.query(
-        "UPDATE dishes SET name = ?, ingredients = ?, price = ?, description = ?, category = ?, image = ? WHERE id = ?",
-        [ req.body.name, req.body.ingredients, req.body.price, req.body.description, req.body.category, image_path, id ],
+        "UPDATE dishes SET name = ?, ingredients = ?, price = ?, description = ?, category = ?, image = ?, cuisine = ? WHERE id = ?",
+        [ req.body.name, req.body.ingredients, req.body.price, req.body.description, req.body.category, image_path, req.body.cuisine, id ],
         ( err, res ) => {
             if ( err ) {
                 console.log( "error: ", err );

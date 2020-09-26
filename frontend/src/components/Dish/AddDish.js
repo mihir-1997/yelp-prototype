@@ -95,6 +95,12 @@ export default class AddDish extends Component {
                             </div>
                         </div>
                         <div className="form-group row">
+                            <div className="col-2">Cuisine</div>
+                            <div className="col-10">
+                                <input type="text" className="form-control" name="cuisine" onChange={ this.onChange } value={ this.state.cuisine } />
+                            </div>
+                        </div>
+                        <div className="form-group row">
                             <div className="col-2">Price<span className="required-field">*</span></div>
                             <div className="col-10">
                                 <input type="number" className="form-control" name="price" min="0" onChange={ this.onChange } value={ this.state.price } required />

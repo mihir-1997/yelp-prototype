@@ -30,6 +30,7 @@ export default class UpdateDish extends Component {
             formData.append( 'description', this.state.description )
             formData.append( 'price', this.state.price )
             formData.append( 'category', this.state.category )
+            formData.append( 'cuisine', this.state.cuisine )
             const config = {
                 headers: {
                     'content-type': 'multipart/form-data'
@@ -85,6 +86,12 @@ export default class UpdateDish extends Component {
                             <div className="col-2">Description</div>
                             <div className="col-10">
                                 <input type="text" className="form-control" name="description" onChange={ this.onChange } value={ this.state.description } />
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <div className="col-2">Cuisine</div>
+                            <div className="col-10">
+                                <input type="text" className="form-control" name="cuisine" onChange={ this.onChange } value={ this.state.cuisine } />
                             </div>
                         </div>
                         <div className="form-group row">

@@ -99,7 +99,7 @@ class UserDashboard extends Component {
                     <div className="col-9 restaurant-search">
                         <form>
                             <select name="selectedOption" id="searchOptions" className="searchOptions" onChange={ this.onChange }>
-                                <option name="searchByName" value="">--select category--</option>
+                                <option name="searchByName" value="">Search By...</option>
                                 <option name="searchByName" value="dish">Dish</option>
                                 <option name="searchByName" value="cuisine">Cuisine</option>
                                 <option name="searchByName" value="location">Location</option>
