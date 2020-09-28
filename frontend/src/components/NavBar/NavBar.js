@@ -34,7 +34,7 @@ export class NavBar extends Component {
                             </a>
                             <ul className="navbar-nav ml-auto">
                                 <li className="nav-item"><a className="nav-link" href="/userdashboard">Home</a></li>
-                                <li className="nav-item"><a className="nav-link" href="#orders">Orders</a></li>
+                                <li className="nav-item"><a className="nav-link" href="/userorders">Orders</a></li>
                                 <li className="nav-item"><a className="nav-link" href="#events">Events</a></li>
                                 <li className="nav-item"><a className="nav-link" href="/userprofile">Profile</a></li>
                                 <button type="button" className="logout-button" onClick={ this.handleLogout }>Log Out</button>
@@ -47,8 +47,8 @@ export class NavBar extends Component {
                                 <img src={ Yelp_Logo } width="60" height="30" alt="" />
                             </a>
                             <ul className="navbar-nav ml-auto">
-                                <li className="nav-item"><a className="nav-link" href="#home">Home</a></li>
-                                <li className="nav-item"><a className="nav-link" href="#orders">Orders</a></li>
+                                <li className="nav-item"><a className="nav-link" href="/restaurantprofile">Home</a></li>
+                                <li className="nav-item"><a className="nav-link" href="/restaurantorders">Orders</a></li>
                                 <li className="nav-item"><a className="nav-link" href="#events">Events</a></li>
                                 <button type="button" className="logout-button" onClick={ this.handleLogout }>Log Out</button>
                             </ul>

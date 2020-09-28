@@ -30,3 +30,22 @@
 .menu-title {
     margin-top: 3%
 }
+
+.restaurantratings:after{
+    content: "";
+    display: block;
+    background: url("../../Images/Star.png") no-repeat center;
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin: 4px 0 0 4px;
+}
+
+.delivery-selection {
+    margin-top: 20px;
+}
+
+.select-delivery {
+    color: red;
+    margin-left: 15px;
+}

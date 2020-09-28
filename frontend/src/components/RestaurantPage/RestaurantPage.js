@@ -18,7 +18,9 @@ export default class RestaurantPage extends Component {
             description: "",
             timings: "",
             pictures: [],
-            avgRatings: ""
+            avgRatings: "",
+            deliveryOption: "",
+            error: ""
         }
     }
 
@@ -72,6 +74,48 @@ export default class RestaurantPage extends Component {
         }
     }
 
+    onOrder = ( dishId, dishPrice ) => {
+        if ( this.state.deliveryOption ) {
+            const orderData = {
+                restaurant_id: this.state.id,
+                user_id: localStorage.getItem( "id" ),
+                dish_id: dishId,
+                total: dishPrice,
+                delivery_option: this.state.deliveryOption
+            }
+            axios.defaults.withCredentials = true;
+            axios.post( "http://localhost:3001/createOrder", orderData )
+                .then( ( res ) => {
+                    if ( res.status === 200 ) {
+                        this.setState( {
+                            error: ""
+                        } )
+                        window.alert( "ordered" )
+                        setTimeout( function () {
+                            // let orderPopup = document.getElementsByClassName( "ordered" )
+                            // $("#live-chat").css({ "display" : "block" });
+                            // }, 30000);
+                        } )
+                    }
+                } )
+                .catch( ( err ) => {
+                    if ( err.response ) {
+                        console.log( err.response )
+                        return
+                    }
+                    return
+                } )
+        } else {
+            this.setState( {
+                error: "Please select delivery option"
+            } )
+        }
+    }
+
+    onChange = item => {
+        this.setState( { [ item.target.name ]: item.target.value } );
+    }
+
     render () {
         return (
             <div>
@@ -103,7 +147,15 @@ export default class RestaurantPage extends Component {
                                         <h4>Our Offerings!</h4>
                                     </div>
                                 </div>
-                                <Dishes id={ this.state.id } radioShow={ false } orderButton={ true }></Dishes>
+                                <div className="row delivery-selection">
+                                    <select name="deliveryOption" id="deliveryOptions" className="deliveryOptions" onChange={ this.onChange }>
+                                        <option name="deliveryByName" value="">Select Delivery</option>
+                                        <option name="deliveryByName" value="pickup">Pickup</option>
+                                        <option name="deliveryByName" value="delivery">Delivery</option>
+                                    </select>
+                                    <span className="select-delivery">{ this.state.error }</span>
+                                </div>
+                                <Dishes id={ this.state.id } radioShow={ false } orderButton={ true } onOrder={ this.onOrder }></Dishes>
                             </div>
                         </div>
                         <div className="col-2">

@@ -14,8 +14,12 @@ export default class Dish extends Component {
             category: this.props.dish.category,
             image: this.props.dish.image,
             cuisine: this.props.dish.cuisine,
-            orderButton: this.props.orderButton
+            orderButton: this.props.orderButton,
         }
+    }
+
+    onOrder = () => {
+        this.props.onOrder( this.state.id, this.state.price )
     }
 
     render () {
@@ -53,7 +57,7 @@ export default class Dish extends Component {
                         </div>
                         { this.state.orderButton ?
                             <div className="row">
-                                <button type="button" className="btn btn-primary orderbutton">Order</button>
+                                <button type="button" className="btn btn-primary orderbutton" onClick={ this.onOrder }>Order</button>
                             </div>
                             : null }
                     </div>

@@ -25,6 +25,6 @@ function keepAlive () {
         console.log( res )
     } );
 }
-setInterval( keepAlive, 300000 )
+setInterval( keepAlive, 30000 )
 
 module.exports = connection;

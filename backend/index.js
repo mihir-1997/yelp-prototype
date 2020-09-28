@@ -47,6 +47,9 @@ require( "./routes/dishes.routes" )( app );
 // reviews routes
 require( "./routes/reviews.routes" )( app );
 
+// orders routes
+require( "./routes/orders.routes" )( app );
+
 const storage = multer.diskStorage( {
     // destination: '/uploads/',
     destination: function ( req, file, cb ) {
