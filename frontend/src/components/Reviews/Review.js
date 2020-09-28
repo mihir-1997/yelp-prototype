@@ -11,7 +11,10 @@ export default class Review extends Component {
             ratings: this.props.review.ratings,
             date: this.props.review.date.split( "T" )[ 0 ],
             restaurant_name: this.props.review.name,
-            restaurant_location: this.props.review.location,
+            restaurant_address: this.props.review.restaurant_address,
+            restaurant_city: this.props.review.restaurant_city,
+            restaurant_state: this.props.review.restaurant_state,
+            restaurant_zipcode: this.props.review.restaurant_zipcode,
             user_name: this.props.review.name,
             user_city: this.props.review.city,
             user_state: this.props.review.state,
@@ -26,8 +29,8 @@ export default class Review extends Component {
                     <div className="row">
                         <div className="col">
                             <h4>{ this.state.restaurant_name }</h4>
+                            { this.state.restaurant_address }, { this.state.restaurant_city }, { this.state.restaurant_state } { this.state.restaurant_zipcode }<br />
                             { this.state.date }<br />
-                            { this.state.restaurant_location }<br />
                             { this.state.ratings }<br />
                             { this.state.review_text }
                         </div>

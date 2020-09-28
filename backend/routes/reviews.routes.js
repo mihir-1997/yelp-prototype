@@ -1,10 +1,10 @@
 module.exports = app => {
     const reviews = require( "../controllers/reviews.controller.js" );
 
-    // Create a new reviews
-    // app.post( "/registerreviews", ( req, res ) => {
-    //     reviews.create( req, res )
-    // } );
+    // Create a new review
+    app.post( "/createreview", ( req, res ) => {
+        reviews.create( req, res )
+    } );
 
     // Retrieve all reviews for user
     app.get( "/reviewsForUsers/:id", ( req, res ) => {

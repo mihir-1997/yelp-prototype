@@ -49,3 +49,12 @@
     color: red;
     margin-left: 15px;
 }
+
+.red-button {
+    background-color: #f43939;
+    color: white;
+}
+
+.red-button:hover {
+    color: white;
+} 

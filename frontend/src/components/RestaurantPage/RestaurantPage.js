@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import Popup from 'reactjs-popup';
 
 import './RestaurantPage.css'
 import Reviews from '../Reviews/Reviews'
 import Dishes from '../Dish/Dishes'
+import CreateReview from '../Reviews/CreateReview'
 
 export default class RestaurantPage extends Component {
 
@@ -117,6 +119,18 @@ export default class RestaurantPage extends Component {
     }
 
     render () {
+        const overlayStyle = { background: 'rgba(0,0,0,0.5)' };
+        const arrowStyle = { color: '#000' }; // style for an svg element
+        const contentStyle = { background: '#fff' };
+
+        const Modal = () => (
+            <Popup
+                trigger={ <button type="button" className="btn red-button" >Write a Review</button> }
+                { ...{ contentStyle, overlayStyle, arrowStyle } }
+                position="left top">
+                <CreateReview restaurant_id={ this.state.id } />
+            </Popup>
+        );
         return (
             <div>
                 <div className="row picture-scrolling-wrapper">
@@ -129,17 +143,24 @@ export default class RestaurantPage extends Component {
                 <div className="restaurantpage-information">
                     <div className="row">
                         <div className="col-10">
-                            <div className="row restaurantname">
-                                <h2>{ this.state.name }</h2>
-                            </div>
-                            <div className="row restaurantlocation">
-                                { this.state.location }
-                            </div>
-                            <div className="row restaurantratings">
-                                { this.state.avgRatings }
-                            </div>
-                            <div className="row restaurantdescription">
-                                { this.state.description }
+                            <div className="row">
+                                <div className="col-9">
+                                    <div className="row restaurantname">
+                                        <h2>{ this.state.name }</h2>
+                                    </div>
+                                    <div className="row restaurantlocation">
+                                        { this.state.location }
+                                    </div>
+                                    <div className="row restaurantratings">
+                                        { this.state.avgRatings }
+                                    </div>
+                                    <div className="row restaurantdescription">
+                                        { this.state.description }
+                                    </div>
+                                </div>
+                                <div className="col-3">
+                                    <Modal />
+                                </div>
                             </div>
                             <div className="row menu-title">
                                 <div className="row">
