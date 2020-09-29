@@ -29,13 +29,13 @@ export class NavBar extends Component {
                     { redirectVar }
                     { localStorage.getItem( "active" ) === "user" &&
                         <nav className="navbar navbar-default navbar-fixed-top navbar-expand-lg rounded">
-                            <a className="navbar-brand" href="/userprofile">
+                            <a className="navbar-brand" href="/userdashboard">
                                 <img src={ Yelp_Logo } width="60" height="30" alt="" />
                             </a>
                             <ul className="navbar-nav ml-auto">
                                 <li className="nav-item"><a className="nav-link" href="/userdashboard">Home</a></li>
                                 <li className="nav-item"><a className="nav-link" href="/userorders">Orders</a></li>
-                                <li className="nav-item"><a className="nav-link" href="#events">Events</a></li>
+                                <li className="nav-item"><a className="nav-link" href="/events">Events</a></li>
                                 <li className="nav-item"><a className="nav-link" href="/userprofile">Profile</a></li>
                                 <button type="button" className="logout-button" onClick={ this.handleLogout }>Log Out</button>
                             </ul>
@@ -43,13 +43,13 @@ export class NavBar extends Component {
                     }
                     {localStorage.getItem( "active" ) === "restaurant" &&
                         <nav className="navbar navbar-expand-lg rounded">
-                            <a className="navbar-brand" href="/restaurantHome">
+                            <a className="navbar-brand" href="/restaurantprofile">
                                 <img src={ Yelp_Logo } width="60" height="30" alt="" />
                             </a>
                             <ul className="navbar-nav ml-auto">
                                 <li className="nav-item"><a className="nav-link" href="/restaurantprofile">Home</a></li>
                                 <li className="nav-item"><a className="nav-link" href="/restaurantorders">Orders</a></li>
-                                <li className="nav-item"><a className="nav-link" href="#events">Events</a></li>
+                                <li className="nav-item"><a className="nav-link" href="/events">Events</a></li>
                                 <button type="button" className="logout-button" onClick={ this.handleLogout }>Log Out</button>
                             </ul>
                         </nav>

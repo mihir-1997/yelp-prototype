@@ -9,6 +9,8 @@ import RestaurantProfile from "./Profile/RestaurantProfile"
 import RestaurantPage from "./RestaurantPage/RestaurantPage"
 import UsersOrders from "./Orders/UserOrders"
 import RestaurantOrders from "./Orders/RestaurantOrders"
+import Events from './Events/Events'
+import CreateEvent from './Events/CreateEvent'
 
 export class Routes extends Component {
     render () {
@@ -23,6 +25,8 @@ export class Routes extends Component {
                 <Route path="/userorders/" component={ UsersOrders } />
                 <Route path="/restaurantorders/" component={ RestaurantOrders } />
                 <Route path="/restaurantprofile" component={ RestaurantProfile } />
+                <Route path="/events" component={ Events } />
+                <Route path="/createevent" component={ CreateEvent } />
             </div>
         )
     }

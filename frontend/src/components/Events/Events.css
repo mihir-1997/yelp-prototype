@@ -1,0 +1,24 @@
+.create-event-form-wrapper {
+    background-color: lightgray;
+    padding: 4%;
+}
+
+.event {
+    margin: 20px 0px;
+}
+
+.post-event {
+    margin: 2% 0 2% 0;
+}
+.post-event-wrapper {
+    background-color: lightgray;
+}   
+
+.unregistered-event {
+    border-right: 1px gray solid;
+}
+
+.search-event {
+    width: 100%;
+    margin: 4% 0 2% 0;
+}

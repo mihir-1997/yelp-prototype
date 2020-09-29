@@ -50,6 +50,9 @@ require( "./routes/reviews.routes" )( app );
 // orders routes
 require( "./routes/orders.routes" )( app );
 
+// events routes
+require( "./routes/events.routes" )( app );
+
 const storage = multer.diskStorage( {
     // destination: '/uploads/',
     destination: function ( req, file, cb ) {
