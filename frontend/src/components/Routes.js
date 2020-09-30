@@ -21,9 +21,9 @@ export class Routes extends Component {
                 <Route path="/register" component={ Register } />
                 <Route path="/userprofile" component={ UserProfile } />
                 <Route path="/userdashboard" component={ UserDashboard } />
-                <Route path="/restaurant/" component={ RestaurantPage } />
-                <Route path="/userorders/" component={ UsersOrders } />
-                <Route path="/restaurantorders/" component={ RestaurantOrders } />
+                <Route path="/restaurant" component={ RestaurantPage } />
+                <Route path="/userorders" component={ UsersOrders } />
+                <Route path="/restaurantorders" component={ RestaurantOrders } />
                 <Route path="/restaurantprofile" component={ RestaurantProfile } />
                 <Route path="/events" component={ Events } />
                 <Route path="/createevent" component={ CreateEvent } />

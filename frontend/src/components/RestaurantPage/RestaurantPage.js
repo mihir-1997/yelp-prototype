@@ -12,7 +12,7 @@ export default class RestaurantPage extends Component {
     constructor( props ) {
         super( props )
         this.state = {
-            id: this.props.location.state.id,
+            id: "",
             name: "",
             email: "",
             phone_no: "",
@@ -29,8 +29,8 @@ export default class RestaurantPage extends Component {
     componentDidMount () {
         axios.defaults.withCredentials = true;
         let id = localStorage.getItem( "id" )
-        if ( id && this.state.id ) {
-            axios.get( "http://localhost:3001/getrestaurant/" + this.state.id )
+        if ( id && this.props.location.state.id ) {
+            axios.get( "http://localhost:3001/getrestaurant/" + this.props.location.state.id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -54,7 +54,7 @@ export default class RestaurantPage extends Component {
                     }
                 } )
 
-            axios.get( "http://localhost:3001/averageRatingsForRestaurant/" + this.state.id )
+            axios.get( "http://localhost:3001/averageRatingsForRestaurant/" + this.props.location.state.id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -79,7 +79,7 @@ export default class RestaurantPage extends Component {
     onOrder = ( dishId, dishPrice ) => {
         if ( this.state.deliveryOption ) {
             const orderData = {
-                restaurant_id: this.state.id,
+                restaurant_id: this.props.location.state.id,
                 user_id: localStorage.getItem( "id" ),
                 dish_id: dishId,
                 total: dishPrice,
@@ -93,11 +93,6 @@ export default class RestaurantPage extends Component {
                             error: ""
                         } )
                         window.alert( "ordered" )
-                        setTimeout( function () {
-                            // let orderPopup = document.getElementsByClassName( "ordered" )
-                            // $("#live-chat").css({ "display" : "block" });
-                            // }, 30000);
-                        } )
                     }
                 } )
                 .catch( ( err ) => {
@@ -119,6 +114,9 @@ export default class RestaurantPage extends Component {
     }
 
     render () {
+        if ( !this.props.location.state ) {
+            this.props.history.goBack()
+        }
         const overlayStyle = { background: 'rgba(0,0,0,0.5)' };
         const arrowStyle = { color: '#000' }; // style for an svg element
         const contentStyle = { background: '#fff' };
@@ -128,7 +126,7 @@ export default class RestaurantPage extends Component {
                 trigger={ <button type="button" className="btn red-button" >Write a Review</button> }
                 { ...{ contentStyle, overlayStyle, arrowStyle } }
                 position="left top">
-                <CreateReview restaurant_id={ this.state.id } />
+                <CreateReview restaurant_id={ this.props.location.state.id } />
             </Popup>
         );
         return (
@@ -176,11 +174,11 @@ export default class RestaurantPage extends Component {
                                     </select>
                                     <span className="select-delivery">{ this.state.error }</span>
                                 </div>
-                                <Dishes id={ this.state.id } radioShow={ false } orderButton={ true } onOrder={ this.onOrder }></Dishes>
+                                <Dishes id={ this.props.location.state.id } radioShow={ false } orderButton={ true } onOrder={ this.onOrder }></Dishes>
                             </div>
                         </div>
                         <div className="col-2">
-                            <Reviews id={ this.state.id } active="restaurant" />
+                            <Reviews id={ this.props.location.state.id } active="restaurant" />
                         </div>
                     </div>
                 </div>

@@ -109,6 +109,9 @@ export class UserProfile extends Component {
     }
 
     render () {
+        if ( localStorage.getItem( "active" ) !== "user" ) {
+            this.props.history.goBack()
+        }
         if ( localStorage.getItem( "email" ) ) {
             const contentStyle = { background: '#000' };
             const overlayStyle = { background: 'rgba(0,0,0,0.5)' };

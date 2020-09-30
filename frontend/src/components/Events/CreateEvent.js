@@ -66,6 +66,9 @@ export default class CreateEvent extends Component {
     }
 
     render () {
+        if ( localStorage.getItem( "active" ) !== "restaurant" ) {
+            this.props.history.goBack()
+        }
         return (
             <div className="container">
                 <div className="row">

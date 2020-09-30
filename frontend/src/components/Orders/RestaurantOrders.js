@@ -97,6 +97,9 @@ export default class RestaurantOrders extends Component {
     }
 
     render () {
+        if ( localStorage.getItem( "active" ) !== "restaurant" ) {
+            this.props.history.goBack()
+        }
         const contentStyle = { background: '#fff' };
         const overlayStyle = { background: 'rgba(0,0,0,0.5)' };
         const arrowStyle = { color: '#000' }; // style for an svg element

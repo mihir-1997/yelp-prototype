@@ -107,6 +107,9 @@ export default class Orders extends Component {
     }
 
     render () {
+        if ( localStorage.getItem( "active" ) !== "user" ) {
+            this.props.history.goBack()
+        }
         return (
             <div className="container restaurant-orders-wrapper">
                 <div className="row restaurant-orders">

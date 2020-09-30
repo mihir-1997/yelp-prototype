@@ -138,7 +138,9 @@ class UserDashboard extends Component {
     }
 
     render () {
-
+        if ( localStorage.getItem( "active" ) !== "user" ) {
+            this.props.history.goBack()
+        }
         return (
             <div className="dashboard-wrapper">
                 <div className="row restaurant-search-bar">

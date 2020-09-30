@@ -123,6 +123,9 @@ export default class RestaurantProfile extends Component {
     }
 
     render () {
+        if ( localStorage.getItem( "active" ) !== "restaurant" ) {
+            this.props.history.goBack()
+        }
         if ( localStorage.getItem( "email" ) ) {
             // const contentStyle = { background: '#000' };
             const overlayStyle = { background: 'rgba(0,0,0,0.5)' };
