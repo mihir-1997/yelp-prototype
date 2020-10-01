@@ -50,10 +50,11 @@ class Maps extends Component {
                     }
                     bounds={ bounds }
                 >
-                    { this.props.latlongs.map( latlong => {
+                    { this.props.latlongs.map( ( latlong, index ) => {
                         return <Marker
                             onClick={ this.onMarkerClick }
                             name={ latlong.name }
+                            key={ index }
                             position={ { lat: latlong.lat, lng: latlong.lng } }
                         />
                     } ) }

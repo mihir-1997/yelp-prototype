@@ -20,7 +20,7 @@ export default class RestaurantPage extends Component {
             description: "",
             timings: "",
             pictures: [],
-            avgRatings: "",
+            avgRatings: this.props.location.state.avgRatings,
             deliveryOption: "",
             error: ""
         }
@@ -41,24 +41,6 @@ export default class RestaurantPage extends Component {
                             description: res.data.description,
                             timings: res.data.timings,
                             pictures: res.data.pictures
-                        } )
-                    }
-                } )
-                .catch( ( err ) => {
-                    if ( err.response ) {
-                        if ( err.response.status === 404 ) {
-                            console.log( err.response.message )
-                        } else if ( err.response.status === 400 ) {
-                            console.log( err.response.message )
-                        }
-                    }
-                } )
-
-            axios.get( "http://localhost:3001/averageRatingsForRestaurant/" + this.props.location.state.id )
-                .then( ( res ) => {
-                    if ( res.status === 200 ) {
-                        this.setState( {
-                            avgRatings: res.data.ratings
                         } )
                     }
                 } )

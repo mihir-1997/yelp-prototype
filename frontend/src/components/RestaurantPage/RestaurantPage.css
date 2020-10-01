@@ -31,6 +31,12 @@
     margin-top: 3%
 }
 
+.restaurantratings:before {
+    content: "";
+    margin: 0;
+    display: None;
+}
+
 .restaurantratings:after{
     content: "";
     display: block;

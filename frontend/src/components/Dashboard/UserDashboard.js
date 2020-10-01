@@ -29,11 +29,12 @@ class UserDashboard extends Component {
         } )
     }
 
-    onClick = ( data ) => {
+    onClick = ( data, avgRatings ) => {
         return this.props.history.push( {
             pathname: '/restaurant',
             state: {
-                id: data
+                id: data,
+                avgRatings: avgRatings
             }
         } )
     }
@@ -144,50 +145,73 @@ class UserDashboard extends Component {
         return (
             <div className="dashboard-wrapper">
                 <div className="row restaurant-search-bar">
-                    <div className="col-1"></div>
-                    <div className="col-9 restaurant-search">
+                    <div className="col-2"></div>
+                    <div className="col-8 restaurant-search">
                         <form>
-                            <select name="selectedOption" id="searchOptions" className="searchOptions" onChange={ this.onChange }>
-                                <option name="searchByName" value="">Search By...</option>
-                                <option name="searchByName" value="dish">Dish</option>
-                                <option name="searchByName" value="cuisine">Cuisine</option>
-                                <option name="searchByName" value="location">Location</option>
-                                {/* <option name="searchByName" value="deliverymode">Mode of Delivery</option> */ }
-                            </select>
-                            <input type="text" className="searchrestaurant" name="search" value={ this.state.search } onChange={ this.onChange } />
-                            <button type="button" className="searchsubmit" onClick={ this.searchRestaurants }>Search</button>
+                            <div className="form-row">
+                                <div className="form-group col-md-2">
+                                    <select name="selectedOption" id="searchOptions" className="form-control searchOptions" onChange={ this.onChange }>
+                                        <option name="searchByName" value="">Search By...</option>
+                                        <option name="searchByName" value="dish">Dish</option>
+                                        <option name="searchByName" value="cuisine">Cuisine</option>
+                                        <option name="searchByName" value="location">Location</option>
+                                        {/* <option name="searchByName" value="deliverymode">Mode of Delivery</option> */ }
+                                    </select>
+                                </div>
+                                <div className="form-group col-md-8">
+                                    <input type="text" className="form-control searchrestaurant" name="search" value={ this.state.search } onChange={ this.onChange } />
+                                </div>
+                                <div className="form-group col-md-2">
+                                    <button type="button" className="btn searchsubmit" onClick={ this.searchRestaurants }>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-search" width="25" height="25" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <circle cx="10" cy="10" r="7" />
+                                            <line x1="21" y1="21" x2="15" y2="15" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
                         </form>
                     </div>
-                    <div className="col-1"></div>
+                    <div className="col-2"></div>
                 </div>
-                <div className="below-restaurant-search-bar">
-                    <div className="row">
-                        <div className="col-2 filters-wrapper">
-                            <div className="all-filters">
-                                <h5>Filters</h5>
-                                <div className="delivery_filters">
-                                    <input type="checkbox" name="delivery_method" value="curbside_pickup" onChange={ this.onChangeFilter } disabled={ this.state.dine_in || this.state.delivery } /> Curbside Pickup<br />
-                                    <input type="checkbox" name="delivery_method" value="dine_in" onChange={ this.onChangeFilter } disabled={ this.state.curbside_pickup || this.state.delivery } /> Open Now<br />
-                                    <input type="checkbox" name="delivery_method" value="delivery" onChange={ this.onChangeFilter } disabled={ this.state.curbside_pickup || this.state.dine_in } /> Yelp Delivery<br />
+                {/* <div className="below-restaurant-search-bar"> */ }
+                <div className="row">
+                    <div className="col-2 filters-wrapper">
+                        <div className="row filters-heading">
+                            <h5>Filters</h5>
+                        </div>
+                        <div className="row">
+                            <div className="col">
+                                <div className="row suggested-heading">
+                                    Suggested
+                                </div>
+                                <div className="row">
+                                    <div className="delivery_filters">
+                                        <input type="checkbox" name="delivery_method" value="curbside_pickup" onChange={ this.onChangeFilter } disabled={ this.state.dine_in || this.state.delivery } /> Curbside Pickup<br />
+                                        <input type="checkbox" name="delivery_method" value="dine_in" onChange={ this.onChangeFilter } disabled={ this.state.curbside_pickup || this.state.delivery } /> Open Now<br />
+                                        <input type="checkbox" name="delivery_method" value="delivery" onChange={ this.onChangeFilter } disabled={ this.state.curbside_pickup || this.state.dine_in } /> Yelp Delivery<br />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="col-8">
-                            <h2>Restaurants</h2>
-                            <div className="row restaurants">
-                                { this.state.filtered_restaurants.length ?
-                                    this.state.filtered_restaurants.map( ( restaurant, index ) => {
-                                        return <Restaurant restautantData={ restaurant } index={ index } onClick={ this.onClick } key={ index } />
-                                    } )
-                                    : "No restaurants found" }
-                            </div>
+                    </div>
+                    <div className="col-7 restaurants-wrapper">
+                        <h2>Restaurants</h2>
+                        <div className="row restaurants">
+                            { this.state.filtered_restaurants.length ?
+                                this.state.filtered_restaurants.map( ( restaurant, index ) => {
+                                    return <Restaurant restautantData={ restaurant } index={ index } onClick={ this.onClick } key={ index } />
+                                } )
+                                : "No restaurants found" }
                         </div>
-                        <div className="col-2">
-                            <Maps latlongs={ this.state.filtered_latLongs } />
-                        </div>
+                    </div>
+                    <div className="col-3 maps-wrapper">
+                        <Maps latlongs={ this.state.filtered_latLongs } />
                     </div>
                 </div>
             </div>
+            // </div>
         )
     }
 }
