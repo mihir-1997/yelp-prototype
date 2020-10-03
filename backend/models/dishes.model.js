@@ -57,39 +57,15 @@ Dish.findById = ( req, result ) => {
             return;
         }
         if ( res.length ) {
-            console.log( "found Dish: ", res[ 0 ] );
-            let { password, ...alldata } = res[ 0 ]
-            dish = alldata
-            sql.query( `SELECT * FROM dish_images WHERE dish_id = \'${ req.params.id }\'`, ( err, res ) => {
-                if ( err ) {
-                    console.log( "error: ", err );
-                    result( err, null );
-                    return;
-                }
-                if ( res.length ) {
-                    console.log( "found Dish Pictures: ", res );
-                    let images = []
-                    res.forEach( r => {
-                        let { image, ...restdata } = r
-                        images.push( image )
-                    } )
-                    dish[ "pictures" ] = images
-                    result( null, dish )
-                    return;
-                    // result( null, alldata );
-                } else {
-                    // not found dish with the id
-                    console.log( "error: ", null );
-                    return;
-                }
-            } );
+            result( null, res[ 0 ] )
+            return
         } else {
             // not found dish with the id
             console.log( "error: ", null );
             return;
         }
-    } );
-};
+    } )
+}
 
 Dish.getAll = result => {
     sql.query( "SELECT * FROM dishes", ( err, res ) => {
@@ -132,38 +108,10 @@ Dish.updateById = ( id, req, result ) => {
                 return;
             }
 
-            console.log( "updated Dish: ", { id: id, ...Dish } );
-            result( null, { id: id, ...Dish } );
+            console.log( "updated Dish: ", { id: id } );
+            result( null, { id: id } );
         }
     );
-};
-
-Dish.addPictures = ( id, files, result ) => {
-    let error = false
-    files.forEach( ( file ) => {
-        sql.query(
-            "INSERT INTO Dish_images SET dishe_id = ?, image = ?",
-            [ id, file.path ],
-            ( err, res ) => {
-                if ( err ) {
-                    console.log( "error: ", err );
-                    result( null, err );
-                    return;
-                }
-
-                if ( res.affectedRows == 0 ) {
-                    // not found Dish with the email
-                    error = true
-                }
-                console.log( res )
-                // console.log( "updated Dish: ", { profile_picture: profile_picture, res[0] } );
-            }
-        );
-    } )
-    if ( !error ) {
-        result( null, { message: "picture added" } );
-        return
-    }
 };
 
 Dish.remove = ( email, result ) => {

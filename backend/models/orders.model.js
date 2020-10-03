@@ -78,7 +78,7 @@ Order.updateById = ( id, updated_status, result ) => {
                 result( { kind: "not_found" }, null );
                 return;
             }
-            result( null, "Updated" );
+            result( null, { message: "Updated" } );
         }
     );
 };

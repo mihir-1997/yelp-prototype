@@ -59,7 +59,7 @@ const storage = multer.diskStorage( {
         cb( null, 'Profiles/' )
     },
     filename: function ( req, file, callback ) {
-        callback( null, file.originalname.split( "." )[ 0 ] + '-' + Date.now() + path.extname( file.originalname ) )
+        callback( null, file.originalname.split( "." )[ 0 ].substring( 0, 10 ) + '-' + Date.now() + path.extname( file.originalname ) )
     }
 } );
 
@@ -79,7 +79,7 @@ const restaurantStorage = multer.diskStorage( {
         cb( null, 'RestaurantImages/' )
     },
     filename: function ( req, file, callback ) {
-        callback( null, file.originalname.split( "." )[ 0 ] + '-' + Date.now() + path.extname( file.originalname ) )
+        callback( null, file.originalname.split( "." )[ 0 ].substring( 0, 10 ) + '-' + Date.now() + path.extname( file.originalname ) )
     }
 } );
 
@@ -99,7 +99,7 @@ const dishStorage = multer.diskStorage( {
         cb( null, 'DishImages/' )
     },
     filename: function ( req, file, callback ) {
-        callback( null, file.originalname.split( "." )[ 0 ] + '-' + Date.now() + path.extname( file.originalname ) )
+        callback( null, file.originalname.split( "." )[ 0 ].substring( 0, 10 ) + '-' + Date.now() + path.extname( file.originalname ) )
     }
 } );
 

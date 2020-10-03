@@ -21,7 +21,7 @@ module.exports = app => {
         Restaurants.findOneById( req, res )
     } );
 
-    // Update a Restaurant with RestaurantEmail
+    // Update a Restaurant with RestaurantId
     app.put( "/updaterestaurant/:id", ( req, res ) => {
         console.log( `update` )
         Restaurants.update( req, res )

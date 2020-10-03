@@ -55,7 +55,7 @@ Review.findByRestaurantId = ( req, result ) => {
 }
 
 Review.averageRatingsForRestaurant = ( req, result ) => {
-    sql.query( `select CAST(AVG(ratings) AS DECIMAL(10,2)) as ratings from reviews where restaurant_id= \'${ req.params.id }\'`, ( err, res ) => {
+    sql.query( `select count(*) as num_of_reviews, CAST(AVG(ratings) AS DECIMAL(10,2)) as ratings from reviews where restaurant_id= \'${ req.params.id }\'`, ( err, res ) => {
         if ( err ) {
             console.log( "error: ", err );
             result( err, null );
