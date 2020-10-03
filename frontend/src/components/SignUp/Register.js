@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 // import { Link } from 'react-router-dom'
+import Login_logo from "../../Images/Login_logo.png"
 import './Signup.css'
 
 export class register extends Component {
@@ -110,109 +111,119 @@ export class register extends Component {
             window.location.assign( '/profile' )
         }
         return (
-            <div className="register">
-                <h3>Register</h3>
-                <input
-                    type="radio"
-                    name="selected"
-                    onChange={ this.radioChange }
-                    value="user"
-                    required />
-                <label
-                    htmlFor="user">Customer</label>
-                <input
-                    type="radio"
-                    name="selected"
-                    onChange={ this.radioChange }
-                    value="restaurant"
-                    required />
-                <label
-                    htmlFor="restaurant">Restaurant</label>
-                <form
-                    onSubmit={ this.register }>
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder="Name"
-                            value={ this.state.name }
-                            onChange={ this.onChange }
-                            required />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            value={ this.state.email }
-                            onChange={ this.onChange }
-                            required />
-                    </div>
-                    { this.state.selected === "restaurant" &&
-                        <div >
-                            <div className="form-group">
-                                <input
-                                    type="text"
-                                    name="address"
-                                    placeholder="Address"
-                                    onChange={ this.onChange }
-                                    value={ this.state.address }
-                                    required />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    type="text"
-                                    name="city"
-                                    placeholder="City"
-                                    onChange={ this.onChange }
-                                    value={ this.state.city }
-                                    required />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    type="text"
-                                    name="state"
-                                    placeholder="State"
-                                    onChange={ this.onChange }
-                                    value={ this.state.state }
-                                    required />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    type="text"
-                                    name="zipcode"
-                                    placeholder="Zipcode"
-                                    onChange={ this.onChange }
-                                    value={ this.state.zipcode }
-                                    required />
+            <div className="container">
+                <div className="row">
+                    <div className="col-5">
+                        <div className="login">
+                            <h4>Sign Up for Yelp</h4>
+                            <input
+                                type="radio"
+                                name="selected"
+                                onChange={ this.radioChange }
+                                value="user"
+                                required />
+                            <label
+                                htmlFor="user">Customer</label>
+                            <input
+                                type="radio"
+                                name="selected"
+                                onChange={ this.radioChange }
+                                value="restaurant"
+                                required />
+                            <label
+                                htmlFor="restaurant">Restaurant</label>
+                            <form
+                                onSubmit={ this.register }>
+                                <div className="form-group">
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        placeholder="Name"
+                                        value={ this.state.name }
+                                        onChange={ this.onChange }
+                                        required />
+                                </div>
+                                <div className="form-group">
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        placeholder="Email"
+                                        value={ this.state.email }
+                                        onChange={ this.onChange }
+                                        required />
+                                </div>
+                                { this.state.selected === "restaurant" &&
+                                    <div >
+                                        <div className="form-group">
+                                            <input
+                                                type="text"
+                                                name="address"
+                                                placeholder="Address"
+                                                onChange={ this.onChange }
+                                                value={ this.state.address }
+                                                required />
+                                        </div>
+                                        <div className="form-group">
+                                            <input
+                                                type="text"
+                                                name="city"
+                                                placeholder="City"
+                                                onChange={ this.onChange }
+                                                value={ this.state.city }
+                                                required />
+                                        </div>
+                                        <div className="form-group">
+                                            <input
+                                                type="text"
+                                                name="state"
+                                                placeholder="State"
+                                                onChange={ this.onChange }
+                                                value={ this.state.state }
+                                                required />
+                                        </div>
+                                        <div className="form-group">
+                                            <input
+                                                type="text"
+                                                name="zipcode"
+                                                placeholder="Zipcode"
+                                                onChange={ this.onChange }
+                                                value={ this.state.zipcode }
+                                                required />
+                                        </div>
+                                    </div>
+                                }
+                                <div className="form-group">
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        placeholder="Password"
+                                        onChange={ this.onChange }
+                                        value={ this.state.password }
+                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{ 8,}"
+                                        title="Password must contain lowercase, uppercase, digits and of minumim length of 8"
+                                        required />
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    id="submit"
+                                    className="btn login-button"
+                                >Sign Up</button>
+                            </form>
+                            <br />
+                            <a href="/login"> Already have an account? Login</a>
+                            <div className="row">
+                                <p id="error">{ this.state.error }</p>
                             </div>
                         </div>
-                    }
-                    <div className="form-group">
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            onChange={ this.onChange }
-                            value={ this.state.password }
-                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{ 8,}"
-                            title="Password must contain lowercase, uppercase, digits and of minumim length of 8"
-                            required />
                     </div>
-
-                    <button
-                        type="submit"
-                        id="submit"
-                        className="btn login-button"
-                    >Register</button>
-                </form>
-
-                <br />
-                <a href="/login"> Already have an account? Login</a>
-                <div className="row">
-                    <p id="error">{ this.state.error }</p>
+                    <div className="col-6">
+                        <div className="login-logo">
+                            <img src={ Login_logo } className="login-logo-image" alt="login-logo"></img>
+                        </div>
+                    </div>
                 </div>
-            </div >
+            </div>
         )
     }
 

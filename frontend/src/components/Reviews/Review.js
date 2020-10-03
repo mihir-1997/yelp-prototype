@@ -23,15 +23,25 @@ export default class Review extends Component {
     }
     render () {
         var EachReview = null
+        let ratings = () => {
+            ratings = parseInt( this.state.ratings )
+            var out = []
+            for ( let i = 0; i < ratings; i++ ) {
+                out.push( <span className="fa fa-star checked"></span> )
+            }
+            for ( let i = ratings + 1; i < 6; i++ ) {
+                out.push( <span className="fa fa-star"></span> )
+            }
+            return out
+        }
         if ( this.state.active === "user" ) {
             EachReview = () => {
                 return (
-                    <div className="row">
+                    <div className="row each-review-restaurant">
                         <div className="col">
-                            <h4>{ this.state.restaurant_name }</h4>
+                            <h4 className="review-restaurant-name">{ this.state.restaurant_name }</h4>
                             { this.state.restaurant_address }, { this.state.restaurant_city }, { this.state.restaurant_state } { this.state.restaurant_zipcode }<br />
-                            { this.state.date }<br />
-                            { this.state.ratings }<br />
+                            { ratings() }&nbsp;<span className="reviewdate">{ this.state.date }</span><br />
                             { this.state.review_text }
                         </div>
                     </div>
@@ -40,12 +50,11 @@ export default class Review extends Component {
         } else {
             EachReview = () => {
                 return (
-                    <div className="row">
+                    <div className="row each-review-user">
                         <div className="col">
-                            <h4>{ this.state.user_name }</h4>
-                            { this.state.date }<br />
-                            { this.state.user_city },{ this.state.user_state }<br />
-                            { this.state.ratings }<br />
+                            <h4 className="reviewername">{ this.state.user_name }</h4>
+                            { ratings() }&nbsp;<span className="reviewdate">{ this.state.date }</span><br />
+                            <span className="reviewerlocation">{ this.state.user_city },{ this.state.user_state }</span><br />
                             { this.state.review_text }
                         </div>
                     </div>

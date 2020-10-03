@@ -26,10 +26,10 @@ export default class Dish extends Component {
         return (
             <div className="dish">
                 <div className="row">
-                    <div className="col-2">
+                    <div className="col-3">
                         { this.state.image ? <img src={ "http://localhost:3001/" + this.state.image } alt="dish_image" className="dishimage" /> : null }
                     </div>
-                    <div className="col-8">
+                    <div className="col-7">
                         <div className="row">
                             <div className="row"></div>
                             <div className="row">
@@ -57,7 +57,7 @@ export default class Dish extends Component {
                         </div>
                         { this.state.orderButton ?
                             <div className="row">
-                                <button type="button" className="btn btn-primary orderbutton" onClick={ this.onOrder }>Order</button>
+                                <button type="button" className="btn red-button orderbutton" onClick={ this.onOrder }>Order</button>
                             </div>
                             : null }
                     </div>

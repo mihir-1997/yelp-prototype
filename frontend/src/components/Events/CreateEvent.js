@@ -106,7 +106,7 @@ export default class CreateEvent extends Component {
                                     <input type="text" class="form-control" id="time" name="time" value={ this.state.time } placeholder="HH:MM" onChange={ this.onChange } required />
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary" onClick={ this.postEvent }>Post</button>
+                            <button type="submit" class="btn red-button" onClick={ this.postEvent }>Create</button>
                         </form>
                         <p className="error">{ this.state.error }</p>
                     </div>

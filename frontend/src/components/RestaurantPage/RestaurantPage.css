@@ -1,7 +1,7 @@
 .picture-scrolling-wrapper {
     height: 250px;
     width: 100%;
-    margin: 30px 0;
+    margin: 30px 0 0 0;
 }
 
 .picture-scrolling{
@@ -13,8 +13,8 @@
 
 .restaurant-picture {
     width: 380px;
-    height: 90%;
-    margin: 10px 20px; 
+    height: 100%;
+    margin: 0px 3px; 
 }
 
 .shadow {
@@ -25,6 +25,11 @@
 
 .restaurantpage-information {
     padding: 2% 2% 2% 8%;
+}
+
+.restaurant-info-wrapper {
+    padding-bottom: 20px;
+    border-bottom: 1px lightgray solid;
 }
 
 .menu-title {
@@ -64,3 +69,53 @@
 .red-button:hover {
     color: white;
 } 
+
+.restaurantpage-name {
+    font-family: Poppins,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-weight: 900;
+    font-size: 48px;
+}
+
+.restaurant-name:hover {
+    text-decoration: underline;
+}
+
+.num-of-reviews {
+    color: gray;
+}
+
+.restaurant-ratings > span {
+    font-size: 24px;
+}
+
+.restaurant-ratings-mainpage > sapn {
+    font-size: 18px;
+}
+
+.checked {
+    color: orange;
+}
+
+.restaurant-delivery {
+    margin-top: 10px;
+}
+
+.restaurant-description {
+    margin-top: 5px;
+}
+
+.writereview-wrapper {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.contact-info-wrapper {
+    border: 1px solid #eeeeef;
+    padding: 30px 10px 40px 40px;
+}
+
+.contact-info {
+    font-family: Open Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
+    border-bottom: 1px solid #eeeeef;
+    padding: 10px 0 20px 0;
+}

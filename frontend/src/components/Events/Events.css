@@ -3,22 +3,45 @@
     padding: 4%;
 }
 
+.events-wrapper {
+    margin: 0 1% 0 10%;
+}
+
 .event {
-    margin: 20px 0px;
+    margin: 10px 0px; 
+    padding-top: 10px;
+    border-top: 1px lightgray solid;
 }
 
 .post-event {
+    width: 100%;
     margin: 2% 0 2% 0;
 }
+
+.right-align {
+    float: right;
+}
+
 .post-event-wrapper {
-    background-color: lightgray;
+    /* background-color: lightgray; */
 }   
 
 .unregistered-event {
-    border-right: 1px gray solid;
+    border-right: 1px lightgray solid;
 }
 
 .search-event {
     width: 100%;
     margin: 4% 0 2% 0;
+}
+
+.event-name,
+.event-datetime {
+    color: #0073bb;
+}
+
+.populer-events,
+.registered-events {
+    margin-top: 20px;
+    color: #d32323;
 }

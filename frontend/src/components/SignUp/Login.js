@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router';
 // import { Link } from 'react-router-dom'
+
+import Login_logo from "../../Images/Login_logo.png"
 import './Signup.css'
 
 export class Login extends Component {
@@ -104,58 +106,69 @@ export class Login extends Component {
         return (
             <div>
                 { redirectVar }
-                <div className="login" style={ this.loginContainer }>
-                    <h3>Login</h3>
-                    <input
-                        type="radio"
-                        name="selected"
-                        onChange={ this.radioChange }
-                        value="user"
-                        required />
-                    <label
-                        htmlFor="user">Customer</label>
-                    <input
-                        type="radio"
-                        name="selected"
-                        onChange={ this.radioChange }
-                        value="restaurant"
-                        required />
-                    <label
-                        htmlFor="restaurant">Restaurant</label>
-                    <form>
-                        <div className="form-group">
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder="Email"
-                                value={ this.state.email }
-                                onChange={ this.onChange }
-                                required />
-                        </div>
-                        <div className="form-group">
-                            <input
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                onChange={ this.onChange }
-                                value={ this.state.password }
-                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{ 8,}"
-                                title="Password must contain lowercase, uppercase, digits and of minumim length of 8"
-                                required />
-                        </div>
-
-                        <button
-                            type="submit"
-                            id="submit"
-                            className="btn login-button"
-                            onClick={ this.login }>Login</button>
-                    </form>
-                    <br />
-                    <a href="/register"> Don't have account? Sign up</a>
+                <div className="container">
                     <div className="row">
-                        <p id="error">{ this.state.error }</p>
+                        <div className="col-5">
+                            <div className="login">
+                                <h4>Log in to Yelp</h4>
+                                <input
+                                    type="radio"
+                                    name="selected"
+                                    onChange={ this.radioChange }
+                                    value="user"
+                                    required />
+                                <label
+                                    htmlFor="user">Customer</label>
+                                <input
+                                    type="radio"
+                                    name="selected"
+                                    onChange={ this.radioChange }
+                                    value="restaurant"
+                                    required />
+                                <label
+                                    htmlFor="restaurant">Restaurant</label>
+                                <form>
+                                    <div className="form-group">
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            placeholder="Email"
+                                            value={ this.state.email }
+                                            onChange={ this.onChange }
+                                            required />
+                                    </div>
+                                    <div className="form-group">
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            placeholder="Password"
+                                            onChange={ this.onChange }
+                                            value={ this.state.password }
+                                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{ 8,}"
+                                            title="Password must contain lowercase, uppercase, digits and of minumim length of 8"
+                                            required />
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        id="submit"
+                                        className="btn login-button"
+                                        onClick={ this.login }>Log In</button>
+                                </form>
+                                <br />
+                                <a href="/register"> Don't have account? Sign up</a>
+                                <div className="row">
+                                    <p id="error">{ this.state.error }</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-6">
+                            <div className="login-logo">
+                                <img src={ Login_logo } className="login-logo-image" alt="login-logo"></img>
+                            </div>
+                        </div>
                     </div>
-                </div >
+                </div>
             </div>
         )
     }

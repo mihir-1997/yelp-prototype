@@ -12,6 +12,7 @@ export class UserProfile extends Component {
     constructor( props ) {
         super( props )
         this.state = {
+            id: "",
             name: "",
             email: "",
             phone_no: "",
@@ -26,18 +27,25 @@ export class UserProfile extends Component {
             yelping_since: "",
             things_love: "",
             find_me: "",
+            num_of_reviews: "",
             showPopup: false
         }
     }
 
     componentDidMount () {
+        let id = null
+        if ( this.props.location.state ) {
+            id = this.props.location.state.user_id
+        } else {
+            id = localStorage.getItem( "id" )
+        }
         axios.defaults.withCredentials = true;
-        let id = localStorage.getItem( "id" )
         if ( id ) {
             axios.get( "http://localhost:3001/getuser/" + id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
+                            id: res.data.id,
                             name: res.data.name,
                             email: res.data.email,
                             phone_no: res.data.phone_no,
@@ -70,7 +78,6 @@ export class UserProfile extends Component {
     }
 
     onChangeProfile = item => {
-        console.log( item.target.files[ 0 ] )
         axios.defaults.withCredentials = true;
         let id = localStorage.getItem( "id" )
         if ( id ) {
@@ -108,11 +115,17 @@ export class UserProfile extends Component {
         } )
     }
 
+    num_of_reviews = ( data ) => {
+        this.setState( {
+            num_of_reviews: data
+        } )
+    }
+
     render () {
-        if ( localStorage.getItem( "active" ) !== "user" ) {
+        if ( localStorage.getItem( "active" ) !== "user" && !this.props.location.state ) {
             this.props.history.goBack()
         }
-        if ( localStorage.getItem( "email" ) ) {
+        if ( localStorage.getItem( "email" ) || this.props.location.state ) {
             const contentStyle = { background: '#000' };
             const overlayStyle = { background: 'rgba(0,0,0,0.5)' };
             const arrowStyle = { color: '#000' }; // style for an svg element
@@ -125,51 +138,68 @@ export class UserProfile extends Component {
                     <UpdateProfile user={ this.state } />
                 </Popup>
             );
+
+            let reviews = null
+            if ( this.props.location.state ) {
+                reviews = <Reviews id={ this.props.location.state.user_id } num_of_reviews={ this.num_of_reviews } active="user" />
+            } else {
+                reviews = <Reviews id={ localStorage.getItem( "id" ) } num_of_reviews={ this.num_of_reviews } active="user" />
+            }
+
             return (
-                < div id="userProfile" style={ this.style }>
-                    <div className="row h-100">
-                        <div className="col-3">
-                            <div className="profile-picture-wrapper">
-                                <div className="profile-picture h-75">
-                                    <img src={ "http://localhost:3001/" + this.state.profile_picture } alt="profile" className="profile_pic" crossOrigin="anonymous"></img>
-                                </div>
-                                <div className="h-25">
-                                    <form>
-                                        <input type="file" id="profile" name="profile_picture" accept="image/*" onChange={ this.onChangeProfile } />
-                                    </form>
-                                </div>
+                <div id="userProfile" className="container userprofile-wrapper" style={ this.style }>
+                    <div className="row userprofile-firstrow">
+                        <div className="col-3 profile-picture-wrapper">
+                            <div className="profile-picture">
+                                <img src={ "http://localhost:3001/" + this.state.profile_picture } alt="profile" className="profile_pic" crossOrigin="anonymous"></img>
                             </div>
-                            <div className="below-profile-picture"></div>
+                            <form>
+                                { !this.props.location.state ? <input type="file" id="profile" className="profile-picture-image" name="profile_picture" accept="image/*" onChange={ this.onChangeProfile } /> : null }
+                            </form>
                         </div>
-                        <div className="col-9">
-                            <div className="row h-25">
-                                <div className="col-7">
-                                    <div className="row username">
-                                        { this.state.name }
-                                    </div>
-                                    <div className="row userlocation">
-                                        { this.state.city }, { this.state.state }
-                                    </div>
-                                    <div className="row usersince">
-                                        Since { this.state.yelping_since }
-                                    </div>
-                                    <div className="row userdescription">
-                                        { this.state.headline }
-                                    </div>
+                        <div className="col-7">
+                            <div className="user-information">
+                                <span className="username">{ this.state.name }</span>
+                                <br />
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="2 2 24 24" width="18" height="18" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2 } d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2 } d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                        &nbsp;&nbsp;<span className="userlocation">{ this.state.city }, { this.state.state }</span>
+                                <br />
+                                <span className="usersince">Since { this.state.yelping_since }</span>
+                                <br />
+                                <div className="userprofile-numofreviews">
+                                    <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18"><path d="M7.948.779a.5.5 0 00-.896 0L5.005 4.926l-4.577.665a.5.5 0 00-.277.853l3.312 3.228-.782 4.559a.5.5 0 00.725.527L7.5 12.605l4.094 2.153a.5.5 0 00.725-.527l-.782-4.56 3.312-3.227a.5.5 0 00-.277-.853l-4.577-.665L7.948.78z" fill="orange"></path></svg>
+                                &nbsp;<strong>{ this.state.num_of_reviews }</strong> Reviews
                                 </div>
-                                <div className="col-4">
-                                    <div className="row userwebsite">
-                                        <a href={ this.state.website }>{ this.state.website }</a>
-                                    </div>
-                                    <div className="row userlove">
-                                        { this.state.things_love }
-                                    </div>
-                                </div>
-                                <div className="col-1">
-                                    <Modal />
-                                </div>
+                                <span className="userdescription">
+                                    "{ this.state.headline }"
+                                </span>
                             </div>
-                            <Reviews id={ localStorage.getItem( "id" ) } active={ localStorage.getItem( "active" ) } />
+                        </div>
+                        <div className="col-2">
+                            { !this.props.location.state ? <Modal /> : null }
+                        </div>
+                    </div>
+                    <div className="row userprofile-secondrow">
+                        <div className="col-9 userprofile-reviews">
+                            { reviews }
+                        </div>
+                        <div className="col-3">
+                            <h5 className="about-username">About { this.state.name }</h5>
+                            <strong>Location</strong><br />
+                            { this.state.city }, { this.state.state }
+                            <br />
+                            <strong>Yelping Since</strong><br />
+                            { this.state.yelping_since }
+                            <br />
+                            <strong>Things I Love</strong><br />
+                            { this.state.things_love }
+                            <br />
+                            <strong>Find Me In</strong><br />
+                            { this.state.website }
+                            <br />
                         </div>
                     </div>
                 </div >
@@ -178,11 +208,6 @@ export class UserProfile extends Component {
             window.location.assign( '/login' )
             return null
         }
-
-    }
-    style = {
-        height: "100vh",
-        margin: "20px"
     }
 }
 

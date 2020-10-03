@@ -81,6 +81,16 @@ export default class Events extends Component {
         }
     }
 
+    showUserProfile = ( user_id ) => {
+        console.log( user_id )
+        return this.props.history.push( {
+            pathname: '/userprofile',
+            state: {
+                user_id: user_id,
+            }
+        } )
+    }
+
     render () {
         return (
             <div>
@@ -88,19 +98,19 @@ export default class Events extends Component {
                     localStorage.getItem( "active" ) === "restaurant" &&
                     <div className="container">
                         <div className="row post-event-wrapper">
-                            <div className="post-event  text-center">
-                                <button type="button" className="btn btn-primary" onClick={ this.postEvent }>Post Event</button>
+                            <div className="post-event">
+                                <button type="button" className="btn red-button right-align" onClick={ this.postEvent }>Create an Event</button>
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-9"><h3>Events</h3></div>
-                            <div className="col-3"><h5>Registered Customers</h5></div>
+                            <div className="col-9 populer-events"><h3>Events</h3></div>
+                            <div className="col-3 populer-events"><h5>Registered Customers</h5></div>
                         </div>
                         <div className="row">
                             {
                                 this.state.events ?
                                     this.state.events.map( event => {
-                                        return <Event event={ event }></Event>
+                                        return <Event event={ event } showprofile={ this.showUserProfile }></Event>
                                     } )
                                     : "No Events. Post a new"
                             }
@@ -109,13 +119,18 @@ export default class Events extends Component {
                 }
                 {
                     localStorage.getItem( "active" ) === "user" &&
-                    <div className="container">
+                    <div className="events-wrapper">
                         <div className="row">
-                            <div className="col-6 unregistered-event">
+                            <div className="col-9 unregistered-event">
                                 <div className="row search-event">
-                                    <input type="text" id="searchEvent" className="search-event" placeholder="Search event by name" onChange={ this.searchEvent } />
+                                    <form>
+                                        <input type="text" id="searchEvent" className="form-control search-event" placeholder="Search event by name" onChange={ this.searchEvent } />
+                                    </form>
                                 </div>
                                 <div className="row">
+                                    <div className="container">
+                                        <h4 className="populer-events">Populer Events</h4>
+                                    </div>
                                     {
                                         this.state.filtered_unregistered_events ?
                                             this.state.filtered_unregistered_events.map( event => {
@@ -125,9 +140,9 @@ export default class Events extends Component {
                                     }
                                 </div>
                             </div>
-                            <div className="col-6">
+                            <div className="col-3">
                                 <div className="row search-event">
-                                    <h2 className="text-center">Registered Events</h2>
+                                    <h4 className="registered-events">Registered Events</h4>
                                 </div>
                                 <div className="row">
                                     {

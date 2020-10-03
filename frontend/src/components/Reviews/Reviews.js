@@ -27,6 +27,7 @@ export default class Reviews extends Component {
                                 this.setState( {
                                     reviews: res.data
                                 } )
+                                this.props.num_of_reviews( res.data.length )
                             }
                         } )
                         .catch( ( err ) => {
@@ -77,11 +78,11 @@ export default class Reviews extends Component {
     render () {
         return (
             <div className="container">
-                <div className="row">
+                <div className="row review-heading">
                     <h2>Reviews</h2>
                 </div>
-                {this.state.reviews.map( ( review, index ) => {
-                    return <Review review={ review } active={ this.state.active } key={ index } />
+                { this.state.reviews.map( ( review, index ) => {
+                    return <Review review={ review } active={ this.state.active } key={ index + "review" } />
                 } ) }
             </div>
         )

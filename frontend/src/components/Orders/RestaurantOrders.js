@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import Popup from 'reactjs-popup';
 
 import './Orders.css'
-import UserPage from '../UserPage/UserPage'
 
 export default class RestaurantOrders extends Component {
 
@@ -96,22 +94,20 @@ export default class RestaurantOrders extends Component {
         }
     }
 
+    showUserProfile = ( user_id ) => {
+        console.log( user_id )
+        return this.props.history.push( {
+            pathname: '/userprofile',
+            state: {
+                user_id: user_id,
+            }
+        } )
+    }
+
     render () {
         if ( localStorage.getItem( "active" ) !== "restaurant" ) {
             this.props.history.goBack()
         }
-        const contentStyle = { background: '#fff' };
-        const overlayStyle = { background: 'rgba(0,0,0,0.5)' };
-        const arrowStyle = { color: '#000' }; // style for an svg element
-
-        const Modal = ( user_id, user_name ) => (
-            <Popup
-                trigger={ <button type="button" className="btn btn-secondary">{ user_name }</button> }
-                { ...{ contentStyle, overlayStyle, arrowStyle } }
-                position="bottom center">
-                <UserPage user_id={ user_id } />
-            </Popup>
-        );
         return (
             <div className="container restaurant-orders-wrapper">
                 <div className="row restaurant-orders">
@@ -190,7 +186,7 @@ export default class RestaurantOrders extends Component {
                                                         <span className="order-details">{ order.dish_name }</span>
                                                     </div>
                                                     <div className="col-2">
-                                                        <span className="order-details">{ Modal( order.user_id, order.user_name ) }</span>
+                                                        <span className="order-details"><button type="button" className="btn btn-secondary" onClick={ () => this.showUserProfile( order.user_id ) }>{ order.user_name }</button></span>
                                                     </div>
                                                     <div className="col-2">
                                                         <span className="order-details">${ order.total }</span>

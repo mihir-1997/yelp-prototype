@@ -51,54 +51,51 @@ export default class Event extends Component {
         }
     }
 
-    render () {
-        const contentStyle = { background: '#fff' };
-        const overlayStyle = { background: 'rgba(0,0,0,0.5)' };
-        const arrowStyle = { color: '#000' }; // style for an svg element
+    showUserProfile = ( user_id ) => {
+        this.props.showprofile( user_id )
+    }
 
-        const Modal = ( user_id, user_name ) => (
-            <Popup
-                trigger={ <button type="button" className="btn btn-secondary">{ user_name }</button> }
-                { ...{ contentStyle, overlayStyle, arrowStyle } }
-                position="bottom center">
-                <UserPage user_id={ user_id } />
-            </Popup>
-        );
+    render () {
+        let column = null
+        let event_name = null
+        if ( this.props.registered ) {
+            column = "col-12"
+            event_name = <h4 className="event-name">{ this.props.event.name }</h4>
+        } else {
+            column = "col-9"
+            event_name = <h3 className="event-name">{ this.props.event.name }</h3>
+        }
         return (
             <div className="container">
                 <div className="row event">
-                    <div className="col-9">
+                    <div className={ column }>
                         <div className="row">
-                            <h3>{ this.props.event.name }</h3>
+                            { event_name }
                         </div>
                         <div className="row">
-                            <div className="col-12">
+                            <div className="col">
                                 { localStorage.getItem( "active" ) === "user" &&
-                                    <div className="row">
+                                    <span>
                                         <strong>{ this.props.event.restaurant_name }</strong>
-                                    </div> }
-                                <div className="row">
-                                    { this.props.event.description }
-                                </div>
-                                <div className="row">
-                                    <strong>Location:</strong>&nbsp;{ this.props.event.location }
-                                </div>
-                                <div className="row">
-                                    <strong>Date:</strong>&nbsp;{ this.props.event.date }
-                                </div>
-                                <div className="row">
-                                    <strong>Time:</strong>&nbsp;{ this.props.event.time }
-                                </div>
-                                <div className="row">
-                                    { this.props.event.hashtags }
-                                </div>
+                                        <br />
+                                    </span>
+                                }
+                                <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M7.5.5v14m7-7.005H.5m13 0a6.006 6.006 0 01-6 6.005c-3.313 0-6-2.694-6-6.005a5.999 5.999 0 016-5.996 6 6 0 016 5.996z" stroke="currentColor" stroke-linecap="square"></path></svg>
+                                    &nbsp;&nbsp;{ this.props.event.location }
+                                <br />
+                                <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M3.5 0v5m8-5v5m-10-2.5h12a1 1 0 011 1v10a1 1 0 01-1 1h-12a1 1 0 01-1-1v-10a1 1 0 011-1z" stroke="currentColor"></path></svg>
+                                    &nbsp;&nbsp;<span className="event-datetime">{ this.props.event.date }&nbsp;{ this.props.event.time }</span>
+                                <br />
+                                { this.props.event.description }
+                                <br />
+                                { this.props.event.hashtags }
                             </div>
                         </div>
                     </div>
 
                     { localStorage.getItem( "active" ) === "user" &&
                         <div className="col-3">
-                            <button type="button" className="btn btn-primary" onClick={ this.registerForEvent } hidden={ this.props.registered }>Register</button>
+                            <button type="button" className="btn red-button" onClick={ this.registerForEvent } hidden={ this.props.registered }>Register</button>
                         </div>
                     }
                     {
@@ -106,7 +103,7 @@ export default class Event extends Component {
                         <div className="col-3">
                             { this.props.event.user_names ?
                                 this.props.event.user_names.map( ( user_name, index ) => {
-                                    return Modal( this.props.event.user_ids[ index ], user_name )
+                                    return <button type="button" className="btn btn-secondary" onClick={ () => this.showUserProfile( this.props.event.user_ids[ index ] ) }>{ user_name }</button>
                                 } )
                                 : null }
                         </div>

@@ -37,7 +37,10 @@ export class NavBar extends Component {
                                 <li className="nav-item"><a className="nav-link" href="/userorders">Orders</a></li>
                                 <li className="nav-item"><a className="nav-link" href="/events">Events</a></li>
                                 <li className="nav-item"><a className="nav-link" href="/userprofile">Profile</a></li>
-                                <button type="button" className="logout-button" onClick={ this.handleLogout }>Log Out</button>
+                                <button type="button" className="logout-button" onClick={ this.handleLogout }>
+                                    <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M13.5 7.5l-3 3.25m3-3.25l-3-3m3 3H4m4 6H1.5v-12H8" stroke="currentColor"></path></svg>
+                                    &nbsp;Log Out
+                                </button>
                             </ul>
                         </nav>
                     }
@@ -50,7 +53,10 @@ export class NavBar extends Component {
                                 <li className="nav-item"><a className="nav-link" href="/restaurantprofile">Home</a></li>
                                 <li className="nav-item"><a className="nav-link" href="/restaurantorders">Orders</a></li>
                                 <li className="nav-item"><a className="nav-link" href="/events">Events</a></li>
-                                <button type="button" className="logout-button" onClick={ this.handleLogout }>Log Out</button>
+                                <button type="button" className="logout-button" onClick={ this.handleLogout }>
+                                    <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M13.5 7.5l-3 3.25m3-3.25l-3-3m3 3H4m4 6H1.5v-12H8" stroke="currentColor"></path></svg>
+                                    &nbsp;Log Out
+                                </button>
                             </ul>
                         </nav>
                     }

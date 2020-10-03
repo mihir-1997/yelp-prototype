@@ -29,12 +29,13 @@ class UserDashboard extends Component {
         } )
     }
 
-    onClick = ( data, avgRatings ) => {
+    onClick = ( data, avgRatings, num_of_reviews ) => {
         return this.props.history.push( {
             pathname: '/restaurant',
             state: {
                 id: data,
-                avgRatings: avgRatings
+                avgRatings: avgRatings,
+                num_of_reviews: num_of_reviews
             }
         } )
     }
