@@ -258,7 +258,7 @@ Restaurant.findBySearchCategory = ( req, result ) => {
             }
         } );
     } else if ( req.params.category === "location" ) {
-        sql.query( `SELECT distinct(id) from restaurants where location like \'%${ req.params.searchterm }%\'`, ( err, res ) => {
+        sql.query( `SELECT distinct(id) from restaurants where city like \'%${ req.params.searchterm }%\'`, ( err, res ) => {
             if ( err ) {
                 console.log( "error: ", err );
                 result( null, err );

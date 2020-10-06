@@ -18,6 +18,7 @@ app.use( bodyParser.urlencoded( { extended: true } ) );
 // use cookie parser to parse request headers
 app.use( cookieParser() );
 app.use( cors( { origin: "http://localhost:3000", credentials: true } ) );
+// app.use( cors( { origin: "http://localhost", credentials: true } ) );
 // use session to store user data between HTTP requests
 app.use( session( {
     name: '',
