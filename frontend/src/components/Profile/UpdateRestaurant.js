@@ -80,7 +80,7 @@ export default class UpdateRestaurant extends Component {
         return (
             <div className="update-profile">
                 <div className="container">
-                    <div className="row update-profile-heading">
+                    <div className="row popup-heading">
                         <h3>Enter new details</h3>
                     </div>
                     <form>
@@ -139,7 +139,7 @@ export default class UpdateRestaurant extends Component {
                             </div>
                         </div>
                         <div className="form-group row">
-                            <div className="col-2">Select all that apply</div>
+                            <div className="col-2">Select that apply</div>
                             <div className="col-10">
                                 <input type="checkbox" name="curbside_pickup" value="curbside" onChange={ this.onChangeCurbside } checked={ !!this.state.curbside_pickup } /><span> Curbside Pickup    </span>
                                 <input type="checkbox" name="dine_in" value="open" onChange={ this.onChangeDineIn } checked={ !!this.state.dine_in } /><span> Dine In    </span>
@@ -148,7 +148,7 @@ export default class UpdateRestaurant extends Component {
                         </div>
                         <div className="form-group row">
                             <div className="text-center">
-                                <button type="submit" className="btn btn-primary" onClick={ this.update }>Update</button>
+                                <button type="submit" className="btn red-button" onClick={ this.update }>Update</button>
                             </div>
                         </div>
                     </form>

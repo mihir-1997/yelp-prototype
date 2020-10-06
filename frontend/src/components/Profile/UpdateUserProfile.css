@@ -1,18 +1,25 @@
 .update-profile {
     background-color: white;
     border: gray 1px solid;
-    height: 600px;
+    height: 500px;
     width: 900px;
     overflow-y:auto;
     box-shadow: 1px 1px gray;
+    overflow: auto; 
+    white-space: nowrap;
 }
 
 .update-profile form {
-    margin-left: 30px
+    margin-left: 4%;
 }
 
-.update-profile-heading h3{
+.popup-heading {
+    margin: 4% 0 4% 0;
+}
+
+.popup-heading h3{
     width: 100%;
+    text-align: center;
 }
 
 .text-center {
@@ -22,3 +29,10 @@
 #error {
     color:red
 }
+
+/* .picture-scrolling{
+    width: auto;
+    overflow: auto; 
+    white-space: nowrap;
+    height: 100%;
+} */

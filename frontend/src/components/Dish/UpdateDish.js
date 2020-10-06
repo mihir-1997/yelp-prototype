@@ -66,7 +66,7 @@ export default class UpdateDish extends Component {
         return (
             <div className="add-dish">
                 <div className="container">
-                    <div className="row add-dish-heading">
+                    <div className="row popup-heading">
                         <h3>Update Dish</h3>
                     </div>
                     <form className="updatedish-form">
@@ -121,7 +121,7 @@ export default class UpdateDish extends Component {
                         </div>
                         <div className="form-group row">
                             <div className="text-center">
-                                <button type="submit" className="btn btn-primary" onClick={ this.add }>Update</button>
+                                <button type="submit" className="btn red-button" onClick={ this.add }>Update</button>
                             </div>
                         </div>
                     </form>

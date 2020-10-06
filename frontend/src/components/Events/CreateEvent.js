@@ -25,44 +25,64 @@ export default class CreateEvent extends Component {
 
     postEvent = ( item ) => {
         item.preventDefault()
+        if ( !this.state.time.includes( ":" ) || this.state.time.length !== 5 ) {
+            this.setState( {
+                error: "Time must be in HH:MM format"
+            } )
+            return
+        } else {
+            this.setState( {
+                error: ""
+            } )
+        }
         let hour = this.state.time.split( ":" )[ 0 ]
         let minutes = this.state.time.split( ":" )[ 1 ]
-        if ( parseInt( hour ) < 1 && parseInt( hour ) > 23 ) {
+        if ( parseInt( hour ) < 1 || parseInt( hour ) > 23 ) {
+            console.log( parseInt( hour ) )
             this.setState( {
                 error: "Hour must be between 1 to 23"
             } )
             return
-        } else if ( parseInt( minutes ) < 0 && parseInt( minutes ) > 59 ) {
+        } else if ( parseInt( minutes ) < 0 || parseInt( minutes ) > 59 ) {
             this.setState( {
                 error: "Minuted must be between 0 to 59"
             } )
             return
         } else {
-            let id = localStorage.getItem( "id" )
-            const eventData = {
-                restaurant_id: id,
-                name: this.state.name,
-                description: this.state.description,
-                location: this.state.location,
-                date: this.state.date,
-                time: this.state.time + ":00",
-                hashtags: this.state.hashtags,
+            this.setState( {
+                error: ""
+            } )
+            if ( this.state.name && this.state.description && this.state.location && this.state.date && this.state.time ) {
+                let id = localStorage.getItem( "id" )
+                const eventData = {
+                    restaurant_id: id,
+                    name: this.state.name,
+                    description: this.state.description,
+                    location: this.state.location,
+                    date: this.state.date,
+                    time: this.state.time + ":00",
+                    hashtags: this.state.hashtags,
+                }
+                axios.defaults.withCredentials = true;
+                axios.post( "http://localhost:3001/postevent", eventData )
+                    .then( ( res ) => {
+                        if ( res.status === 200 ) {
+                            this.setState( {
+                                error: ""
+                            } )
+                            window.location.assign( "/events" );
+                        }
+                    } )
+                    .catch( ( err ) => {
+                        if ( err.response ) {
+                            console.log( err.response )
+                        }
+                    } )
+            } else {
+                this.setState( {
+                    error: "*Some required fields are empty"
+                } )
             }
-            axios.defaults.withCredentials = true;
-            axios.post( "http://localhost:3001/postevent", eventData )
-                .then( ( res ) => {
-                    if ( res.status === 200 ) {
-                        this.setState( {
-                            error: ""
-                        } )
-                        window.location.assign( "/events" );
-                    }
-                } )
-                .catch( ( err ) => {
-                    if ( err.response ) {
-                        console.log( err.response )
-                    }
-                } )
         }
     }
 

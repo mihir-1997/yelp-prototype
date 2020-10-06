@@ -4,10 +4,7 @@
     border: gray 1px solid;
     overflow-y:auto;
     box-shadow: 1px 1px gray;
-}
-
-.add-dish-heading h3{
-    width: 100%;
+    margin-bottom: 10px;
 }
 
 .adddish-form{
@@ -16,4 +13,8 @@
 
 .required-field {
     color: red;
+}
+
+.updatedish-form {
+    margin-left: 4%
 }

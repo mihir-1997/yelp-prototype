@@ -61,7 +61,7 @@ class UserDashboard extends Component {
                     if ( res.status === 200 ) {
                         let ids = []
                         this.setState( {
-                            filtered_restaurants: this.state.filtered_restaurants.filter( ( restaurant ) => {
+                            filtered_restaurants: this.state.restaurants.filter( ( restaurant ) => {
                                 if ( res.data.includes( restaurant.id ) ) {
                                     ids.push( restaurant.id )
                                     return true

@@ -74,7 +74,7 @@ export default class AddDish extends Component {
         return (
             <div className="add-dish">
                 <div className="container">
-                    <div className="row add-dish-heading">
+                    <div className="row popup-heading">
                         <h3>Add Dish</h3>
                     </div>
                     <form className="adddish-form">
@@ -129,7 +129,7 @@ export default class AddDish extends Component {
                         </div>
                         <div className="form-group row">
                             <div className="text-center">
-                                <button type="submit" className="btn btn-primary" onClick={ this.add }>Add</button>
+                                <button type="submit" className="btn red-button" onClick={ this.add }>Add</button>
                             </div>
                         </div>
                     </form>

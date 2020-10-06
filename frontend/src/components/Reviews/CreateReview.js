@@ -60,7 +60,7 @@ export default class CreateReview extends Component {
     render () {
         return (
             <div className="container create-review-wrapper">
-                <div className="row create-review-heading">
+                <div className="row popup-heading">
                     <h3>Write a Review!</h3>
                 </div>
                 <form>
@@ -78,7 +78,7 @@ export default class CreateReview extends Component {
                     </div>
                     <div className="form-group row">
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary" onClick={ this.writeReview }>Submit</button>
+                            <button type="submit" className="btn red-button" onClick={ this.writeReview }>Submit</button>
                         </div>
                     </div>
                     <div className="row">

@@ -75,7 +75,7 @@ export default class UpdateProfile extends Component {
         return (
             <div className="update-profile">
                 <div className="container">
-                    <div className="row update-profile-heading">
+                    <div className="row popup-heading">
                         <h3>Enter new details</h3>
                     </div>
                     <form>
@@ -159,7 +159,7 @@ export default class UpdateProfile extends Component {
                         </div>
                         <div className="form-group row">
                             <div className="text-center">
-                                <button type="submit" className="btn btn-primary" onClick={ this.update }>Update</button>
+                                <button type="submit" className="btn red-button" onClick={ this.update }>Update</button>
                             </div>
                         </div>
                         <div className="row">

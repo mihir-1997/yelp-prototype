@@ -1,5 +1,4 @@
 .restaurantname {
-    /* color: #f43939; */
     margin: 0 0 1% 0;
 }
 
@@ -39,68 +38,6 @@
 .dishes {
     width: 100%;
 }
-
-/* .restaurantname:before {
-    content: "";
-    display: block;
-    background: url("../../Images/Restaurant.png") no-repeat center;
-    width: 16px;
-    height: 16px;
-    float: left;
-    margin: 10px 10px 0 0;
-} */
-
-/* .restaurantlocation:before {
-    content: "";
-    display: block;
-    background: url("../../Images/Placeholder.svg") no-repeat;
-    width: 16px;
-    float: left;
-    margin: 4px 10px 0 0;
-} */
-
-/* .restaurantemail:before {
-    content: "";
-    display: block;
-    background: url("../../Images/Mail.svg") no-repeat;
-    width: 16px;
-    float: left;
-    margin: 4px 10px 0 0;
-} */
-
-/* .restaurantphone:before {
-    content: "";
-    display: block;
-    background: url("../../Images/Telephone.svg") no-repeat;
-    width: 16px;
-    float: left;
-    margin: 4px 10px 0 0;
-} */
-
-/* .restaurantdescription:before {
-    content: "";
-    display: block;
-    width: 16px;
-    float: left;
-    margin: 4px 10px 0 0;
-} */
-
-/* .restauranttimings:before {
-    content: "";
-    display: block;
-    background: url("../../Images/Time.png") no-repeat;
-    width: 16px;
-    float: left;
-    margin: 4px 10px 0 0;
-}
-
-.restaurantratings:before {
-    content: "";
-    display: block;
-    width: 16px;
-    float: left;
-    margin: 4px 10px 0 0;
-} */
 
 .picture-scrolling-wrapper {
     height: 90%;
