@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserOrders render after setting localstorage 1`] = `ShallowWrapper {}`;
+
+exports[`UserOrders should render correctly in "debug" mode 1`] = `ShallowWrapper {}`;
+
+exports[`UserOrders simulate checkbox to filter orders with status ordered 1`] = `ShallowWrapper {}`;

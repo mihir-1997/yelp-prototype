@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserDashboard render after setting localstorage 1`] = `ShallowWrapper {}`;
+
+exports[`UserDashboard should render correctly in "debug" mode 1`] = `ShallowWrapper {}`;
+
+exports[`UserDashboard simulate checkbox to filter restaurants by curbside_pickup 1`] = `ShallowWrapper {}`;
+
+exports[`UserDashboard simulate search restaurants to search indian cuisine 1`] = `ShallowWrapper {}`;
