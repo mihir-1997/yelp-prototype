@@ -35,62 +35,90 @@ export class Login extends Component {
 
     login = item => {
         item.preventDefault()
-        if ( this.state.selected === "user" ) {
-            const user = {
-                email: this.state.email,
-                password: this.state.password,
+        if ( this.state.email && this.state.password ) {
+            const re_email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            const re_password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
+            if ( !re_email.test( this.state.email.toLowerCase() ) ) {
+                this.setState( {
+                    error: "Please enter valid email"
+                } )
+                return
+            } else {
+                this.setState( {
+                    error: ""
+                } )
             }
-            axios.defaults.withCredentials = true;
-            axios.post( "http://localhost:3001/loginUser", user )
-                .then( ( res ) => {
-                    if ( res.status === 200 ) {
-                        localStorage.setItem( "email", res.data.email )
-                        localStorage.setItem( "id", res.data.id )
-                        localStorage.setItem( "active", "user" )
-                        console.log( "User Loggedin successfully" )
-                        window.location.assign( '/userdashboard' )
-                    }
+            if ( !re_password.test( this.state.password ) ) {
+                this.setState( {
+                    error: "Password must contain lowercase, uppercase, digits and of minumim length of 8"
                 } )
-                .catch( ( err ) => {
-                    if ( err.response ) {
-                        if ( err.response.status === 404 ) {
-                            console.log( "Error! No user" )
-                            this.setState( { "error": "No user found" } )
-                        } else if ( err.response.status === 401 ) {
-                            this.setState( { "error": "Wrong Password" } )
-                        } else if ( err.response.status === 400 ) {
-                            this.setState( { "error": "Each field is required" } )
+                return
+            } else {
+                this.setState( {
+                    error: ""
+                } )
+            }
+            if ( this.state.selected === "user" ) {
+                const user = {
+                    email: this.state.email,
+                    password: this.state.password,
+                }
+                axios.defaults.withCredentials = true;
+                axios.post( "http://localhost:3001/loginUser", user )
+                    .then( ( res ) => {
+                        if ( res.status === 200 ) {
+                            localStorage.setItem( "email", res.data.email )
+                            localStorage.setItem( "id", res.data.id )
+                            localStorage.setItem( "active", "user" )
+                            console.log( "User Loggedin successfully" )
+                            window.location.assign( '/userdashboard' )
                         }
-                    }
-                } )
+                    } )
+                    .catch( ( err ) => {
+                        if ( err.response ) {
+                            if ( err.response.status === 404 ) {
+                                console.log( "Error! No user" )
+                                this.setState( { "error": "No user found" } )
+                            } else if ( err.response.status === 401 ) {
+                                this.setState( { "error": "Wrong Password" } )
+                            } else if ( err.response.status === 400 ) {
+                                this.setState( { "error": "Each field is required" } )
+                            }
+                        }
+                    } )
+            } else {
+                const restaurant = {
+                    email: this.state.email,
+                    password: this.state.password,
+                }
+                axios.defaults.withCredentials = true;
+                axios.post( "http://localhost:3001/loginRestaurant", restaurant )
+                    .then( ( res ) => {
+                        if ( res.status === 200 ) {
+                            localStorage.setItem( "email", res.data.email )
+                            localStorage.setItem( "id", res.data.id )
+                            localStorage.setItem( "active", "restaurant" )
+                            console.log( "Restaurant Loggedin successfully" )
+                            window.location.assign( '/restaurantprofile' )
+                        }
+                    } )
+                    .catch( ( err ) => {
+                        if ( err.response ) {
+                            if ( err.response.status === 404 ) {
+                                console.log( "Error! No restaurant" )
+                                this.setState( { "error": "No restaurant found" } )
+                            } else if ( err.response.status === 401 ) {
+                                this.setState( { "error": "Wrong Password" } )
+                            } else if ( err.response.status === 400 ) {
+                                this.setState( { "error": "Each field is required" } )
+                            }
+                        }
+                    } )
+            }
         } else {
-            const restaurant = {
-                email: this.state.email,
-                password: this.state.password,
-            }
-            axios.defaults.withCredentials = true;
-            axios.post( "http://localhost:3001/loginRestaurant", restaurant )
-                .then( ( res ) => {
-                    if ( res.status === 200 ) {
-                        localStorage.setItem( "email", res.data.email )
-                        localStorage.setItem( "id", res.data.id )
-                        localStorage.setItem( "active", "restaurant" )
-                        console.log( "Restaurant Loggedin successfully" )
-                        window.location.assign( '/restaurantprofile' )
-                    }
-                } )
-                .catch( ( err ) => {
-                    if ( err.response ) {
-                        if ( err.response.status === 404 ) {
-                            console.log( "Error! No restaurant" )
-                            this.setState( { "error": "No restaurant found" } )
-                        } else if ( err.response.status === 401 ) {
-                            this.setState( { "error": "Wrong Password" } )
-                        } else if ( err.response.status === 400 ) {
-                            this.setState( { "error": "Each field is required" } )
-                        }
-                    }
-                } )
+            this.setState( {
+                error: "Each field is required"
+            } )
         }
     }
 
@@ -135,6 +163,7 @@ export class Login extends Component {
                                             placeholder="Email"
                                             value={ this.state.email }
                                             onChange={ this.onChange }
+                                            className="form-control"
                                             required />
                                     </div>
                                     <div className="form-group">
@@ -144,8 +173,7 @@ export class Login extends Component {
                                             placeholder="Password"
                                             onChange={ this.onChange }
                                             value={ this.state.password }
-                                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{ 8,}"
-                                            title="Password must contain lowercase, uppercase, digits and of minumim length of 8"
+                                            className="form-control"
                                             required />
                                     </div>
 

@@ -38,70 +38,94 @@ export class register extends Component {
 
     register = item => {
         item.preventDefault()
-        if ( this.state.selected === "user" ) {
-            if ( this.state.name && this.state.email && this.state.password ) {
-                const user = {
-                    name: this.state.name,
-                    email: this.state.email,
-                    password: this.state.password,
-                }
-                axios.defaults.withCredentials = true;
-                axios.post( "http://localhost:3001/registerUser", user )
-                    .then( ( res ) => {
-                        if ( res.status === 200 ) {
-                            console.log( "User added successfully" )
-                            this.setState( {
-                                error: ""
-                            } )
-                            window.location.assign( '/login' )
-                        } else {
-                            console.log( "Error creating user" )
-                        }
-                    } )
-                    .catch( ( err ) => {
-                        if ( err.response ) {
-                            if ( err.response.status === 409 ) {
-                                this.setState( { "error": "User already exist" } )
-                            }
-                        }
-                    } )
+        if ( this.state.email && this.state.password ) {
+            const re_email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            const re_password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
+            if ( !re_email.test( this.state.email.toLowerCase() ) ) {
+                this.setState( {
+                    error: "Please enter valid email"
+                } )
+                return
             } else {
                 this.setState( {
-                    error: "*Some required fields are empty"
+                    error: ""
                 } )
             }
-        } else {
-            if ( this.state.name && this.state.email && this.state.address && this.state.city && this.state.state && this.state.zipcode && this.state.password ) {
-                const restaurant = {
-                    name: this.state.name,
-                    email: this.state.email,
-                    address: this.state.address,
-                    city: this.state.city,
-                    state: this.state.state,
-                    zipcode: this.state.zipcode,
-                    password: this.state.password,
-                }
-                axios.defaults.withCredentials = true;
-                axios.post( "http://localhost:3001/registerRestaurant", restaurant )
-                    .then( ( res ) => {
-                        if ( res.status === 200 ) {
-                            console.log( "Restaurant added successfully" )
-                            window.location.assign( '/login' )
-                        } else {
-                            console.log( "Error creating restaurant" )
-                        }
-                    } )
-                    .catch( ( err ) => {
-                        if ( err.response ) {
-                            if ( err.response.status === 409 ) {
-                                this.setState( { "error": "Restaurant already exist" } )
-                            }
-                        }
-                    } )
+            if ( !re_password.test( this.state.password ) ) {
+                this.setState( {
+                    error: "Password must contain lowercase, uppercase, digits and of minumim length of 8"
+                } )
+                return
             } else {
                 this.setState( {
-                    error: "*Some required fields are empty"
+                    error: ""
                 } )
+            }
+            if ( this.state.selected === "user" ) {
+                if ( this.state.name && this.state.email && this.state.password ) {
+                    const user = {
+                        name: this.state.name,
+                        email: this.state.email,
+                        password: this.state.password,
+                    }
+                    axios.defaults.withCredentials = true;
+                    axios.post( "http://localhost:3001/registerUser", user )
+                        .then( ( res ) => {
+                            if ( res.status === 200 ) {
+                                console.log( "User added successfully" )
+                                this.setState( {
+                                    error: ""
+                                } )
+                                window.location.assign( '/login' )
+                            } else {
+                                console.log( "Error creating user" )
+                            }
+                        } )
+                        .catch( ( err ) => {
+                            if ( err.response ) {
+                                if ( err.response.status === 409 ) {
+                                    this.setState( { "error": "User already exist" } )
+                                }
+                            }
+                        } )
+                } else {
+                    this.setState( {
+                        error: "*Some required fields are empty"
+                    } )
+                }
+            } else {
+                if ( this.state.name && this.state.email && this.state.address && this.state.city && this.state.state && this.state.zipcode && this.state.password ) {
+                    const restaurant = {
+                        name: this.state.name,
+                        email: this.state.email,
+                        address: this.state.address,
+                        city: this.state.city,
+                        state: this.state.state,
+                        zipcode: this.state.zipcode,
+                        password: this.state.password,
+                    }
+                    axios.defaults.withCredentials = true;
+                    axios.post( "http://localhost:3001/registerRestaurant", restaurant )
+                        .then( ( res ) => {
+                            if ( res.status === 200 ) {
+                                console.log( "Restaurant added successfully" )
+                                window.location.assign( '/login' )
+                            } else {
+                                console.log( "Error creating restaurant" )
+                            }
+                        } )
+                        .catch( ( err ) => {
+                            if ( err.response ) {
+                                if ( err.response.status === 409 ) {
+                                    this.setState( { "error": "Restaurant already exist" } )
+                                }
+                            }
+                        } )
+                } else {
+                    this.setState( {
+                        error: "*Some required fields are empty"
+                    } )
+                }
             }
         }
     }
@@ -141,6 +165,7 @@ export class register extends Component {
                                         placeholder="Name"
                                         value={ this.state.name }
                                         onChange={ this.onChange }
+                                        className="form-control"
                                         required />
                                 </div>
                                 <div className="form-group">
@@ -150,6 +175,7 @@ export class register extends Component {
                                         placeholder="Email"
                                         value={ this.state.email }
                                         onChange={ this.onChange }
+                                        className="form-control"
                                         required />
                                 </div>
                                 { this.state.selected === "restaurant" &&
@@ -161,6 +187,7 @@ export class register extends Component {
                                                 placeholder="Address"
                                                 onChange={ this.onChange }
                                                 value={ this.state.address }
+                                                className="form-control"
                                                 required />
                                         </div>
                                         <div className="form-group">
@@ -170,6 +197,7 @@ export class register extends Component {
                                                 placeholder="City"
                                                 onChange={ this.onChange }
                                                 value={ this.state.city }
+                                                className="form-control"
                                                 required />
                                         </div>
                                         <div className="form-group">
@@ -179,6 +207,7 @@ export class register extends Component {
                                                 placeholder="State"
                                                 onChange={ this.onChange }
                                                 value={ this.state.state }
+                                                className="form-control"
                                                 required />
                                         </div>
                                         <div className="form-group">
@@ -188,6 +217,7 @@ export class register extends Component {
                                                 placeholder="Zipcode"
                                                 onChange={ this.onChange }
                                                 value={ this.state.zipcode }
+                                                className="form-control"
                                                 required />
                                         </div>
                                     </div>
@@ -199,8 +229,7 @@ export class register extends Component {
                                         placeholder="Password"
                                         onChange={ this.onChange }
                                         value={ this.state.password }
-                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{ 8,}"
-                                        title="Password must contain lowercase, uppercase, digits and of minumim length of 8"
+                                        className="form-control"
                                         required />
                                 </div>
 

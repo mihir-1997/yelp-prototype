@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Redirect } from 'react-router';
 
 import './Events.css'
 
@@ -66,51 +67,56 @@ export default class CreateEvent extends Component {
     }
 
     render () {
+        var redirectVar = null
         if ( localStorage.getItem( "active" ) !== "restaurant" ) {
-            this.props.history.goBack()
+            redirectVar = <Redirect to="/login" />
+            return redirectVar
         }
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-2"></div>
-                    <div className="col-8 create-event-form-wrapper">
-                        <div className="row">
-                            <div className="text-center">
-                                <h3>Create Event</h3>
+            <div >
+                {redirectVar }
+                <div className="container">
+                    <div className="row">
+                        <div className="col-2"></div>
+                        <div className="col-8 create-event-form-wrapper">
+                            <div className="row">
+                                <div className="text-center">
+                                    <h3>Create Event</h3>
+                                </div>
                             </div>
+                            <form>
+                                <div class="form-group">
+                                    <label for="name">Name<span className="required-field">*</span></label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Event name" value={ this.state.name } onChange={ this.onChange } required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description<span className="required-field">*</span></label>
+                                    <textarea type="text" class="form-control" name="description" id="description" value={ this.state.description } onChange={ this.onChange } required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="location">Location<span className="required-field">*</span></label>
+                                    <input type="text" class="form-control" id="location" name="location" value={ this.state.location } onChange={ this.onChange } required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="hashtags">Hashtags</label>
+                                    <input type="text" class="form-control" id="hashtags" name="hashtags" placeholder="#tasty" value={ this.state.hashtags } onChange={ this.onChange } />
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="date">Date<span className="required-field">*</span></label>
+                                        <input type="date" class="form-control" id="date" name="date" value={ this.state.date } min={ new Date().toISOString().split( "T" )[ 0 ] } onChange={ this.onChange } required />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="time">Time<span className="required-field">*</span></label>
+                                        <input type="text" class="form-control" id="time" name="time" value={ this.state.time } placeholder="HH:MM" onChange={ this.onChange } required />
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn red-button" onClick={ this.postEvent }>Create</button>
+                            </form>
+                            <p className="error">{ this.state.error }</p>
                         </div>
-                        <form>
-                            <div class="form-group">
-                                <label for="name">Name<span className="required-field">*</span></label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Event name" value={ this.state.name } onChange={ this.onChange } required />
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Description<span className="required-field">*</span></label>
-                                <textarea type="text" class="form-control" name="description" id="description" value={ this.state.description } onChange={ this.onChange } required />
-                            </div>
-                            <div class="form-group">
-                                <label for="location">Location<span className="required-field">*</span></label>
-                                <input type="text" class="form-control" id="location" name="location" value={ this.state.location } onChange={ this.onChange } required />
-                            </div>
-                            <div class="form-group">
-                                <label for="hashtags">Hashtags</label>
-                                <input type="text" class="form-control" id="hashtags" name="hashtags" placeholder="#tasty" value={ this.state.hashtags } onChange={ this.onChange } />
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="date">Date<span className="required-field">*</span></label>
-                                    <input type="date" class="form-control" id="date" name="date" value={ this.state.date } min={ new Date().toISOString().split( "T" )[ 0 ] } onChange={ this.onChange } required />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="time">Time<span className="required-field">*</span></label>
-                                    <input type="text" class="form-control" id="time" name="time" value={ this.state.time } placeholder="HH:MM" onChange={ this.onChange } required />
-                                </div>
-                            </div>
-                            <button type="submit" class="btn red-button" onClick={ this.postEvent }>Create</button>
-                        </form>
-                        <p className="error">{ this.state.error }</p>
+                        <div className="col-2"></div>
                     </div>
-                    <div className="col-2"></div>
                 </div>
             </div>
         )

@@ -13,6 +13,7 @@ export default class AddDish extends Component {
             price: "",
             category: "",
             image: "",
+            cuisine: "",
             error: ""
         }
     }
@@ -36,6 +37,7 @@ export default class AddDish extends Component {
             formData.append( 'name', this.state.name )
             formData.append( 'ingredients', this.state.ingredients )
             formData.append( 'description', this.state.description )
+            formData.append( 'cuisine', this.state.cuisine )
             formData.append( 'price', this.state.price )
             formData.append( 'category', this.state.category )
             const config = {

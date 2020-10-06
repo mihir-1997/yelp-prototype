@@ -55,7 +55,7 @@ export default class Dish extends Component {
                         <div className="row dishprice">
                             ${ this.state.price }
                         </div>
-                        { this.state.orderButton ?
+                        { this.props.orderButton ?
                             <div className="row">
                                 <button type="button" className="btn red-button orderbutton" onClick={ this.onOrder }>Order</button>
                             </div>

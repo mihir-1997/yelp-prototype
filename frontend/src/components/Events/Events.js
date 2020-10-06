@@ -20,10 +20,10 @@ export default class Events extends Component {
         if ( active === "restaurant" ) {
             let id = localStorage.getItem( "id" )
             if ( id ) {
-                axios.get( "http://localhost:3001/eventsForRestaurants/" + id )
+                return axios.get( "http://localhost:3001/eventsForRestaurants/" + id )
                     .then( ( res ) => {
                         if ( res.status === 200 ) {
-                            console.log( res.data )
+                            // console.log( res.data )
                             this.setState( {
                                 events: res.data
                             } )
@@ -42,7 +42,7 @@ export default class Events extends Component {
         } else if ( active === "user" ) {
             let id = localStorage.getItem( "id" )
             if ( id ) {
-                axios.get( "http://localhost:3001/getAllEvents/" + id )
+                return axios.get( "http://localhost:3001/getAllEvents/" + id )
                     .then( ( res ) => {
                         if ( res.status === 200 ) {
                             this.setState( {
@@ -109,8 +109,10 @@ export default class Events extends Component {
                         <div className="row">
                             {
                                 this.state.events ?
-                                    this.state.events.map( event => {
-                                        return <Event event={ event } showprofile={ this.showUserProfile }></Event>
+                                    this.state.events.map( ( event, index ) => {
+                                        return <div className="single-restaurant-event" key={ index }>
+                                            <Event event={ event } showprofile={ this.showUserProfile }></Event>
+                                        </div>
                                     } )
                                     : "No Events. Post a new"
                             }

@@ -53,6 +53,12 @@ class Restaurant extends Component {
         let ratings = () => {
             ratings = parseInt( this.state.avgRatings )
             var out = []
+            if ( !this.state.avgRatings ) {
+                for ( let i = 0; i < 5; i++ ) {
+                    out.push( <span className="fa fa-star"></span> )
+                }
+                return out
+            }
             for ( let i = 0; i < ratings; i++ ) {
                 out.push( <span className="fa fa-star checked"></span> )
             }
@@ -91,7 +97,7 @@ class Restaurant extends Component {
                                 <svg viewBox="-2 -2 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18"><path d="M1.5 1.5l12 12m-12 0l12-12" stroke="#05a882"></path></svg>
 
                         }
-                        &nbsp;<span className="open">Open</span>&nbsp;&nbsp;
+                        &nbsp;<span className="open">Dine In</span>&nbsp;&nbsp;
                         {
                             this.props.restautantData.delivery ?
                                 <svg viewBox="-2 -2 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="M1 7l4.5 4.5L14 3" stroke="#05a882" strokeLinecap="square"></path></svg>

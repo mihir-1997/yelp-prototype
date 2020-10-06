@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import Popup from 'reactjs-popup';
-
-import UserPage from '../UserPage/UserPage'
 
 export default class Event extends Component {
 

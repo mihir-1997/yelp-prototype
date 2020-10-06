@@ -70,7 +70,7 @@ export default class Dishes extends Component {
                                     </div>
                                 }
                                 <div className="col">
-                                    <Dish dish={ dish } onOrder={ this.onOrder } orderButton={ this.state.orderButton }></Dish>
+                                    <Dish dish={ dish } onOrder={ this.onOrder } orderButton={ this.props.orderButton }></Dish>
                                 </div>
                             </div>
                         )

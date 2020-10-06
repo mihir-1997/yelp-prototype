@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Redirect } from 'react-router';
 
 import './Orders.css'
 
@@ -105,105 +106,110 @@ export default class RestaurantOrders extends Component {
     }
 
     render () {
+        var redirectVar = null
         if ( localStorage.getItem( "active" ) !== "restaurant" ) {
-            this.props.history.goBack()
+            redirectVar = <Redirect to="/login" />
+            return redirectVar
         }
         return (
-            <div className="container restaurant-orders-wrapper">
-                <div className="row restaurant-orders">
-                    <div className="col-2">
-                        <div className="h-10"></div>
-                        <div className="h-75">
-                            <h5>Order Filters</h5>
-                            <div className="order_filters">
-                                <input type="checkbox" name="order_method" value="Ordered" onChange={ this.onChangeFilter } disabled={ this.state.Delivered || this.state.Cancelled } /> New Order<br />
-                                <input type="checkbox" name="order_method" value="Delivered" onChange={ this.onChangeFilter } disabled={ this.state.Ordered || this.state.Cancelled } /> Delivered<br />
-                                <input type="checkbox" name="order_method" value="Cancelled" onChange={ this.onChangeFilter } disabled={ this.state.Ordered || this.state.Delivered } /> Cancelled<br />
+            <div >
+                {redirectVar }
+                <div className="container restaurant-orders-wrapper">
+                    <div className="row restaurant-orders">
+                        <div className="col-2">
+                            <div className="h-10"></div>
+                            <div className="h-75">
+                                <h5>Order Filters</h5>
+                                <div className="order_filters">
+                                    <input type="checkbox" name="order_method" value="Ordered" onChange={ this.onChangeFilter } disabled={ this.state.Delivered || this.state.Cancelled } /> New Order<br />
+                                    <input type="checkbox" name="order_method" value="Delivered" onChange={ this.onChangeFilter } disabled={ this.state.Ordered || this.state.Cancelled } /> Delivered<br />
+                                    <input type="checkbox" name="order_method" value="Cancelled" onChange={ this.onChangeFilter } disabled={ this.state.Ordered || this.state.Delivered } /> Cancelled<br />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-10">
-                        <h2 className="order-heading">Orders</h2>
+                        <div className="col-10">
+                            <h2 className="order-heading">Orders</h2>
 
-                        {
-                            this.state.filtered_orders ?
-                                this.state.filtered_orders.map( order => {
-                                    let updateStatus = null
-                                    let disableSelect = false
-                                    if ( order.status === "Delivered" || order.status === "Picked Up" || order.status === "Cancelled" ) {
-                                        disableSelect = true
-                                    }
-                                    if ( order.delivery_option === "pickup" ) {
-                                        updateStatus = ( order_id ) => (
-                                            <select name="updateStatusOption" id="updateStatusOptions" className="updateStatusOptions" onChange={ this.onStatusChange } disabled={ disableSelect }>
-                                                <option name="updateStatus" value="">Update</option>
-                                                <option name="updateStatus" value={ "Ready to Pickup_" + order_id }>Ready</option>
-                                                <option name="updateStatus" value={ "Picked Up_" + order_id }>Picked Up</option>
-                                                <option name="updateStatus" value={ "Cancelled_" + order_id }>Cancel</option>
-                                            </select>
-                                        )
-                                    } else {
-                                        updateStatus = ( order_id ) => (
-                                            <select name="updateStatusOption" id="updateStatusOptions" className="updateStatusOptions" onChange={ this.onStatusChange } disabled={ disableSelect }>
-                                                <option name="updateStatus" value="">Update</option>
-                                                <option name="updateStatus" value={ "On the Way_" + order_id }>On the Way</option>
-                                                <option name="updateStatus" value={ "Delivered_" + order_id }>Delivered</option>
-                                                <option name="updateStatus" value={ "Cancelled_" + order_id }>Cancel</option>
-                                            </select>
-                                        )
-                                    }
-                                    return (
-                                        <div className="row single-order">
-                                            <div className="col">
-                                                <div className="row">
-                                                    <div className="col-2">
-                                                        <span className="small-font">Current Status:</span>
+                            {
+                                this.state.filtered_orders ?
+                                    this.state.filtered_orders.map( order => {
+                                        let updateStatus = null
+                                        let disableSelect = false
+                                        if ( order.status === "Delivered" || order.status === "Picked Up" || order.status === "Cancelled" ) {
+                                            disableSelect = true
+                                        }
+                                        if ( order.delivery_option === "pickup" ) {
+                                            updateStatus = ( order_id ) => (
+                                                <select name="updateStatusOption" id="updateStatusOptions" className="updateStatusOptions" onChange={ this.onStatusChange } disabled={ disableSelect }>
+                                                    <option name="updateStatus" value="">Update</option>
+                                                    <option name="updateStatus" value={ "Ready to Pickup_" + order_id }>Ready</option>
+                                                    <option name="updateStatus" value={ "Picked Up_" + order_id }>Picked Up</option>
+                                                    <option name="updateStatus" value={ "Cancelled_" + order_id }>Cancel</option>
+                                                </select>
+                                            )
+                                        } else {
+                                            updateStatus = ( order_id ) => (
+                                                <select name="updateStatusOption" id="updateStatusOptions" className="updateStatusOptions" onChange={ this.onStatusChange } disabled={ disableSelect }>
+                                                    <option name="updateStatus" value="">Update</option>
+                                                    <option name="updateStatus" value={ "On the Way_" + order_id }>On the Way</option>
+                                                    <option name="updateStatus" value={ "Delivered_" + order_id }>Delivered</option>
+                                                    <option name="updateStatus" value={ "Cancelled_" + order_id }>Cancel</option>
+                                                </select>
+                                            )
+                                        }
+                                        return (
+                                            <div className="row single-order">
+                                                <div className="col">
+                                                    <div className="row">
+                                                        <div className="col-2">
+                                                            <span className="small-font">Current Status:</span>
+                                                        </div>
+                                                        <div className="col-2">
+                                                            <span className="small-font">Order Date:</span>
+                                                        </div>
+                                                        <div className="col-2">
+                                                            <span className="small-font">Dish:</span>
+                                                        </div>
+                                                        <div className="col-2">
+                                                            <span className="small-font">Customer:</span>
+                                                        </div>
+                                                        <div className="col-2">
+                                                            <span className="small-font">Total:</span>
+                                                        </div>
+                                                        <div className="col-2">
+                                                            <span className="small-font">Update Status:</span>
+                                                        </div>
                                                     </div>
-                                                    <div className="col-2">
-                                                        <span className="small-font">Order Date:</span>
-                                                    </div>
-                                                    <div className="col-2">
-                                                        <span className="small-font">Dish:</span>
-                                                    </div>
-                                                    <div className="col-2">
-                                                        <span className="small-font">Customer:</span>
-                                                    </div>
-                                                    <div className="col-2">
-                                                        <span className="small-font">Total:</span>
-                                                    </div>
-                                                    <div className="col-2">
-                                                        <span className="small-font">Update Status:</span>
-                                                    </div>
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col-2">
-                                                        <span className="order-details">{ order.status }</span>
-                                                    </div>
-                                                    <div className="col-2">
-                                                        <span className="order-details">{ order.order_date.split( "T" )[ 0 ] }</span>
-                                                    </div>
-                                                    <div className="col-2">
-                                                        <span className="order-details">{ order.dish_name }</span>
-                                                    </div>
-                                                    <div className="col-2">
-                                                        <span className="order-details"><button type="button" className="btn btn-secondary" onClick={ () => this.showUserProfile( order.user_id ) }>{ order.user_name }</button></span>
-                                                    </div>
-                                                    <div className="col-2">
-                                                        <span className="order-details">${ order.total }</span>
-                                                    </div>
-                                                    <div className="col-2">
-                                                        <span className="order-details">{ updateStatus( order.id ) }</span>
+                                                    <div className="row">
+                                                        <div className="col-2">
+                                                            <span className="order-details">{ order.status }</span>
+                                                        </div>
+                                                        <div className="col-2">
+                                                            <span className="order-details">{ order.order_date.split( "T" )[ 0 ] }</span>
+                                                        </div>
+                                                        <div className="col-2">
+                                                            <span className="order-details">{ order.dish_name }</span>
+                                                        </div>
+                                                        <div className="col-2">
+                                                            <span className="order-details"><button type="button" className="btn btn-secondary" onClick={ () => this.showUserProfile( order.user_id ) }>{ order.user_name }</button></span>
+                                                        </div>
+                                                        <div className="col-2">
+                                                            <span className="order-details">${ order.total }</span>
+                                                        </div>
+                                                        <div className="col-2">
+                                                            <span className="order-details">{ updateStatus( order.id ) }</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    )
-                                } )
-                                : "No orders"
-                        }
+                                        )
+                                    } )
+                                    : "No orders"
+                            }
+                        </div>
                     </div>
-                </div>
-            </div >
+                </div >
+            </div>
         )
     }
 }
