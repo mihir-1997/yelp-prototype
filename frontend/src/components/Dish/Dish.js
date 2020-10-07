@@ -16,6 +16,10 @@ export default class Dish extends Component {
             cuisine: this.props.dish.cuisine,
             orderButton: this.props.orderButton,
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     onOrder = () => {
@@ -27,7 +31,7 @@ export default class Dish extends Component {
             <div className="dish">
                 <div className="row">
                     <div className="col-3">
-                        { this.state.image ? <img src={ "http://localhost:3001/" + this.state.image } alt="dish_image" className="dishimage" /> : null }
+                        { this.state.image ? <img src={ this.BACKEND_URL + ":" + this.BACKEND_PORT + "/" + this.state.image } alt="dish_image" className="dishimage" /> : null }
                     </div>
                     <div className="col-7">
                         <div className="row">

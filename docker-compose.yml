@@ -6,7 +6,8 @@ services:
         expose:
             - ${BACKEND_PORT}
         environment:
-            BACKEND_PORT: ${BACKEND_PORT}
+            FRONTEND_URL: ${FRONTEND_URL}
+            FRONTEND_PORT: ${FRONTEND_PORT}
         ports:
             - ${BACKEND_PORT}:${BACKEND_PORT}
         command: npm start
@@ -17,7 +18,9 @@ services:
         expose:
             - ${FRONTEND_PORT}
         environment:
-            FRONTEND_PORT: ${FRONTEND_PORT}
+            env_file: .env
+            REACT_APP_BACKEND_PORT: ${BACKEND_PORT}
+            REACT_APP_BACKEND_URL: ${BACKEND_URL}
         ports:
             - ${FRONTEND_PORT}:${FRONTEND_PORT}
         links:

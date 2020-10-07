@@ -8,23 +8,19 @@ class Restaurant extends Component {
     constructor( props ) {
         super( props )
         this.state = {
-            // index: this.props.index,
-            // id: this.props.restautantData.id,
-            // name: this.props.restautantData.name,
-            // description: this.props.restautantData.description,
-            // location: this.props.restautantData.location,
-            // email: this.props.restautantData.email,
-            // phone_no: this.props.restautantData.phone_no,
-            // timings: this.props.restautantData.timings,
-            // picture: this.props.restautantData.image
             avgRatings: "",
             num_of_reviews: ""
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     componentDidMount () {
+        console.log( process.env.REACT_APP_BACKEND_PORT )
         if ( this.props.restautantData.id ) {
-            axios.get( "http://localhost:3001/averageRatingsForRestaurant/" + this.props.restautantData.id )
+            axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/averageRatingsForRestaurant/" + this.props.restautantData.id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -71,7 +67,7 @@ class Restaurant extends Component {
             <div className="row each-restaurant" onClick={ this.onClick }>
                 <div className="col-4">
                     { this.props.restautantData.image ?
-                        <img src={ "http://localhost:3001/" + this.props.restautantData.image } className="each-restaurant-image" alt="res_pic" /> : null }
+                        <img src={ this.BACKEND_URL + ":" + this.BACKEND_PORT + "/" + this.props.restautantData.image } className="each-restaurant-image" alt="res_pic" /> : null }
                 </div>
                 <div className="col-6">
                     <div className="row restaurant-name">

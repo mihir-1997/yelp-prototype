@@ -15,6 +15,10 @@ export default class Dishes extends Component {
             dishes: [],
             orderButton: this.props.orderButton,
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     onOrder = ( dishId, dishPrice ) => {
@@ -24,7 +28,7 @@ export default class Dishes extends Component {
     componentDidMount () {
         axios.defaults.withCredentials = true;
         if ( this.state.id ) {
-            axios.get( "http://localhost:3001/dishes/" + this.state.id )
+            axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/dishes/" + this.state.id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {

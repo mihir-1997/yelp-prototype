@@ -12,6 +12,10 @@ export default class CreateReview extends Component {
             ratings: "1",
             error: ""
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     onChange = item => {
@@ -37,7 +41,7 @@ export default class CreateReview extends Component {
                 ratings: this.state.ratings
             }
             axios.defaults.withCredentials = true;
-            axios.post( "http://localhost:3001/createreview", reviewData )
+            axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/createreview", reviewData )
                 .then( ( res ) => {
                     console.log( res )
                     if ( res.status === 200 ) {

@@ -9,6 +9,9 @@ describe( 'Events', () => {
     let MockAdapter = require( "axios-mock-adapter" );
     let mock = new MockAdapter( axios );
 
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+    const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     const events = [
         {
             date: "2020-09-30",
@@ -36,7 +39,7 @@ describe( 'Events', () => {
         }
     ]
 
-    mock.onGet( "http://localhost:3001/eventsForRestaurants/4" ).reply( 200,
+    mock.onGet( BACKEND_URL + ":" + BACKEND_PORT + "/eventsForRestaurants/4" ).reply( 200,
         events
     );
 

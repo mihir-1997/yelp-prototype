@@ -30,13 +30,17 @@ export default class RestaurantProfile extends Component {
             radioShow: false,
             showPopup: false
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     componentDidMount () {
         axios.defaults.withCredentials = true;
         let id = localStorage.getItem( "id" )
         if ( id ) {
-            axios.get( "http://localhost:3001/getrestaurant/" + id )
+            axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/getrestaurant/" + id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         console.log( res.data )
@@ -68,7 +72,7 @@ export default class RestaurantProfile extends Component {
                         }
                     }
                 } )
-            axios.get( "http://localhost:3001/averageRatingsForRestaurant/" + id )
+            axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/averageRatingsForRestaurant/" + id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -107,7 +111,7 @@ export default class RestaurantProfile extends Component {
                     'content-type': 'multipart/form-data'
                 }
             }
-            axios.post( "http://localhost:3001/restaurantPictures", formData, config )
+            axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/restaurantPictures", formData, config )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         window.location.reload();
@@ -239,7 +243,7 @@ export default class RestaurantProfile extends Component {
                                 <div className="row picture-scrolling-wrapper">
                                     <div className="picture-scrolling">
                                         { this.state.pictures && this.state.pictures.map( picture => {
-                                            return <img src={ "http://localhost:3001/" + picture } key={ picture } alt="restaurant_picture" className="restaurant-picture shadow" crossOrigin="anonymous"></img>
+                                            return <img src={ this.BACKEND_URL + ":" + this.BACKEND_PORT + "/" + picture } key={ picture } alt="restaurant_picture" className="restaurant-picture shadow" crossOrigin="anonymous"></img>
                                         } ) }
                                     </div>
                                 </div>

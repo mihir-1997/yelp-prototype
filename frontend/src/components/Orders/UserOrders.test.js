@@ -9,6 +9,9 @@ describe( 'UserOrders', () => {
     let MockAdapter = require( "axios-mock-adapter" );
     let mock = new MockAdapter( axios );
 
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+    const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     const orders = [
         {
             id: 8,
@@ -47,7 +50,7 @@ describe( 'UserOrders', () => {
         },
     ]
 
-    mock.onGet( "http://localhost:3001/getUserOrders/1" ).reply( 200,
+    mock.onGet( BACKEND_URL + ":" + BACKEND_PORT + "/getUserOrders/1" ).reply( 200,
         orders
     );
 

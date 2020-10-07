@@ -13,6 +13,10 @@ export default class Events extends Component {
             filtered_unregistered_events: [],
             registered_events: [],
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     componentDidMount () {
@@ -20,7 +24,7 @@ export default class Events extends Component {
         if ( active === "restaurant" ) {
             let id = localStorage.getItem( "id" )
             if ( id ) {
-                return axios.get( "http://localhost:3001/eventsForRestaurants/" + id )
+                return axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/eventsForRestaurants/" + id )
                     .then( ( res ) => {
                         if ( res.status === 200 ) {
                             // console.log( res.data )
@@ -42,7 +46,7 @@ export default class Events extends Component {
         } else if ( active === "user" ) {
             let id = localStorage.getItem( "id" )
             if ( id ) {
-                return axios.get( "http://localhost:3001/getAllEvents/" + id )
+                return axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/getAllEvents/" + id )
                     .then( ( res ) => {
                         if ( res.status === 200 ) {
                             this.setState( {

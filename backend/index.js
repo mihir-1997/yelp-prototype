@@ -6,6 +6,9 @@ const app = express();
 // express session
 var session = require( 'express-session' );
 var cookieParser = require( 'cookie-parser' );
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost"
+const FRONTEND_PORT = process.env.FRONTEND_PORT || 3000
+console.log( process.env.FRONTEND_URL )
 var cors = require( "cors" );
 const multer = require( "multer" );
 const path = require( 'path' )
@@ -17,7 +20,9 @@ app.use( bodyParser.json() );
 app.use( bodyParser.urlencoded( { extended: true } ) );
 // use cookie parser to parse request headers
 app.use( cookieParser() );
-app.use( cors( { origin: "http://localhost:3000", credentials: true } ) );
+// app.use( cors( { origin: "http://localhost:3000", credentials: true } ) );
+app.use( cors( { origin: FRONTEND_URL + ":" + FRONTEND_PORT, credentials: true } ) );
+
 // app.use( cors( { origin: "http://localhost", credentials: true } ) );
 // use session to store user data between HTTP requests
 app.use( session( {

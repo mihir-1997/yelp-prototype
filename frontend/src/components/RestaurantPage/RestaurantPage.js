@@ -32,13 +32,17 @@ export default class RestaurantPage extends Component {
             deliveryOption: "",
             error: ""
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     componentDidMount () {
         axios.defaults.withCredentials = true;
         let id = localStorage.getItem( "id" )
         if ( id && this.props.location.state.id ) {
-            axios.get( "http://localhost:3001/getrestaurant/" + this.props.location.state.id )
+            axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/getrestaurant/" + this.props.location.state.id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -67,7 +71,7 @@ export default class RestaurantPage extends Component {
                         }
                     }
                 } )
-            axios.get( "http://localhost:3001/averageRatingsForRestaurant/" + this.props.location.state.id )
+            axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/averageRatingsForRestaurant/" + this.props.location.state.id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -100,7 +104,7 @@ export default class RestaurantPage extends Component {
                 delivery_option: this.state.deliveryOption
             }
             axios.defaults.withCredentials = true;
-            axios.post( "http://localhost:3001/createOrder", orderData )
+            axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/createOrder", orderData )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -181,7 +185,7 @@ export default class RestaurantPage extends Component {
                     <div className="row picture-scrolling-wrapper">
                         <div className="picture-scrolling">
                             { this.state.pictures && this.state.pictures.map( picture => {
-                                return <img src={ "http://localhost:3001/" + picture } key={ picture } alt="restaurant_picture" className="restaurant-picture" crossOrigin="anonymous"></img>
+                                return <img src={ this.BACKEND_URL + ":" + this.BACKEND_PORT + "/" + picture } key={ picture } alt="restaurant_picture" className="restaurant-picture" crossOrigin="anonymous"></img>
                             } ) }
                         </div>
                     </div>

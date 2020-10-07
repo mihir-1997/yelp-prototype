@@ -16,6 +16,10 @@ export class Login extends Component {
             selected: "user",
             error: ""
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     onChange = item => {
@@ -64,7 +68,7 @@ export class Login extends Component {
                     password: this.state.password,
                 }
                 axios.defaults.withCredentials = true;
-                axios.post( "http://localhost:3001/loginUser", user )
+                axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/loginUser", user )
                     .then( ( res ) => {
                         if ( res.status === 200 ) {
                             localStorage.setItem( "email", res.data.email )
@@ -92,7 +96,7 @@ export class Login extends Component {
                     password: this.state.password,
                 }
                 axios.defaults.withCredentials = true;
-                axios.post( "http://localhost:3001/loginRestaurant", restaurant )
+                axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/loginRestaurant", restaurant )
                     .then( ( res ) => {
                         if ( res.status === 200 ) {
                             localStorage.setItem( "email", res.data.email )

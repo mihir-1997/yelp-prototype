@@ -16,12 +16,16 @@ export default class RestaurantOrders extends Component {
             Cancelled: false,
             filtered: false
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     componentDidMount () {
         let id = localStorage.getItem( "id" )
         if ( id ) {
-            axios.get( "http://localhost:3001/getRestaurantOrders/" + id )
+            axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/getRestaurantOrders/" + id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -50,7 +54,7 @@ export default class RestaurantOrders extends Component {
                 const data = {
                     updated_status: item.target.value.split( "_" )[ 0 ]
                 }
-                axios.put( "http://localhost:3001/updateOrderStatus/" + order_id, data )
+                axios.put( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/updateOrderStatus/" + order_id, data )
                     .then( ( res ) => {
                         if ( res.status === 200 ) {
                             window.location.reload()

@@ -10,6 +10,10 @@ export default class UpdateRestaurant extends Component {
             ...this.props.restaurant,
             error: ""
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     onChange = item => {
@@ -50,7 +54,7 @@ export default class UpdateRestaurant extends Component {
             }
             let id = localStorage.getItem( "id" )
             axios.defaults.withCredentials = true;
-            axios.put( "http://localhost:3001/updateRestaurant/" + id, restaurant )
+            axios.put( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/updateRestaurant/" + id, restaurant )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         localStorage.setItem( "email", res.data.email )

@@ -21,10 +21,14 @@ export default class UserPage extends Component {
             things_love: "",
             find_me: "",
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     componentDidMount () {
-        axios.get( "http://localhost:3001/getuser/" + this.state.id )
+        axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/getuser/" + this.state.id )
             .then( ( res ) => {
                 if ( res.status === 200 ) {
                     this.setState( {
@@ -60,7 +64,7 @@ export default class UserPage extends Component {
                     <div className="col-3">
                         <div className="h-100">
                             <div className="profile-picture">
-                                <img src={ "http://localhost:3001/" + this.state.profile_picture } alt="profile" className="profile_pic" crossOrigin="anonymous"></img>
+                                <img src={ this.BACKEND_URL + ":" + this.BACKEND_PORT + "/" + this.state.profile_picture } alt="profile" className="profile_pic" crossOrigin="anonymous"></img>
                             </div>
                         </div>
                     </div>

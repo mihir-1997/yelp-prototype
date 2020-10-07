@@ -19,6 +19,10 @@ export class register extends Component {
             selected: "user",
             error: "",
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     onChange = item => {
@@ -69,7 +73,7 @@ export class register extends Component {
                         password: this.state.password,
                     }
                     axios.defaults.withCredentials = true;
-                    axios.post( "http://localhost:3001/registerUser", user )
+                    axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/registerUser", user )
                         .then( ( res ) => {
                             if ( res.status === 200 ) {
                                 console.log( "User added successfully" )
@@ -105,7 +109,7 @@ export class register extends Component {
                         password: this.state.password,
                     }
                     axios.defaults.withCredentials = true;
-                    axios.post( "http://localhost:3001/registerRestaurant", restaurant )
+                    axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/registerRestaurant", restaurant )
                         .then( ( res ) => {
                             if ( res.status === 200 ) {
                                 console.log( "Restaurant added successfully" )

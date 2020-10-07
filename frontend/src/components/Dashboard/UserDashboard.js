@@ -23,6 +23,9 @@ class UserDashboard extends Component {
             delivery: false,
             error: ""
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
     }
 
     onChange = ( item ) => {
@@ -56,7 +59,7 @@ class UserDashboard extends Component {
             } )
         }
         if ( this.state.search && this.state.selectedOption ) {
-            return axios.get( "http://localhost:3001/getrestaurantbysearch/" + this.state.selectedOption + "/" + this.state.search )
+            return axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/getrestaurantbysearch/" + this.state.selectedOption + "/" + this.state.search )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         let ids = []
@@ -125,7 +128,7 @@ class UserDashboard extends Component {
         axios.defaults.withCredentials = true;
         let id = localStorage.getItem( "id" )
         if ( id ) {
-            return axios.get( "http://localhost:3001/getAllRestaurants" )
+            return axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/getAllRestaurants" )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {

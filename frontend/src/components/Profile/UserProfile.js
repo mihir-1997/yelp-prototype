@@ -31,6 +31,10 @@ export class UserProfile extends Component {
             num_of_reviews: "",
             showPopup: false
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     componentDidMount () {
@@ -42,7 +46,7 @@ export class UserProfile extends Component {
         }
         axios.defaults.withCredentials = true;
         if ( id ) {
-            axios.get( "http://localhost:3001/getuser/" + id )
+            axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/getuser/" + id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -90,7 +94,7 @@ export class UserProfile extends Component {
                     'content-type': 'multipart/form-data'
                 }
             }
-            axios.post( "http://localhost:3001/updateProfile", formData, config )
+            axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/updateProfile", formData, config )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         window.location.reload();
@@ -156,7 +160,7 @@ export class UserProfile extends Component {
                         <div className="row userprofile-firstrow">
                             <div className="col-3 profile-picture-wrapper">
                                 <div className="profile-picture">
-                                    <img src={ "http://localhost:3001/" + this.state.profile_picture } alt="profile" className="profile_pic" crossOrigin="anonymous"></img>
+                                    <img src={ this.BACKEND_URL + ":" + this.BACKEND_PORT + "/" + this.state.profile_picture } alt="profile" className="profile_pic" crossOrigin="anonymous"></img>
                                 </div>
                                 <form>
                                     { !this.props.location.state ? <input type="file" id="profile" className="profile-picture-image" name="profile_picture" accept="image/*" onChange={ this.onChangeProfile } /> : null }

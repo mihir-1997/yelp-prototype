@@ -20,6 +20,10 @@ export default class Event extends Component {
             hashtags: this.props.event.hashtags,
             registered: this.props.registered
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     registerForEvent = ( item ) => {
@@ -30,7 +34,7 @@ export default class Event extends Component {
                 user_id: id,
                 event_id: this.state.id
             }
-            axios.post( "http://localhost:3001/registeForEvent", events_sub_data )
+            axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/registeForEvent", events_sub_data )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         window.location.reload()

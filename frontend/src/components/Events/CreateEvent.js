@@ -17,6 +17,10 @@ export default class CreateEvent extends Component {
             hashtags: "",
             error: ""
         }
+
+        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
+        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
+
     }
 
     onChange = item => {
@@ -64,7 +68,7 @@ export default class CreateEvent extends Component {
                     hashtags: this.state.hashtags,
                 }
                 axios.defaults.withCredentials = true;
-                axios.post( "http://localhost:3001/postevent", eventData )
+                axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/postevent", eventData )
                     .then( ( res ) => {
                         if ( res.status === 200 ) {
                             this.setState( {
