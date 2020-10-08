@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Redirect } from 'react-router';
 
 import './Orders.css'
+import { BACKEND_URL, BACKEND_PORT } from '../Config/backendConfig'
 
 export default class Orders extends Component {
 
@@ -19,16 +20,12 @@ export default class Orders extends Component {
             Ready_to_Pickup: false,
             Picked_Up: false
         }
-
-        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
-        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
-
     }
 
     componentDidMount () {
         let id = localStorage.getItem( "id" )
         if ( id ) {
-            return axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/getUserOrders/" + id )
+            return axios.get( BACKEND_URL + ":" + BACKEND_PORT + "/getUserOrders/" + id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {

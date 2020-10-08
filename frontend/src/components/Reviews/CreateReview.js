@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 
 import './Review.css'
+import { BACKEND_URL, BACKEND_PORT } from '../Config/backendConfig'
 
 export default class CreateReview extends Component {
     constructor( props ) {
@@ -12,10 +13,6 @@ export default class CreateReview extends Component {
             ratings: "1",
             error: ""
         }
-
-        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
-        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
-
     }
 
     onChange = item => {
@@ -41,7 +38,7 @@ export default class CreateReview extends Component {
                 ratings: this.state.ratings
             }
             axios.defaults.withCredentials = true;
-            axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/createreview", reviewData )
+            axios.post( BACKEND_URL + ":" + BACKEND_PORT + "/createreview", reviewData )
                 .then( ( res ) => {
                     console.log( res )
                     if ( res.status === 200 ) {

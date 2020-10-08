@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+
 import './UpdateUserProfile.css'
+import { BACKEND_URL, BACKEND_PORT } from '../Config/backendConfig'
 
 export default class UpdateProfile extends Component {
 
@@ -10,10 +12,6 @@ export default class UpdateProfile extends Component {
             ...this.props.user,
             error: ""
         }
-
-        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
-        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
-
     }
 
     onChange = item => {
@@ -43,7 +41,7 @@ export default class UpdateProfile extends Component {
             let id = localStorage.getItem( "id" )
             axios.defaults.withCredentials = true;
             console.log( "updfate 2" )
-            axios.put( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/updateUser/" + id, user )
+            axios.put( BACKEND_URL + ":" + BACKEND_PORT + "/updateUser/" + id, user )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         localStorage.setItem( "email", res.data.email )

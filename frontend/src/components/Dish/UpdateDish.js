@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+
 import './AddDish.css'
+import { BACKEND_URL, BACKEND_PORT } from '../Config/backendConfig'
 
 export default class UpdateDish extends Component {
 
@@ -10,10 +12,6 @@ export default class UpdateDish extends Component {
             ...this.props.dish,
             error: ""
         }
-
-        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
-        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
-
     }
 
     onChange = item => {
@@ -41,7 +39,7 @@ export default class UpdateDish extends Component {
                 }
             }
             axios.defaults.withCredentials = true;
-            axios.put( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/updateDish/" + this.state.id, formData, config )
+            axios.put( BACKEND_URL + ":" + BACKEND_PORT + "/updateDish/" + this.state.id, formData, config )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         console.log( "Dish created successfully" )

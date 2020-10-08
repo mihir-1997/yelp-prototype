@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Redirect } from 'react-router';
 
 import './Orders.css'
+import { BACKEND_URL, BACKEND_PORT } from '../Config/backendConfig'
 
 export default class RestaurantOrders extends Component {
 
@@ -16,16 +17,12 @@ export default class RestaurantOrders extends Component {
             Cancelled: false,
             filtered: false
         }
-
-        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
-        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
-
     }
 
     componentDidMount () {
         let id = localStorage.getItem( "id" )
         if ( id ) {
-            axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/getRestaurantOrders/" + id )
+            axios.get( BACKEND_URL + ":" + BACKEND_PORT + "/getRestaurantOrders/" + id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -54,7 +51,7 @@ export default class RestaurantOrders extends Component {
                 const data = {
                     updated_status: item.target.value.split( "_" )[ 0 ]
                 }
-                axios.put( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/updateOrderStatus/" + order_id, data )
+                axios.put( BACKEND_URL + ":" + BACKEND_PORT + "/updateOrderStatus/" + order_id, data )
                     .then( ( res ) => {
                         if ( res.status === 200 ) {
                             window.location.reload()

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 
 import Review from './Review'
+import { BACKEND_URL, BACKEND_PORT } from '../Config/backendConfig'
 
 export default class Reviews extends Component {
 
@@ -12,10 +13,6 @@ export default class Reviews extends Component {
             active: this.props.active,
             reviews: []
         }
-
-        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
-        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
-
     }
 
     componentDidMount () {
@@ -25,7 +22,7 @@ export default class Reviews extends Component {
             if ( this.state.active === "user" ) {
                 axios.defaults.withCredentials = true
                 if ( this.state.id ) {
-                    axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/reviewsForUsers/" + this.state.id )
+                    axios.get( BACKEND_URL + ":" + BACKEND_PORT + "/reviewsForUsers/" + this.state.id )
                         .then( ( res ) => {
                             if ( res.status === 200 ) {
                                 this.setState( {
@@ -52,7 +49,7 @@ export default class Reviews extends Component {
             } else {
                 axios.defaults.withCredentials = true;
                 if ( this.state.id ) {
-                    axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/reviewsForRestaurants/" + this.state.id )
+                    axios.get( BACKEND_URL + ":" + BACKEND_PORT + "/reviewsForRestaurants/" + this.state.id )
                         .then( ( res ) => {
                             if ( res.status === 200 ) {
                                 this.setState( {

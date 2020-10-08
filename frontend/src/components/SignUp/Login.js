@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router';
-// import { Link } from 'react-router-dom'
 
 import Login_logo from "../../Images/Login_logo.png"
 import './Signup.css'
+import { BACKEND_URL, BACKEND_PORT } from '../Config/backendConfig'
 
 export class Login extends Component {
 
@@ -16,10 +16,6 @@ export class Login extends Component {
             selected: "user",
             error: ""
         }
-
-        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
-        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
-
     }
 
     onChange = item => {
@@ -68,7 +64,7 @@ export class Login extends Component {
                     password: this.state.password,
                 }
                 axios.defaults.withCredentials = true;
-                axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/loginUser", user )
+                axios.post( BACKEND_URL + ":" + BACKEND_PORT + "/loginUser", user )
                     .then( ( res ) => {
                         if ( res.status === 200 ) {
                             localStorage.setItem( "email", res.data.email )
@@ -96,7 +92,7 @@ export class Login extends Component {
                     password: this.state.password,
                 }
                 axios.defaults.withCredentials = true;
-                axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/loginRestaurant", restaurant )
+                axios.post( BACKEND_URL + ":" + BACKEND_PORT + "/loginRestaurant", restaurant )
                     .then( ( res ) => {
                         if ( res.status === 200 ) {
                             localStorage.setItem( "email", res.data.email )

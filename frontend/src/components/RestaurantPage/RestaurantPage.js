@@ -7,6 +7,7 @@ import './RestaurantPage.css'
 import Reviews from '../Reviews/Reviews'
 import Dishes from '../Dish/Dishes'
 import CreateReview from '../Reviews/CreateReview'
+import { BACKEND_URL, BACKEND_PORT } from '../Config/backendConfig'
 
 export default class RestaurantPage extends Component {
 
@@ -32,17 +33,13 @@ export default class RestaurantPage extends Component {
             deliveryOption: "",
             error: ""
         }
-
-        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
-        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
-
     }
 
     componentDidMount () {
         axios.defaults.withCredentials = true;
         let id = localStorage.getItem( "id" )
         if ( id && this.props.location.state.id ) {
-            axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/getrestaurant/" + this.props.location.state.id )
+            axios.get( BACKEND_URL + ":" + BACKEND_PORT + "/getrestaurant/" + this.props.location.state.id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -71,7 +68,7 @@ export default class RestaurantPage extends Component {
                         }
                     }
                 } )
-            axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/averageRatingsForRestaurant/" + this.props.location.state.id )
+            axios.get( BACKEND_URL + ":" + BACKEND_PORT + "/averageRatingsForRestaurant/" + this.props.location.state.id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -107,7 +104,7 @@ export default class RestaurantPage extends Component {
                 delivery_option: this.state.deliveryOption
             }
             axios.defaults.withCredentials = true;
-            axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/createOrder", orderData )
+            axios.post( BACKEND_URL + ":" + BACKEND_PORT + "/createOrder", orderData )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -192,7 +189,7 @@ export default class RestaurantPage extends Component {
                     <div className="row picture-scrolling-wrapper">
                         <div className="picture-scrolling">
                             { this.state.pictures && this.state.pictures.map( picture => {
-                                return <img src={ this.BACKEND_URL + ":" + this.BACKEND_PORT + "/" + picture } key={ picture } alt="restaurant_picture" className="restaurant-picture" crossOrigin="anonymous"></img>
+                                return <img src={ BACKEND_URL + ":" + BACKEND_PORT + "/" + picture } key={ picture } alt="restaurant_picture" className="restaurant-picture" crossOrigin="anonymous"></img>
                             } ) }
                         </div>
                     </div>
@@ -204,9 +201,6 @@ export default class RestaurantPage extends Component {
                                         <div className="row">
                                             <h1 className="restaurantpage-name">{ this.state.name }</h1>
                                         </div>
-                                        {/* <div className="row restaurantlocation">
-                                        { this.state.city }
-                                    </div> */}
                                         <div className="row">
                                             <div className="restaurant-ratings">{ ratings() }</div>
                                             <div className="num-of-reviews">&nbsp; { this.state.num_of_reviews } Reviews</div>

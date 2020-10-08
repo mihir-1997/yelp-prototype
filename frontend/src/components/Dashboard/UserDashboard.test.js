@@ -2,15 +2,13 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import UserDashboard from './UserDashboard'
+import { BACKEND_URL, BACKEND_PORT } from '../Config/backendConfig'
 
 describe( 'UserDashboard', () => {
 
     let axios = require( "axios" );
     let MockAdapter = require( "axios-mock-adapter" );
     let mock = new MockAdapter( axios );
-
-    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
-    const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
 
     const restaurants = [
         {

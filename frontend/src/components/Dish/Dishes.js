@@ -4,7 +4,7 @@ import Popup from 'reactjs-popup';
 
 import Dish from "./Dish"
 import UpdateAddedDish from '../Dish/UpdateDish'
-
+import { BACKEND_URL, BACKEND_PORT } from '../Config/backendConfig'
 
 export default class Dishes extends Component {
 
@@ -15,10 +15,6 @@ export default class Dishes extends Component {
             dishes: [],
             orderButton: this.props.orderButton,
         }
-
-        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
-        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
-
     }
 
     onOrder = ( dishId, dishPrice ) => {
@@ -28,7 +24,7 @@ export default class Dishes extends Component {
     componentDidMount () {
         axios.defaults.withCredentials = true;
         if ( this.state.id ) {
-            axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/dishes/" + this.state.id )
+            axios.get( BACKEND_URL + ":" + BACKEND_PORT + "/dishes/" + this.state.id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {

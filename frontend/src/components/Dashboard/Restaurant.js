@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 
 import './Restaurant.css'
+import { BACKEND_URL, BACKEND_PORT } from '../Config/backendConfig'
 
 class Restaurant extends Component {
 
@@ -11,16 +12,12 @@ class Restaurant extends Component {
             avgRatings: "",
             num_of_reviews: ""
         }
-
-        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
-        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
-
     }
 
     componentDidMount () {
         console.log( process.env.REACT_APP_BACKEND_PORT )
         if ( this.props.restautantData.id ) {
-            axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/averageRatingsForRestaurant/" + this.props.restautantData.id )
+            axios.get( BACKEND_URL + ":" + BACKEND_PORT + "/averageRatingsForRestaurant/" + this.props.restautantData.id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -67,7 +64,7 @@ class Restaurant extends Component {
             <div className="row each-restaurant" onClick={ this.onClick }>
                 <div className="col-4">
                     { this.props.restautantData.image ?
-                        <img src={ this.BACKEND_URL + ":" + this.BACKEND_PORT + "/" + this.props.restautantData.image } className="each-restaurant-image" alt="res_pic" /> : null }
+                        <img src={ BACKEND_URL + ":" + BACKEND_PORT + "/" + this.props.restautantData.image } className="each-restaurant-image" alt="res_pic" /> : null }
                 </div>
                 <div className="col-6">
                     <div className="row restaurant-name">

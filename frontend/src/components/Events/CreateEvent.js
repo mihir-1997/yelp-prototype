@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Redirect } from 'react-router';
 
 import './Events.css'
+import { BACKEND_URL, BACKEND_PORT } from '../Config/backendConfig'
 
 export default class CreateEvent extends Component {
 
@@ -17,10 +18,6 @@ export default class CreateEvent extends Component {
             hashtags: "",
             error: ""
         }
-
-        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
-        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
-
     }
 
     onChange = item => {
@@ -68,7 +65,7 @@ export default class CreateEvent extends Component {
                     hashtags: this.state.hashtags,
                 }
                 axios.defaults.withCredentials = true;
-                axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/postevent", eventData )
+                axios.post( BACKEND_URL + ":" + BACKEND_PORT + "/postevent", eventData )
                     .then( ( res ) => {
                         if ( res.status === 200 ) {
                             this.setState( {

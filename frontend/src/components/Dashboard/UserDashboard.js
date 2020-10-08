@@ -5,6 +5,7 @@ import { Redirect } from 'react-router';
 import './UserDashboard.css'
 import Restaurant from './Restaurant'
 import Maps from './Maps'
+import { BACKEND_URL, BACKEND_PORT } from '../Config/backendConfig'
 
 class UserDashboard extends Component {
 
@@ -23,9 +24,6 @@ class UserDashboard extends Component {
             delivery: false,
             error: ""
         }
-
-        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
-        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
     }
 
     onChange = ( item ) => {
@@ -59,7 +57,7 @@ class UserDashboard extends Component {
             } )
         }
         if ( this.state.search && this.state.selectedOption ) {
-            return axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/getrestaurantbysearch/" + this.state.selectedOption + "/" + this.state.search )
+            return axios.get( BACKEND_URL + ":" + BACKEND_PORT + "/getrestaurantbysearch/" + this.state.selectedOption + "/" + this.state.search )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         let ids = []
@@ -128,7 +126,7 @@ class UserDashboard extends Component {
         axios.defaults.withCredentials = true;
         let id = localStorage.getItem( "id" )
         if ( id ) {
-            return axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/getAllRestaurants" )
+            return axios.get( BACKEND_URL + ":" + BACKEND_PORT + "/getAllRestaurants" )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {

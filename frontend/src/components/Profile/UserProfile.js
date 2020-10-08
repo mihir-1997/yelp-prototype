@@ -6,6 +6,7 @@ import { Redirect } from 'react-router';
 
 import UpdateProfile from './UpdateUserProfile'
 import Reviews from '../Reviews/Reviews'
+import { BACKEND_URL, BACKEND_PORT } from '../Config/backendConfig'
 const FormData = require( 'form-data' );
 
 export class UserProfile extends Component {
@@ -31,10 +32,6 @@ export class UserProfile extends Component {
             num_of_reviews: "",
             showPopup: false
         }
-
-        this.BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost"
-        this.BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 3001
-
     }
 
     componentDidMount () {
@@ -46,7 +43,7 @@ export class UserProfile extends Component {
         }
         axios.defaults.withCredentials = true;
         if ( id ) {
-            axios.get( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/getuser/" + id )
+            axios.get( BACKEND_URL + ":" + BACKEND_PORT + "/getuser/" + id )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         this.setState( {
@@ -94,7 +91,7 @@ export class UserProfile extends Component {
                     'content-type': 'multipart/form-data'
                 }
             }
-            axios.post( this.BACKEND_URL + ":" + this.BACKEND_PORT + "/updateProfile", formData, config )
+            axios.post( BACKEND_URL + ":" + BACKEND_PORT + "/updateProfile", formData, config )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
                         window.location.reload();
@@ -160,7 +157,7 @@ export class UserProfile extends Component {
                         <div className="row userprofile-firstrow">
                             <div className="col-3 profile-picture-wrapper">
                                 <div className="profile-picture">
-                                    <img src={ this.BACKEND_URL + ":" + this.BACKEND_PORT + "/" + this.state.profile_picture } alt="profile" className="profile_pic" crossOrigin="anonymous"></img>
+                                    <img src={ BACKEND_URL + ":" + BACKEND_PORT + "/" + this.state.profile_picture } alt="profile" className="profile_pic" crossOrigin="anonymous"></img>
                                 </div>
                                 <form>
                                     { !this.props.location.state ? <input type="file" id="profile" className="profile-picture-image" name="profile_picture" accept="image/*" onChange={ this.onChangeProfile } /> : null }
