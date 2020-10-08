@@ -96,6 +96,9 @@ export default class RestaurantPage extends Component {
 
     onOrder = ( dishId, dishPrice ) => {
         if ( this.state.deliveryOption ) {
+            this.setState( {
+                error: ""
+            } )
             const orderData = {
                 restaurant_id: this.props.location.state.id,
                 user_id: localStorage.getItem( "id" ),
@@ -110,7 +113,11 @@ export default class RestaurantPage extends Component {
                         this.setState( {
                             error: ""
                         } )
-                        window.alert( "ordered" )
+                        var toast = document.getElementById( "toast" )
+                        toast.classList.add( "show" )
+                        setTimeout( () => {
+                            toast.classList.remove( "show" )
+                        }, 3000 );
                     }
                 } )
                 .catch( ( err ) => {
@@ -245,6 +252,9 @@ export default class RestaurantPage extends Component {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className="toast" id="toast">
+                    Ordered
                 </div>
             </div>
         )
