@@ -56,7 +56,20 @@ class UserDashboard extends Component {
                 error: ""
             } )
         }
-        if ( this.state.search && this.state.selectedOption ) {
+        if ( this.state.selectedOption === "restaurant" ) {
+            let ids = []
+            console.log( "object" )
+            this.setState( {
+                filtered_restaurants: this.state.restaurants.filter( ( restaurant ) => {
+                    if ( restaurant.name.toLowerCase().includes( this.state.search ) ) {
+                        ids.push( restaurant.id )
+                        return true
+                    }
+                    return false
+                } ),
+                filtered_latLongs: this.state.latLongs.filter( latlong => ids.includes( latlong.id ) )
+            } )
+        } else if ( this.state.search && this.state.selectedOption ) {
             return axios.get( BACKEND_URL + ":" + BACKEND_PORT + "/getrestaurantbysearch/" + this.state.selectedOption + "/" + this.state.search )
                 .then( ( res ) => {
                     if ( res.status === 200 ) {
@@ -169,6 +182,7 @@ class UserDashboard extends Component {
                                     <div className="form-group col-md-2">
                                         <select name="selectedOption" id="searchOptions" className="form-control searchOptions" onChange={ this.onChange }>
                                             <option name="searchByName" value="">Search By...</option>
+                                            <option name="searchByName" value="restaurant">Restaurant</option>
                                             <option name="searchByName" value="dish">Dish</option>
                                             <option name="searchByName" value="cuisine">Cuisine</option>
                                             <option name="searchByName" value="location">Location</option>

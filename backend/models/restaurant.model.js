@@ -112,7 +112,6 @@ Restaurant.findById = ( req, result ) => {
                     restaurant[ "pictures" ] = images
                     result( null, restaurant )
                     return;
-                    // result( null, alldata );
                 } else {
                     // not found Restaurant with the id
                     result( null, restaurant )
@@ -175,7 +174,6 @@ Restaurant.updateById = ( id, Restaurant, result ) => {
             }
 
             if ( res.affectedRows == 0 ) {
-                // not found Restaurant with the email
                 result( { kind: "not_found" }, null );
                 return;
             }
@@ -200,11 +198,9 @@ Restaurant.addPictures = ( id, files, result ) => {
                 }
 
                 if ( res.affectedRows == 0 ) {
-                    // not found Restaurant with the email
                     error = true
                 }
                 console.log( res )
-                // console.log( "updated Restaurant: ", { profile_picture: profile_picture, res[0] } );
             }
         );
     } )
