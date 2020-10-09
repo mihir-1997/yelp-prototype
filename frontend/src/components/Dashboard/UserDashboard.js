@@ -172,7 +172,6 @@ class UserDashboard extends Component {
                                             <option name="searchByName" value="dish">Dish</option>
                                             <option name="searchByName" value="cuisine">Cuisine</option>
                                             <option name="searchByName" value="location">Location</option>
-                                            {/* <option name="searchByName" value="deliverymode">Mode of Delivery</option> */ }
                                         </select>
                                     </div>
                                     <div className="form-group col-md-8">
@@ -193,7 +192,6 @@ class UserDashboard extends Component {
                         </div>
                         <div className="col-2"></div>
                     </div>
-                    {/* <div className="below-restaurant-search-bar"> */ }
                     <div className="row">
                         <div className="col-2 filters-wrapper">
                             <div className="row filters-heading">
@@ -203,7 +201,7 @@ class UserDashboard extends Component {
                                 <div className="col">
                                     <div className="row suggested-heading">
                                         Suggested
-                                </div>
+                                    </div>
                                     <div className="row">
                                         <div className="delivery_filters">
                                             <input type="checkbox" name="delivery_method" value="curbside_pickup" onChange={ this.onChangeFilter } disabled={ this.state.dine_in || this.state.delivery } /> Curbside Pickup<br />

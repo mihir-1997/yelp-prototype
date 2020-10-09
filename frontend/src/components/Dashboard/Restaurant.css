@@ -3,6 +3,8 @@
     padding: 10px 10px 10px 0px;
     border: 1px #eeeeef solid;
     min-height: 200px;
+    transition: box-shadow 0.3s;
+    transition: transform 0.2s;
 }
 
 .each-restaurant:hover {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
-// import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
+
 import Yelp_Logo from '../../Images/Yelp_Logo.png'
 import './Navbar.css'
 
@@ -11,7 +10,7 @@ export class NavBar extends Component {
         super( props );
         this.handleLogout = this.handleLogout.bind( this );
     }
-    //handle logout to destroy the cookie
+    //handle logout to clear localstorage
     handleLogout = () => {
         localStorage.removeItem( "email" )
         localStorage.removeItem( "id" )
