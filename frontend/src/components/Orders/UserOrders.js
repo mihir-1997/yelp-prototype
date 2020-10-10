@@ -14,6 +14,7 @@ export default class Orders extends Component {
             filtered_orders: [],
             Ordered: "",
             Delivered: false,
+            Preparing: false,
             Cancelled: false,
             filtered: false,
             On_the_Way: false,
@@ -125,12 +126,13 @@ export default class Orders extends Component {
                             <div className="h-75">
                                 <h5>Order Filters</h5>
                                 <div className="order_filters">
-                                    <input type="checkbox" name="order_method" value="Ordered" onChange={ this.onChangeFilter } disabled={ this.state.Delivered || this.state.Cancelled || this.state.On_the_Way || this.state.Ready_to_Pickup || this.state.Picked_Up } /> Ordered<br />
-                                    <input type="checkbox" name="order_method" value="Delivered" onChange={ this.onChangeFilter } disabled={ this.state.Ordered || this.state.Cancelled || this.state.On_the_Way || this.state.Ready_to_Pickup || this.state.Picked_Up } /> Delivered<br />
-                                    <input type="checkbox" name="order_method" value="Cancelled" onChange={ this.onChangeFilter } disabled={ this.state.Delivered || this.state.Ordered || this.state.On_the_Way || this.state.Ready_to_Pickup || this.state.Picked_Up } /> Cancelled<br />
-                                    <input type="checkbox" name="order_method" value="On the Way" onChange={ this.onChangeFilter } disabled={ this.state.Delivered || this.state.Cancelled || this.state.Ordered || this.state.Ready_to_Pickup || this.state.Picked_Up } /> On the Way<br />
-                                    <input type="checkbox" name="order_method" value="Ready to Pickup" onChange={ this.onChangeFilter } disabled={ this.state.Delivered || this.state.Cancelled || this.state.On_the_Way || this.state.Ordered || this.state.Picked_Up } /> Ready to Pickup<br />
-                                    <input type="checkbox" name="order_method" value="Picked Up" onChange={ this.onChangeFilter } disabled={ this.state.Delivered || this.state.Cancelled || this.state.On_the_Way || this.state.Ready_to_Pickup || this.state.Ordered } /> Picked Up<br />
+                                    <input type="checkbox" name="order_method" value="Ordered" onChange={ this.onChangeFilter } disabled={ this.state.Preparing || this.state.Delivered || this.state.Cancelled || this.state.On_the_Way || this.state.Ready_to_Pickup || this.state.Picked_Up } /> Ordered<br />
+                                    <input type="checkbox" name="order_method" value="Preparing" onChange={ this.onChangeFilter } disabled={ this.state.Ordered || this.state.Delivered || this.state.Cancelled || this.state.On_the_Way || this.state.Ready_to_Pickup || this.state.Picked_Up } /> Preparing<br />
+                                    <input type="checkbox" name="order_method" value="Delivered" onChange={ this.onChangeFilter } disabled={ this.state.Ordered || this.state.Preparing || this.state.Cancelled || this.state.On_the_Way || this.state.Ready_to_Pickup || this.state.Picked_Up } /> Delivered<br />
+                                    <input type="checkbox" name="order_method" value="Cancelled" onChange={ this.onChangeFilter } disabled={ this.state.Delivered || this.state.Ordered || this.state.Preparing || this.state.On_the_Way || this.state.Ready_to_Pickup || this.state.Picked_Up } /> Cancelled<br />
+                                    <input type="checkbox" name="order_method" value="On the Way" onChange={ this.onChangeFilter } disabled={ this.state.Delivered || this.state.Cancelled || this.state.Ordered || this.state.Preparing || this.state.Ready_to_Pickup || this.state.Picked_Up } /> On the Way<br />
+                                    <input type="checkbox" name="order_method" value="Ready to Pickup" onChange={ this.onChangeFilter } disabled={ this.state.Delivered || this.state.Cancelled || this.state.On_the_Way || this.state.Ordered || this.state.Preparing || this.state.Picked_Up } /> Ready to Pickup<br />
+                                    <input type="checkbox" name="order_method" value="Picked Up" onChange={ this.onChangeFilter } disabled={ this.state.Delivered || this.state.Cancelled || this.state.On_the_Way || this.state.Ready_to_Pickup || this.state.Ordered || this.state.Preparing } /> Picked Up<br />
                                 </div>
                             </div>
                         </div>

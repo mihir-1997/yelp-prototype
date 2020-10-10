@@ -14,6 +14,7 @@ export default class RestaurantOrders extends Component {
             filtered_orders: [],
             Ordered: "",
             Delivered: false,
+            Preparing: false,
             Cancelled: false,
             filtered: false
         }
@@ -122,9 +123,10 @@ export default class RestaurantOrders extends Component {
                             <div className="h-75">
                                 <h5>Order Filters</h5>
                                 <div className="order_filters">
-                                    <input type="checkbox" name="order_method" value="Ordered" onChange={ this.onChangeFilter } disabled={ this.state.Delivered || this.state.Cancelled } /> New Order<br />
-                                    <input type="checkbox" name="order_method" value="Delivered" onChange={ this.onChangeFilter } disabled={ this.state.Ordered || this.state.Cancelled } /> Delivered<br />
-                                    <input type="checkbox" name="order_method" value="Cancelled" onChange={ this.onChangeFilter } disabled={ this.state.Ordered || this.state.Delivered } /> Cancelled<br />
+                                    <input type="checkbox" name="order_method" value="Ordered" onChange={ this.onChangeFilter } disabled={ this.state.Delivered || this.state.Cancelled || this.state.Preparing } /> New Order<br />
+                                    <input type="checkbox" name="order_method" value="Preparing" onChange={ this.onChangeFilter } disabled={ this.state.Ordered || this.state.Delivered || this.state.Cancelled } /> Preparing<br />
+                                    <input type="checkbox" name="order_method" value="Delivered" onChange={ this.onChangeFilter } disabled={ this.state.Ordered || this.state.Cancelled || this.state.Preparing } /> Delivered<br />
+                                    <input type="checkbox" name="order_method" value="Cancelled" onChange={ this.onChangeFilter } disabled={ this.state.Ordered || this.state.Delivered || this.state.Preparing } /> Cancelled<br />
                                 </div>
                             </div>
                         </div>
@@ -143,6 +145,7 @@ export default class RestaurantOrders extends Component {
                                             updateStatus = ( order_id ) => (
                                                 <select name="updateStatusOption" id="updateStatusOptions" className="updateStatusOptions" onChange={ this.onStatusChange } disabled={ disableSelect }>
                                                     <option name="updateStatus" value="">Update</option>
+                                                    <option name="updateStatus" value={ "Preparing_" + order_id }>Preparing</option>
                                                     <option name="updateStatus" value={ "Ready to Pickup_" + order_id }>Ready</option>
                                                     <option name="updateStatus" value={ "Picked Up_" + order_id }>Picked Up</option>
                                                     <option name="updateStatus" value={ "Cancelled_" + order_id }>Cancel</option>
@@ -152,6 +155,7 @@ export default class RestaurantOrders extends Component {
                                             updateStatus = ( order_id ) => (
                                                 <select name="updateStatusOption" id="updateStatusOptions" className="updateStatusOptions" onChange={ this.onStatusChange } disabled={ disableSelect }>
                                                     <option name="updateStatus" value="">Update</option>
+                                                    <option name="updateStatus" value={ "Preparing_" + order_id }>Preparing</option>
                                                     <option name="updateStatus" value={ "On the Way_" + order_id }>On the Way</option>
                                                     <option name="updateStatus" value={ "Delivered_" + order_id }>Delivered</option>
                                                     <option name="updateStatus" value={ "Cancelled_" + order_id }>Cancel</option>
