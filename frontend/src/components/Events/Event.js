@@ -30,7 +30,7 @@ export default class Event extends Component {
         if ( id ) {
             const events_sub_data = {
                 user_id: id,
-                event_id: this.state.id
+                event_id: this.props.event.id
             }
             axios.post( BACKEND_URL + ":" + BACKEND_PORT + "/registeForEvent", events_sub_data )
                 .then( ( res ) => {
