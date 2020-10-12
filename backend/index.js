@@ -1,29 +1,27 @@
+// get frontend url and port from environment variables
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost"
+const FRONTEND_PORT = process.env.FRONTEND_PORT || 3000
+
 const express = require( "express" );
 const bodyParser = require( "body-parser" );
 
 const app = express();
-
+require( 'dotenv' ).config(
+);
 // express session
 var session = require( 'express-session' );
 var cookieParser = require( 'cookie-parser' );
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost"
-const FRONTEND_PORT = process.env.FRONTEND_PORT || 3000
-console.log( process.env.FRONTEND_URL )
 var cors = require( "cors" );
 const multer = require( "multer" );
 const path = require( 'path' )
-const users = require( "./controllers/user.controller" );
-const restaurants = require( "./controllers/restaurant.controller" );
-const dishes = require( "./controllers/dishes.controller" );
+
 // use body parser to parse JSON and urlencoded request bodies
 app.use( bodyParser.json() );
 app.use( bodyParser.urlencoded( { extended: true } ) );
 // use cookie parser to parse request headers
 app.use( cookieParser() );
-// app.use( cors( { origin: "http://localhost:3000", credentials: true } ) );
 app.use( cors( { origin: FRONTEND_URL + ":" + FRONTEND_PORT, credentials: true } ) );
 
-// app.use( cors( { origin: "http://localhost", credentials: true } ) );
 // use session to store user data between HTTP requests
 app.use( session( {
     name: '',
@@ -31,6 +29,11 @@ app.use( session( {
     resave: false,
     saveUninitialized: true
 } ) );
+
+// import user defined function
+const users = require( "./controllers/user.controller" );
+const restaurants = require( "./controllers/restaurant.controller" );
+const dishes = require( "./controllers/dishes.controller" );
 
 app.use( '/Profiles', express.static( path.join( __dirname, '/Profiles' ) ) );
 app.use( '/RestaurantImages', express.static( path.join( __dirname, '/RestaurantImages' ) ) );
@@ -60,7 +63,6 @@ require( "./routes/orders.routes" )( app );
 require( "./routes/events.routes" )( app );
 
 const storage = multer.diskStorage( {
-    // destination: '/uploads/',
     destination: function ( req, file, cb ) {
         cb( null, 'Profiles/' )
     },
@@ -80,7 +82,6 @@ app.post( "/updateProfile", upload.single( "file" ), ( req, res ) => {
 } );
 
 const restaurantStorage = multer.diskStorage( {
-    // destination: '/uploads/',
     destination: function ( req, file, cb ) {
         cb( null, 'RestaurantImages/' )
     },

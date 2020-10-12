@@ -1,10 +1,13 @@
 const sql = require( "./db.js" );
 var passwordHash = require( 'password-hash' );
 const NodeGeocoder = require( 'node-geocoder' );
+require( 'dotenv' ).config(
+    { path: "../../.env" }
+);
 
 const options = {
     provider: 'google',
-    apiKey: 'AIzaSyAXWCI5f1-e6DpiCVMaw-GwUEipY1T8FIY',
+    apiKey: process.env.GOOGLE_API_KEY,
     formatter: null
 };
 const geocoder = NodeGeocoder( options );

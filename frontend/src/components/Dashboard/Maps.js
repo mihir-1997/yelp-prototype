@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+require( 'dotenv' ).config(
+    { path: "../../../.env" }
+);
 
 class Maps extends Component {
 
@@ -73,5 +76,5 @@ class Maps extends Component {
 }
 
 export default GoogleApiWrapper( {
-    apiKey: 'AIzaSyAXWCI5f1-e6DpiCVMaw-GwUEipY1T8FIY'
+    apiKey: process.env.REACT_APP_GOOGLE_API_KEY
 } )( Maps );
